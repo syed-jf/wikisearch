@@ -207,6 +207,7 @@ const closeHistoryBtn = document.getElementById('closeHistoryBtn');
 const historyContent = document.getElementById('historyContent');
 
 const aboutBtn = document.getElementById('aboutBtn');
+const mobileAboutBtn = document.getElementById('mobileAboutBtn');
 const aboutModal = document.getElementById('aboutModal');
 const closeAboutBtn = document.getElementById('closeAboutBtn');
 
@@ -253,7 +254,9 @@ if (historyModal) historyModal.addEventListener('click', (e) => {
     if (e.target === historyModal) historyModal.classList.add('hidden');
 });
 
-if (aboutBtn) aboutBtn.addEventListener('click', () => aboutModal.classList.remove('hidden'));
+const openAbout = () => aboutModal.classList.remove('hidden');
+if (aboutBtn) aboutBtn.addEventListener('click', openAbout);
+if (mobileAboutBtn) mobileAboutBtn.addEventListener('click', openAbout);
 if (closeAboutBtn) closeAboutBtn.addEventListener('click', () => aboutModal.classList.add('hidden'));
 if (aboutModal) aboutModal.addEventListener('click', (e) => {
     if (e.target === aboutModal) aboutModal.classList.add('hidden');

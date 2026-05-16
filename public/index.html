@@ -109,7 +109,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
-<div class="flex h-screen overflow-hidden">
+<div class="flex h-[100dvh] overflow-hidden">
     <!-- SideNavBar (Desktop) -->
     <aside class="hidden lg:flex flex-col h-full py-md px-sm bg-surface border-r border-outline-variant w-64">
         <div class="mb-xl px-sm pt-sm">
@@ -162,6 +162,9 @@
             </div>
             <div class="hidden lg:block flex-1"></div>
             <div class="flex items-center gap-sm">
+                <button id="mobileAboutBtn" class="lg:hidden p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
+                    <span class="material-symbols-outlined text-[24px]">info</span>
+                </button>
                 <button id="darkModeBtn" class="p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
                     <span class="material-symbols-outlined text-[24px]">dark_mode</span>
                 </button>
@@ -282,7 +285,7 @@
                 <div id="chatContainer" class="flex-1 overflow-y-auto px-md md:px-gutter py-md space-y-4 max-w-[container-max] mx-auto w-full">
                     <!-- Messages dynamically inserted here -->
                 </div>
-                <div class="w-full max-w-[container-max] mx-auto px-md md:px-gutter pb-md pt-xs bg-background">
+                <div class="w-full max-w-[container-max] mx-auto px-md md:px-gutter pb-[88px] lg:pb-md pt-xs bg-background">
                     <div class="relative group">
                         <input id="chatInput" class="block w-full pl-lg pr-xl py-md rounded-full border border-outline-variant bg-surface-container-lowest text-body-lg font-body-lg text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary focus:border-primary shadow-sm transition-all outline-none" placeholder="Ask a question or type a command..." type="text"/>
                         <div class="absolute inset-y-0 right-0 pr-xs flex items-center">
@@ -299,23 +302,24 @@
 
     <!-- BottomNavBar (Mobile) -->
     <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface border-t border-outline-variant shadow-sm h-[72px]">
-        <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+        <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
             <span class="material-symbols-outlined mb-1">home</span>
             <span class="font-label-caps text-[10px] leading-none">Home</span>
         </button>
-        <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+        <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
             <span class="material-symbols-outlined mb-1">menu_book</span>
-            <span class="font-label-caps text-[10px] leading-none">Diary</span>
+            <span class="font-label-caps text-[10px] leading-tight text-center">Philosopher's<br>Diary</span>
         </button>
-        <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+        <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
             <span class="material-symbols-outlined mb-1">history</span>
             <span class="font-label-caps text-[10px] leading-none">History</span>
         </button>
-        <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+        <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
             <span class="material-symbols-outlined mb-1">settings</span>
             <span class="font-label-caps text-[10px] leading-none">Settings</span>
         </button>
     </nav>
+
 
     <!-- Settings Modal -->
     <div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
