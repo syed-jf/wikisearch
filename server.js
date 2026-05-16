@@ -133,95 +133,44 @@ app.post('/api/chat', async (req, res) => {
         }
     }
 
-    const greetings = ['hi', 'hello', 'hey', 'greetings', 'what\'s up', 'whats up', 'howdy', 'yo', 'good morning', 'good afternoon', 'good evening'];
-    if (greetings.includes(lowerInput) || greetings.includes(normalizedInput)) {
-        const greetingResponses = [
-            "Hello! How can I help you today?",
-            "Hi there! I'm WikiSearch. What would you like to learn about?",
-            "Hey! How are you doing? Need help looking something up?",
-            "Greetings! I'm ready to search Wikipedia or open some apps for you. Just ask!"
-        ];
-        const randomGreeting = greetingResponses[Math.floor(Math.random() * greetingResponses.length)];
-        return res.json({ response: randomGreeting });
-    }
-
-    const conversational = ['yes', 'no', 'yep', 'nope', 'ok', 'okay', 'thanks', 'thank you', 'sure', 'alright'];
-    if (conversational.includes(lowerInput) || conversational.includes(normalizedInput)) {
-        const convResponses = {
-            'yes': "Great! What else are you curious about?",
-            'no': "No problem. I'm here if you need to look anything else up!",
-            'thanks': "You're very welcome! Happy exploring.",
-            'thank you': "Anytime! Let me know if you have more questions.",
-            'ok': "Perfect. Let's keep going!",
-            'okay': "Sounds good!",
-            'sure': "Alright, what's next on your mind?",
-            'default': "Understood! How else can I assist you?"
-        };
-        const resp = convResponses[lowerInput] || convResponses[normalizedInput] || convResponses['default'];
-        return res.json({ response: resp });
-    }
-
-    if (!normalizedInput) {
+    if (!userInput) {
         return res.json({ response: "I'm not sure what you're asking. Try asking a question or typing 'help'." });
     }
 
     try {
-        const query = encodeURIComponent(normalizedInput);
+        const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
         
-        // 1. Search Wikipedia to find the best matching page title
-        const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${query}&utf8=&format=json&origin=*`;
-        const searchRes = await fetch(searchUrl, {
-            headers: { 'User-Agent': 'WikiSearchBot/1.0 (https://localhost)' }
-        });
-        const searchData = await searchRes.json();
-        
-        if (!searchData.query || !searchData.query.search || searchData.query.search.length === 0) {
-            return res.json({ response: `Hmm, I couldn't find anything on Wikipedia about "${normalizedInput}". Try rephrasing your question!` });
+        if (!GEMINI_API_KEY) {
+            return res.json({ response: "⚠️ **API Key Missing!**\n\nWikiSearch has been upgraded to use the Gemini AI brain, but it needs your API key to function.\n\nPlease go to your Render Dashboard -> Environment Variables -> Add `GEMINI_API_KEY` and paste your key." });
         }
-        
-        // 2. Get the title of the top result and fetch its summary
-        const topResultTitle = searchData.query.search[0].title;
-        const encodedTitle = encodeURIComponent(topResultTitle.replace(/\s+/g, '_'));
-        
-        const wikiUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodedTitle}`;
-        const wikiRes = await fetch(wikiUrl, {
-            headers: { 'User-Agent': 'WikiSearchBot/1.0 (https://localhost)' }
-        });
-        
-        if (!wikiRes.ok) {
-            return res.json({ response: `I found a topic for "${topResultTitle}", but couldn't load its summary.` });
-        }
-        
-        const data = await wikiRes.json();
-        
-        if (data.type === 'disambiguation') {
-            return res.json({ response: `The topic "${normalizedInput}" is a bit too broad and refers to multiple things. Could you be more specific?` });
-        }
-        
-        if (data.extract) {
-            const prefixes = [
-                "Ooh, great question! According to my database...\n\n",
-                "Here is what I found on Wikipedia:\n\n",
-                "Let's see... Ah, here we go!\n\n",
-                "Interesting topic! Here's the scoop:\n\n"
-            ];
-            const randomPrefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-            
-            const suffixes = [
-                "\n\nIsn't that fascinating?",
-                "\n\nHope that helps!",
-                "\n\nWould you like me to look up anything else?"
-            ];
-            const randomSuffix = suffixes[Math.floor(Math.random() * suffixes.length)];
 
-            return res.json({ response: randomPrefix + data.extract + randomSuffix });
-        }
+        const geminiPrompt = `You are WikiSearch, an incredibly intelligent, scholarly AI assistant with access to vast human knowledge. 
+A user is asking you: "${userInput}"
+Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative.`;
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
         
-        return res.json({ response: `I found a Wikipedia page for "${normalizedInput}", but it didn't have a quick summary available.` });
+        const geminiRes = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: geminiPrompt }] }]
+            })
+        });
+        
+        const data = await geminiRes.json();
+        
+        if (data.candidates && data.candidates.length > 0) {
+            const answer = data.candidates[0].content.parts[0].text;
+            return res.json({ response: answer });
+        } else {
+            console.error("Gemini unexpected response:", data);
+            return res.json({ response: "I'm sorry, my neural pathways are a bit tangled right now. Please try asking again!" });
+        }
         
     } catch (error) {
-        console.error("Wikipedia API error:", error);
-        return res.json({ response: "Oops, I'm having trouble connecting to Wikipedia right now. Please try again later." });
+        console.error("Gemini API error:", error);
+        return res.json({ response: "Oops, I'm having trouble connecting to my Gemini brain right now. Please try again later." });
     }
 });
 
