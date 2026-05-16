@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Knowledge Explorer - Library</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;450;500;600&amp;family=JetBrains+Mono:wght@500&amp;family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#d8dadc",
+                      "on-secondary-fixed": "#00201d",
+                      "on-surface-variant": "#45464d",
+                      "on-tertiary-fixed": "#211b00",
+                      "surface": "#f7f9fb",
+                      "surface-container": "#eceef0",
+                      "error-container": "#ffdad6",
+                      "primary": "#000000",
+                      "on-surface": "#191c1e",
+                      "inverse-primary": "#bec6e0",
+                      "surface-container-highest": "#e0e3e5",
+                      "inverse-on-surface": "#eff1f3",
+                      "surface-bright": "#f7f9fb",
+                      "on-secondary-container": "#006f66",
+                      "tertiary-fixed": "#ffe24c",
+                      "primary-fixed": "#dae2fd",
+                      "on-error": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "outline-variant": "#c6c6cd",
+                      "on-error-container": "#93000a",
+                      "secondary-fixed": "#89f5e7",
+                      "on-primary-fixed-variant": "#3f465c",
+                      "surface-container-low": "#f2f4f6",
+                      "surface-variant": "#e0e3e5",
+                      "tertiary-fixed-dim": "#e2c62d",
+                      "on-primary": "#ffffff",
+                      "on-secondary": "#ffffff",
+                      "on-tertiary-fixed-variant": "#524600",
+                      "inverse-surface": "#2d3133",
+                      "primary-container": "#131b2e",
+                      "surface-container-high": "#e6e8ea",
+                      "on-tertiary-container": "#4a3f00",
+                      "primary-fixed-dim": "#bec6e0",
+                      "background": "#f7f9fb",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary": "#006a61",
+                      "on-secondary-fixed-variant": "#005049",
+                      "on-primary-container": "#7c839b",
+                      "surface-tint": "#565e74",
+                      "secondary-fixed-dim": "#6bd8cb",
+                      "error": "#ba1a1a",
+                      "on-primary-fixed": "#131b2e",
+                      "tertiary": "#6d5e00",
+                      "on-background": "#191c1e",
+                      "outline": "#76777d",
+                      "secondary-container": "#86f2e4",
+                      "tertiary-container": "#c5ab02"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "xs": "0.5rem",
+                      "container-max": "1120px",
+                      "sm": "1rem",
+                      "md": "1.5rem",
+                      "xl": "4rem",
+                      "baseline": "4px",
+                      "lg": "2.5rem",
+                      "gutter": "24px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Hanken Grotesk"
+                      ],
+                      "chat-bubble": [
+                              "Hanken Grotesk"
+                      ],
+                      "caption": [
+                              "Hanken Grotesk"
+                      ],
+                      "headline-md": [
+                              "Source Serif 4"
+                      ],
+                      "display-lg-mobile": [
+                              "Source Serif 4"
+                      ],
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "display-lg": [
+                              "Source Serif 4"
+                      ],
+                      "body-md": [
+                              "Hanken Grotesk"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "chat-bubble": [
+                              "15px",
+                              {
+                                      "lineHeight": "22px",
+                                      "fontWeight": "450"
+                              }
+                      ],
+                      "caption": [
+                              "13px",
+                              {
+                                      "lineHeight": "18px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+            },
+          }
+        }
+    </script>
+<style>
+        /* Minimal custom CSS for absolute necessities not handled by utilities */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .bento-grid { grid-template-columns: repeat(8, 1fr); gap: 1.5rem; }
+        }
+        @media (min-width: 1024px) {
+            .bento-grid { grid-template-columns: repeat(12, 1fr); }
+        }
+        
+        /* Subtle paper texture effect */
+        body {
+            background-color: #f7f9fb;
+            background-image: radial-gradient(#d8dadc 1px, transparent 0);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
+<div class="flex h-screen overflow-hidden">
+<!-- SideNavBar (Desktop) -->
+<aside class="hidden lg:flex flex-col h-full py-md px-sm bg-surface border-r border-outline-variant w-64">
+<div class="mb-xl px-sm pt-sm">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Knowledge Explorer</h1>
+</div>
+<p class="font-label-caps text-label-caps text-on-surface-variant">Digital Library</p>
+</div>
+<button class="mb-lg mx-sm py-sm px-md bg-primary text-on-primary rounded-full font-label-caps text-label-caps flex items-center justify-center gap-xs hover:bg-on-surface transition-colors">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                New Inquiry
+            </button>
+<nav class="flex-1 flex flex-col gap-xs">
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-body-md text-body-md">Search</span>
+</a>
+<!-- Active Tab -->
+<a class="flex items-center gap-sm px-md py-sm bg-surface-container-low text-primary font-bold border-r-2 border-primary cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+<span class="font-body-md text-body-md">Library</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined">history</span>
+<span class="font-body-md text-body-md">History</span>
+</a>
+<!-- Inactive Tab -->
+<a class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-body-md text-body-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto border-t border-outline-variant pt-sm flex flex-col gap-xs">
+<a class="flex items-center gap-sm px-md py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer text-caption font-caption" href="#">
+<span class="material-symbols-outlined text-[16px]">info</span>
+                    About Wikipedia
+                </a>
+<a class="flex items-center gap-sm px-md py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer text-caption font-caption" href="#">
+<span class="material-symbols-outlined text-[16px]">help</span>
+                    Help
+                </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 relative">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-md py-xs sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant">
+<!-- Mobile Logo/Title (Hidden on Desktop since SideNav has it) -->
+<div class="lg:hidden flex items-center gap-xs">
+<span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
+<h1 class="font-headline-md text-headline-md font-bold text-primary">Knowledge Explorer</h1>
+</div>
+<!-- Spacer for desktop to keep actions right-aligned -->
+<div class="hidden lg:block flex-1"></div>
+<div class="flex items-center gap-sm">
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined">dark_mode</span>
+</button>
+<button class="p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
+<span class="material-symbols-outlined text-[28px]">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto pb-24 lg:pb-lg">
+<div class="max-w-[container-max] mx-auto px-md md:px-gutter pt-xl lg:pt-24">
+<!-- Hero / Search Section -->
+<section class="text-center mb-xl flex flex-col items-center">
+<h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary mb-md max-w-3xl">
+                            What would you like to explore today?
+                        </h2>
+<div class="w-full max-w-2xl relative group">
+<div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">search</span>
+</div>
+<input class="block w-full pl-xl pr-lg py-md rounded-full border border-outline-variant bg-surface-container-lowest text-body-lg font-body-lg text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary focus:border-primary shadow-sm transition-all outline-none" placeholder="Search the archive..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-xs flex items-center">
+<button class="p-xs bg-primary text-on-primary rounded-full hover:bg-on-surface transition-colors flex items-center justify-center h-10 w-10">
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="mt-sm flex gap-sm justify-center flex-wrap">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Try:</span>
+<button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4">Byzantine Empire</button>
+<button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4">Quantum Mechanics</button>
+<button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4">Philosophy of Mind</button>
+</div>
+</section>
+<!-- Divider -->
+<div class="flex items-center gap-md mb-lg">
+<div class="h-px bg-outline-variant flex-1"></div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Curated Inquiries</h3>
+<div class="h-px bg-outline-variant flex-1"></div>
+</div>
+<!-- Bento Grid Content -->
+<section class="bento-grid">
+<!-- Large Featured Card (Spans 8 cols on desktop) -->
+<article class="col-span-4 md:col-span-8 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col md:flex-row relative">
+<div class="w-full md:w-2/5 h-48 md:h-auto bg-surface-container relative">
+<div class="absolute inset-0 bg-secondary/10 mix-blend-multiply z-10"></div>
+<img alt="Old books" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A macro, detailed photograph of the worn leather spines of antique books sitting closely together on a dusty wooden shelf. The lighting is moody and warm, resembling a classical, high-end university library. The color palette focuses on deep browns, faded golds, and a subtle Oxford blue tint applied via a light filter. The aesthetic is tactile, historical, and distinctly academic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCB-k8fpnMhykeI90t6JW2OidPPl3zf7BSQUZHrl8uCm7IUjsFhfWSuvN5emYBr0umzXNq37rVbkhQfjg0naInlBWFS6-PJFAzbvFifPXJv_qBal3yl6o5SukkSFLy-6dxUZJ4wP4NFkW84lndcmWMYTX3YjjUES30yYu_KUSqbzvxik2gmx6OO1WgDr48LSAaqFS2Lmpn1ehMJsz6XVu7JxYT3j66nWfxER9nLLavkJzEEN51Lt-UikKnVMsPcM1pPc84NCdvjwmw"/>
+</div>
+<div class="p-lg flex flex-col justify-center w-full md:w-3/5">
+<div class="flex items-center gap-xs mb-xs">
+<span class="material-symbols-outlined text-outline text-[16px]">history_edu</span>
+<span class="font-label-caps text-label-caps text-outline">History &amp; Culture</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-sm group-hover:text-secondary transition-colors">The Evolution of the Written Word</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-3">From cuneiform tablets to the Gutenberg press and modern digital typography, explore how humanity has recorded and transmitted knowledge across millennia.</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="font-label-caps text-label-caps text-primary px-sm py-xs bg-surface-container rounded-md">8 Articles</span>
+<span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
+</div>
+</div>
+</article>
+<!-- Medium Card (Spans 4 cols) -->
+<article class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-outline text-[16px]">science</span>
+<span class="font-label-caps text-label-caps text-outline">Physics</span>
+</div>
+<span class="material-symbols-outlined text-outline">bookmark_border</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-xs group-hover:text-secondary transition-colors">Standard Model of Particle Physics</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-2">The theoretical framework describing three of the four known fundamental forces in the universe.</p>
+<div class="mt-auto pt-sm border-t border-outline-variant border-dashed">
+<div class="flex gap-xs flex-wrap">
+<span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Quarks</span>
+<span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Bosons</span>
+</div>
+</div>
+</article>
+<!-- Medium Card (Spans 4 cols) -->
+<article class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
+<div class="flex items-center justify-between mb-sm">
+<div class="flex items-center gap-xs">
+<span class="material-symbols-outlined text-outline text-[16px]">architecture</span>
+<span class="font-label-caps text-label-caps text-outline">Architecture</span>
+</div>
+<span class="material-symbols-outlined text-outline">bookmark_border</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-xs group-hover:text-secondary transition-colors">Brutalist Architecture</h4>
+<p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-2">Characterized by minimalist constructions that showcase the bare building materials and structural elements over decorative design.</p>
+<div class="mt-auto pt-sm border-t border-outline-variant border-dashed">
+<div class="flex gap-xs flex-wrap">
+<span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Post-war</span>
+<span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Concrete</span>
+</div>
+</div>
+</article>
+<!-- Quote/Insight Card (Spans 4 cols) -->
+<article class="col-span-4 md:col-span-8 lg:col-span-4 bg-surface border border-outline-variant rounded-xl p-lg shadow-sm flex flex-col justify-center text-center relative overflow-hidden">
+<div class="absolute -top-6 -left-6 text-[120px] text-surface-container-highest opacity-50 font-display-lg leading-none select-none">"</div>
+<blockquote class="font-headline-md text-headline-md text-primary relative z-10 mb-md italic">
+                                Knowledge is a navigation of an ocean of uncertainty, through archipelagos of certainty.
+                            </blockquote>
+<cite class="font-label-caps text-label-caps text-on-surface-variant relative z-10 not-italic uppercase tracking-wider">— Edgar Morin</cite>
+</article>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface border-t border-outline-variant shadow-sm h-[72px]">
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+<span class="material-symbols-outlined mb-1">chat</span>
+<span class="font-label-caps text-[10px] leading-none">Ask</span>
+</button>
+<!-- Active Tab -->
+<button class="flex flex-col items-center justify-center text-primary font-bold bg-primary-fixed-dim/20 rounded-xl p-xs w-16">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">library_books</span>
+<span class="font-label-caps text-[10px] leading-none">Library</span>
+</button>
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-caps text-[10px] leading-none">History</span>
+</button>
+<!-- Inactive Tab -->
+<button class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 w-16 rounded-xl">
+<span class="material-symbols-outlined mb-1">bookmark</span>
+<span class="font-label-caps text-[10px] leading-none">Saved</span>
+</button>
+</nav>
+</div>
+</body></html>

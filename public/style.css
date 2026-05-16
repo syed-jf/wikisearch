@@ -1,0 +1,136 @@
+/* Minimal custom CSS for absolute necessities not handled by utilities */
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+@media (min-width: 768px) {
+    .bento-grid { grid-template-columns: repeat(8, 1fr); gap: 1.5rem; }
+}
+@media (min-width: 1024px) {
+    .bento-grid { grid-template-columns: repeat(12, 1fr); }
+}
+
+/* Subtle paper texture effect */
+body {
+    background-color: #f7f9fb;
+    background-image: radial-gradient(#d8dadc 1px, transparent 0);
+    background-size: 40px 40px;
+}
+
+/* Chat Bubbles */
+.chat-message {
+    display: flex;
+    flex-direction: column;
+    max-width: 80%;
+    margin-bottom: 1rem;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+.chat-message.user {
+    align-self: flex-end;
+    margin-left: auto;
+    background-color: #ffffff;
+    border: 1px solid #c6c6cd;
+    color: #191c1e;
+    border-radius: 1rem 1rem 0 1rem;
+    padding: 1rem 1.5rem;
+    max-width: 70%;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+html.dark .chat-message.user {
+    background-color: #2d3133;
+    border-color: #45464d;
+    color: #ffffff;
+}
+
+.chat-message.agent {
+    align-self: flex-start;
+    margin-right: auto;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 1rem 1rem 1rem 0;
+    padding: 1rem 1.5rem;
+    max-width: 85%;
+}
+
+html.dark .chat-message.agent {
+    background-color: #89f5e7;
+    color: #00201d;
+}
+
+/* Dark Mode Overrides */
+html.dark body {
+    background-color: #191c1e;
+    color: #eff1f3;
+    background-image: radial-gradient(#45464d 1px, transparent 0);
+}
+html.dark .bg-surface, 
+html.dark .bg-surface-container-lowest, 
+html.dark .bg-surface-container-low,
+html.dark .bg-background {
+    background-color: #191c1e !important;
+    color: #eff1f3 !important;
+}
+html.dark .bg-surface-container {
+    background-color: #2d3133 !important;
+}
+html.dark header {
+    background-color: rgba(25, 28, 30, 0.9) !important;
+    border-color: #45464d !important;
+}
+html.dark .text-primary, html.dark .text-on-surface { color: #eff1f3 !important; }
+html.dark .text-on-surface-variant { color: #c6c6cd !important; }
+html.dark .border-outline-variant { border-color: #45464d !important; }
+html.dark input {
+    background-color: #2d3133 !important;
+    color: #ffffff !important;
+}
+
+.chat-message.system {
+    align-self: center;
+    margin: 1rem auto;
+    background-color: transparent;
+    color: #76777d;
+    font-style: italic;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+/* Typing Indicator Animation */
+@keyframes typing {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-3px); opacity: 1; }
+}
+
+.typing-dot {
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    display: inline-block;
+    animation: typing 1s infinite ease-in-out;
+    margin: 0 2px;
+}
+
+.typing-dot:nth-child(1) { animation-delay: 0s; }
+.typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Markdown styling inside agent messages */
+.chat-message.agent strong {
+    color: inherit;
+}
+.chat-message.agent p {
+    margin-bottom: 0.5rem;
+}
+.chat-message.agent p:last-child {
+    margin-bottom: 0;
+}
