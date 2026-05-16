@@ -38,8 +38,11 @@ function resetToHeroMode() {
     chatContainer.innerHTML = '';
 }
 
+const mobileHomeBtn = document.getElementById('mobileHomeBtn');
+
 newInquiryBtn.addEventListener('click', resetToHeroMode);
 if (homeBtn) homeBtn.addEventListener('click', resetToHeroMode);
+if (mobileHomeBtn) mobileHomeBtn.addEventListener('click', resetToHeroMode);
 
 function addMessage(text, sender) {
     const msgDiv = document.createElement('div');
@@ -153,6 +156,8 @@ const closeSettingsBtn = document.getElementById('closeSettingsBtn');
 const darkModeBtn = document.getElementById('darkModeBtn');
 const darkModeToggle = document.getElementById('darkModeToggle');
 
+const mobileSettingsBtn = document.getElementById('mobileSettingsBtn');
+
 function toggleDarkMode() {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
@@ -168,11 +173,9 @@ function toggleDarkMode() {
 if (darkModeBtn) darkModeBtn.addEventListener('click', toggleDarkMode);
 if (darkModeToggle) darkModeToggle.addEventListener('change', toggleDarkMode);
 
-if (settingsBtn) {
-    settingsBtn.addEventListener('click', () => {
-        settingsModal.classList.remove('hidden');
-    });
-}
+const openSettings = () => settingsModal.classList.remove('hidden');
+if (settingsBtn) settingsBtn.addEventListener('click', openSettings);
+if (mobileSettingsBtn) mobileSettingsBtn.addEventListener('click', openSettings);
 
 if (closeSettingsBtn) {
     closeSettingsBtn.addEventListener('click', () => {
@@ -240,7 +243,11 @@ function loadSession(id) {
     if (historyModal) historyModal.classList.add('hidden');
 }
 
-if (historyBtn) historyBtn.addEventListener('click', () => historyModal.classList.remove('hidden'));
+const mobileHistoryBtn = document.getElementById('mobileHistoryBtn');
+
+const openHistory = () => historyModal.classList.remove('hidden');
+if (historyBtn) historyBtn.addEventListener('click', openHistory);
+if (mobileHistoryBtn) mobileHistoryBtn.addEventListener('click', openHistory);
 if (closeHistoryBtn) closeHistoryBtn.addEventListener('click', () => historyModal.classList.add('hidden'));
 if (historyModal) historyModal.addEventListener('click', (e) => {
     if (e.target === historyModal) historyModal.classList.add('hidden');
@@ -290,12 +297,15 @@ async function updateDiary() {
     }
 }
 
-if (diaryBtn) {
-    diaryBtn.addEventListener('click', () => {
-        updateDiary();
-        diaryModal.classList.remove('hidden');
-    });
-}
+const mobileDiaryBtn = document.getElementById('mobileDiaryBtn');
+
+const openDiary = () => {
+    updateDiary();
+    diaryModal.classList.remove('hidden');
+};
+
+if (diaryBtn) diaryBtn.addEventListener('click', openDiary);
+if (mobileDiaryBtn) mobileDiaryBtn.addEventListener('click', openDiary);
 if (closeDiaryBtn) closeDiaryBtn.addEventListener('click', () => diaryModal.classList.add('hidden'));
 if (diaryModal) {
     diaryModal.addEventListener('click', (e) => {
