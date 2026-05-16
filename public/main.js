@@ -320,3 +320,76 @@ if (diaryModal) {
 document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
 });
+
+// --- Voice Search Implementation ---
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let isRecording = false;
+
+const heroMicBtn = document.getElementById('heroMicBtn');
+const chatMicBtn = document.getElementById('chatMicBtn');
+
+if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+        isRecording = true;
+        if (heroScreen.classList.contains('hidden')) {
+            if (chatMicBtn) chatMicBtn.classList.add('mic-active');
+            if (chatInput) chatInput.placeholder = "Listening...";
+        } else {
+            if (heroMicBtn) heroMicBtn.classList.add('mic-active');
+            if (heroInput) heroInput.placeholder = "Listening...";
+        }
+    };
+
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        if (heroScreen.classList.contains('hidden')) {
+            if (chatInput) chatInput.value = transcript;
+            handleSend(transcript);
+        } else {
+            if (heroInput) heroInput.value = transcript;
+            handleSend(transcript);
+        }
+    };
+
+    recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+        stopRecording();
+    };
+
+    recognition.onend = () => {
+        stopRecording();
+    };
+}
+
+function stopRecording() {
+    isRecording = false;
+    if (heroMicBtn) {
+        heroMicBtn.classList.remove('mic-active');
+        if (heroInput) heroInput.placeholder = "Search the archive...";
+    }
+    if (chatMicBtn) {
+        chatMicBtn.classList.remove('mic-active');
+        if (chatInput) chatInput.placeholder = "Ask a question or type a command...";
+    }
+}
+
+function toggleRecording() {
+    if (!recognition) {
+        alert("Voice search is not supported in your browser.");
+        return;
+    }
+    if (isRecording) {
+        recognition.stop();
+    } else {
+        recognition.start();
+    }
+}
+
+if (heroMicBtn) heroMicBtn.addEventListener('click', toggleRecording);
+if (chatMicBtn) chatMicBtn.addEventListener('click', toggleRecording);
