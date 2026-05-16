@@ -174,61 +174,66 @@ Please provide a helpful, fascinating, and accurate response. Format it nicely w
     }
 });
 
-const bookDatabase = {
-    'tech': [
-        { title: 'Superintelligence', author: 'Nick Bostrom', desc: 'A deep dive into the risks and rewards of AGI.' },
-        { title: 'Life 3.0', author: 'Max Tegmark', desc: 'Being human in the age of Artificial Intelligence.' },
-        { title: 'The Singularity is Near', author: 'Ray Kurzweil', desc: 'When humans transcend biology.' }
-    ],
-    'history': [
-        { title: 'Sapiens', author: 'Yuval Noah Harari', desc: 'A brief history of humankind.' },
-        { title: 'Guns, Germs, and Steel', author: 'Jared Diamond', desc: 'The fates of human societies.' },
-        { title: 'The Silk Roads', author: 'Peter Frankopan', desc: 'A new history of the world.' }
-    ],
-    'science': [
-        { title: 'A Brief History of Time', author: 'Stephen Hawking', desc: 'The landmark book on the origin of the universe.' },
-        { title: 'Cosmos', author: 'Carl Sagan', desc: 'The story of cosmic evolution and science.' },
-        { title: 'The Elegant Universe', author: 'Brian Greene', desc: 'Superstrings and the quest for the ultimate theory.' }
-    ],
-    'philosophy': [
-        { title: 'Meditations', author: 'Marcus Aurelius', desc: 'The timeless journal of a Stoic emperor.' },
-        { title: 'The Republic', author: 'Plato', desc: 'A Socratic dialogue concerning justice and order.' },
-        { title: 'Man\'s Search for Meaning', author: 'Viktor Frankl', desc: 'Finding hope in the darkest of times.' }
-    ],
-    'default': [
-        { title: 'The Library of Babel', author: 'Jorge Luis Borges', desc: 'A short story about an infinite library.' },
-        { title: 'The Alchemist', author: 'Paulo Coelho', desc: 'A fable about following your dream.' },
-        { title: 'Fahrenheit 451', author: 'Ray Bradbury', desc: 'The classic dystopian novel about knowledge.' }
-    ]
-};
-
-app.post('/api/recommendations', (req, res) => {
+app.post('/api/recommendations', async (req, res) => {
     const history = req.body.history || [];
     if (history.length === 0) {
-        return res.json({ analysis: "Your diary is currently a blank canvas. Start searching to let the philosopher's mind begin its analysis.", books: bookDatabase.default });
+        return res.json({ 
+            analysis: "Your diary is currently a blank canvas. Start searching to let the philosopher's mind begin its analysis.", 
+            books: [
+                { title: 'The Library of Babel', author: 'Jorge Luis Borges', desc: 'A short story about an infinite library exploring the universe of knowledge.' },
+                { title: 'The Alchemist', author: 'Paulo Coelho', desc: 'A fable about following your dream and reading the omens of the world.' }
+            ] 
+        });
     }
 
-    const historyStr = history.join(' ').toLowerCase();
-    let category = 'default';
+    try {
+        const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+        if (!GEMINI_API_KEY) {
+            return res.json({ 
+                analysis: "The Scholar is resting. Please add your Gemini API Key in the Render dashboard to unlock dynamic analysis.", 
+                books: [] 
+            });
+        }
 
-    if (historyStr.match(/\bai\b|artificial intelligence|robot|tech|compute|data|science|physics|quantum|space|astronomy|biology|chemistry/)) {
-        if (historyStr.match(/\bai\b|artificial intelligence|robot|tech|compute|data/)) category = 'tech';
-        else category = 'science';
-    } else if (historyStr.match(/history|war|empire|king|ancient|civilization|culture|archeology/)) {
-        category = 'history';
-    } else if (historyStr.match(/philosophy|mind|think|exist|truth|logic|soul|wisdom|ethics|stoic/)) {
-        category = 'philosophy';
+        const historyStr = history.slice(0, 10).join(', '); // Use top 10 recent searches
+
+        const prompt = `You are a wise, scholarly AI named "The Scholar" analyzing a user's recent search history: [${historyStr}]. 
+Provide a short, poetic 2-sentence analysis of what their curiosity says about their mind or current journey.
+Then, recommend 4 real, fascinating books that align perfectly with their interests.
+Return ONLY a raw JSON object (no markdown formatting, no backticks) with this exact structure:
+{
+  "analysis": "Your 2 sentence poetic analysis...",
+  "books": [
+    { "title": "Book Name", "author": "Author Name", "desc": "1 brief sentence description" }
+  ]
+}`;
+
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        const geminiRes = await fetch(geminiUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+        });
+        
+        const data = await geminiRes.json();
+        
+        if (data.candidates && data.candidates.length > 0) {
+            const rawText = data.candidates[0].content.parts[0].text;
+            // Clean up any potential markdown formatting the AI might add by mistake
+            const cleanJsonStr = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(cleanJsonStr);
+            return res.json(parsed);
+        } else {
+            throw new Error("Invalid Gemini response format");
+        }
+        
+    } catch (err) {
+        console.error("Diary Gemini error:", err);
+        return res.json({ 
+            analysis: "The archives are misty today. Keep exploring, and I will analyze your path soon.", 
+            books: [] 
+        });
     }
-
-    const analyses = {
-        'tech': "Your focus on the frontiers of innovation suggests a mind preoccupied with the future. You are tracking the evolution of human tools into something more.",
-        'science': "You seek to understand the fundamental laws of existence. Your curiosity bridges the gap between the infinitely small and the cosmic scale.",
-        'history': "You are an observer of the human timeline, tracing the echoes of the past to understand our present story.",
-        'philosophy': "You are a seeker of wisdom, peering into the very essence of thought and existence itself.",
-        'default': "Your curiosity is vast and varied, touching upon multiple facets of the human experience."
-    };
-
-    res.json({ analysis: analyses[category], books: bookDatabase[category] });
 });
 
 const PORT = process.env.PORT || 3000;
