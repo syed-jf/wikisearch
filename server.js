@@ -292,7 +292,7 @@ Please provide a helpful, fascinating, and accurate response. Format it nicely w
 
         if (data.error && data.error.code === 429) {
             console.warn("Gemini Rate Limit Hit");
-            return res.json({ response: "### 🚦 Whoa, slow down!\n\nThe Gemini API rate limit has been reached. Please wait about 30 seconds and try again." });
+            return res.json({ response: "### ✨ WikiSearch needs a moment to breathe\n\nYou're clearly on a roll! Our knowledge engine processes queries deeply, and it needs just **2 minutes** to recharge before diving back in.\n\nThis isn't a bug — it's WikiSearch giving each question the thoughtful attention it deserves. Grab a coffee, jot down your next question, and we'll be right back with you. ☕" });
         }
 
         if (data.candidates && data.candidates.length > 0) {

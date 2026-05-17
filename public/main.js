@@ -45,6 +45,10 @@ newInquiryBtn.addEventListener('click', resetToHeroMode);
 if (homeBtn) homeBtn.addEventListener('click', resetToHeroMode);
 if (mobileHomeBtn) mobileHomeBtn.addEventListener('click', resetToHeroMode);
 
+// Back button in chat screen — wire up here after DOM is ready
+const backBtn = document.getElementById('backBtn');
+if (backBtn) backBtn.addEventListener('click', resetToHeroMode);
+
 function addMessage(text, sender) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('chat-message', sender);
@@ -382,26 +386,35 @@ async function loadTrending() {
     }
 }
 
+// Diary refresh: force a fresh fetch every 45 minutes regardless of session cache
+let diaryLastFetched = null;
+const DIARY_REFRESH_MS = 45 * 60 * 1000; // 45 minutes
+
 async function updateDiary() {
     diaryAnalysis.innerHTML = '<em>Consulting the global archives...</em>';
     suggestedBooksGrid.innerHTML = '<div class="col-span-full text-center py-8 text-on-surface-variant"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span><br><span class="text-xs font-label-caps uppercase tracking-widest mt-2 block">Consulting the Archives</span></div>';
 
     try {
-        // Use cached data if available, otherwise fetch
-        if (!cachedTrendingData) {
+        // Force re-fetch if no data or 45-min window has passed
+        const now = Date.now();
+        if (!cachedTrendingData || !diaryLastFetched || (now - diaryLastFetched) > DIARY_REFRESH_MS) {
             const res = await fetch('/api/trending');
             cachedTrendingData = await res.json();
+            diaryLastFetched = now;
         }
 
-        const { topics, scholarlyAnalysis } = cachedTrendingData;
+        const { topics, scholarlyAnalysis, generatedAt } = cachedTrendingData;
 
-        // Scholar's analysis
-        diaryAnalysis.innerHTML = `&#8220;${scholarlyAnalysis}&#8221;`;
+        // Scholar's analysis with timestamp
+        const dtLabel = generatedAt
+            ? `<span class="text-xs text-tertiary dark:text-zinc-500 block mt-2 not-italic font-normal">Last updated: ${new Date(generatedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>`
+            : '';
+        diaryAnalysis.innerHTML = `&#8220;${scholarlyAnalysis}&#8221;${dtLabel}`;
 
-        // Render books grid
+        // Render books grid with hover tooltip
         suggestedBooksGrid.innerHTML = topics.map(topic => `
-            <div class="p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 transition-all group cursor-pointer" onclick="handleSend('${topic.title.replace(/'/g, "\\'")}')"; >
-                <div class="w-14 h-20 bg-primary/10 dark:bg-primary/5 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+            <div class="book-card relative p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 dark:hover:border-cyan-500/40 transition-all group cursor-pointer" onclick="handleSend('${topic.title.replace(/'/g, "\\'")}')">
+                <div class="w-14 h-20 bg-primary/10 dark:bg-primary/5 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 dark:group-hover:bg-cyan-950/40 transition-colors">
                     <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">book</span>
                 </div>
                 <div class="flex flex-col justify-center gap-1 min-w-0">
@@ -409,6 +422,20 @@ async function updateDiary() {
                     <h4 class="font-bold text-on-surface dark:text-zinc-100 text-sm leading-snug">${topic.book.title}</h4>
                     <p class="text-xs text-primary dark:text-primary-fixed-dim font-medium">${topic.book.author}</p>
                     <p class="text-xs text-on-surface-variant dark:text-zinc-400 line-clamp-2 mt-0.5">${topic.book.reason}</p>
+                </div>
+                <!-- Hover tooltip -->
+                <div class="book-tooltip">
+                    <div class="book-tooltip-inner">
+                        <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')} w-fit mb-2">&#35;${topic.category.toUpperCase()}</span>
+                        <p class="book-tooltip-title">${topic.book.title}</p>
+                        <p class="book-tooltip-author">${topic.book.author}</p>
+                        <div class="book-tooltip-divider"></div>
+                        <p class="book-tooltip-reason">${topic.book.reason}</p>
+                        <div class="book-tooltip-divider"></div>
+                        <p class="book-tooltip-label">Why it's trending</p>
+                        <p class="book-tooltip-topic">${topic.description}</p>
+                        <p class="book-tooltip-cta">Click to explore with WikiSearch &rarr;</p>
+                    </div>
                 </div>
             </div>
         `).join('');
