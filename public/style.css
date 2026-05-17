@@ -1,3 +1,35 @@
+/* =============================================
+   Custom Scrollbar — Blended with Design
+   ============================================= */
+
+/* Webkit (Chrome, Edge, Safari) */
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 229, 255, 0.08);
+    border-radius: 100px;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 229, 255, 0.25);
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 229, 255, 0.1) transparent;
+}
+
+/* ============================================= */
+
 /* Custom styles for WikiSearch AI - Cyan Tech Theme */
 
 /* Dark Mode Core Theme Overrides */
