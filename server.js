@@ -129,69 +129,61 @@ IMPORTANT: Return ONLY a raw JSON object. No markdown, no backticks, no extra te
     return parsed;
 }
 
-const CACHE_FILE_PATH = path.join(__dirname, 'trending-cache.json');
+// Pre-populated fallback — served INSTANTLY on boot, zero Gemini API calls.
+// This ensures every deploy, restart, or cold-boot costs $0 in rate limit.
+const FALLBACK_TRENDING = {
+    topics: [
+        { title: 'Quantum Computing', category: 'Technology', description: 'Quantum computers harness quantum mechanics to solve problems exponentially faster than classical computers. They promise to revolutionize fields from cryptography to drug discovery.', book: { title: 'Quantum Computing: An Applied Approach', author: 'Jack Hidary', reason: 'The definitive practical guide to understanding and building quantum systems.' } },
+        { title: 'Climate Change', category: 'Science', description: 'Earth\'s climate is warming faster than at any point in recorded history due to human greenhouse gas emissions. The consequences span from rising seas to extreme weather events globally.', book: { title: 'The Uninhabitable Earth', author: 'David Wallace-Wells', reason: 'A visceral, scientifically grounded portrait of our climate future.' } },
+        { title: 'Artificial Intelligence', category: 'Technology', description: 'AI systems are now matching and surpassing human performance across a growing range of cognitive tasks. The technology is reshaping industries, labor markets, and the nature of creativity itself.', book: { title: 'Life 3.0', author: 'Max Tegmark', reason: 'Explores what it means to be human in the age of artificial intelligence.' } },
+        { title: 'Space Exploration', category: 'Science', description: 'Humanity is entering a new golden age of space exploration, with missions to the Moon, Mars, and beyond being planned by both governments and private companies. The commercialization of space is transforming what is possible.', book: { title: 'An Astronaut\'s Guide to Life on Earth', author: 'Chris Hadfield', reason: 'Life lessons from the cosmos, told by a legendary space explorer.' } },
+        { title: 'Global Economics', category: 'Business', description: 'The world economy is navigating unprecedented challenges including inflation, supply chain disruptions, and geopolitical tensions. New financial technologies are simultaneously reshaping how value is created and distributed.', book: { title: 'The Wealth of Nations', author: 'Adam Smith', reason: 'The foundational text for understanding how economies function.' } },
+        { title: 'Cultural Heritage', category: 'Culture', description: 'As globalization accelerates, communities worldwide are grappling with how to preserve their unique cultural identities and historical legacies. Museums and institutions are redefining who owns history.', book: { title: 'The Buried Giant', author: 'Kazuo Ishiguro', reason: 'A profound meditation on memory, identity, and what societies choose to forget.' } }
+    ],
+    scholarlyAnalysis: 'Today\'s most-read topics reflect humanity\'s dual fascination with technological possibility and cultural identity. The global mind simultaneously reaches outward toward the cosmos and inward toward the question of what it means to be human.',
+    generatedAt: new Date().toISOString()
+};
+
+// Boot with fallback data immediately — zero API calls on startup
+trendingCache = FALLBACK_TRENDING;
+cacheTimestamp = 0; // Mark as "stale" so it refreshes on first real user request (after cooldown)
+
+const SERVER_BOOT_TIME = Date.now();
+const STARTUP_COOLDOWN_MS = 90 * 1000; // Wait 90 seconds after boot before attempting any Gemini call
 
 async function getTrendingContent() {
     const now = Date.now();
     
-    // 1. Serve from in-memory cache if fresh
+    // 1. Serve from in-memory cache if fresh (less than 6 hours old)
     if (trendingCache && cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION_MS) {
         console.log('[Trending] Serving from memory cache');
         return trendingCache;
     }
 
-    // 2. Try loading persistent disk cache on startup or cold-boot
-    if (!trendingCache && fs.existsSync(CACHE_FILE_PATH)) {
-        try {
-            const rawData = fs.readFileSync(CACHE_FILE_PATH, 'utf8');
-            const parsed = JSON.parse(rawData);
-            if (parsed && parsed.generatedAt) {
-                const generatedTime = new Date(parsed.generatedAt).getTime();
-                if ((now - generatedTime) < CACHE_DURATION_MS) {
-                    console.log('[Trending] Loaded fresh persistent cache from disk');
-                    trendingCache = parsed;
-                    cacheTimestamp = generatedTime;
-                    return trendingCache;
-                }
-                console.log('[Trending] Persistent disk cache exists but is expired');
-            }
-        } catch (diskErr) {
-            console.error('[Trending] Failed to read persistent disk cache:', diskErr.message);
-        }
+    // 2. If server just booted, serve fallback — don't touch Gemini yet
+    if ((now - SERVER_BOOT_TIME) < STARTUP_COOLDOWN_MS) {
+        console.log('[Trending] Within startup cooldown — serving fallback (no Gemini call)');
+        return trendingCache; // Return pre-populated fallback
     }
 
-    console.log('[Trending] Refreshing cache...');
+    // 3. Cache is stale and cooldown has passed — try refreshing from Gemini
+    console.log('[Trending] Refreshing cache from Gemini...');
     try {
         trendingCache = await buildTrendingContent();
         cacheTimestamp = now;
         console.log('[Trending] Cache refreshed successfully at', new Date().toISOString());
-        // Save to persistent file to survive reboots/deploys
-        fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(trendingCache, null, 2), 'utf8');
     } catch (err) {
         console.error('[Trending] Cache refresh failed:', err.message);
-        if (!trendingCache) {
-            // Absolute fallback
-            trendingCache = {
-                topics: [
-                    { title: 'Quantum Computing', category: 'Technology', description: 'Quantum computers harness quantum mechanics to solve problems exponentially faster than classical computers. They promise to revolutionize fields from cryptography to drug discovery.', book: { title: 'Quantum Computing: An Applied Approach', author: 'Jack Hidary', reason: 'The definitive practical guide to understanding and building quantum systems.' } },
-                    { title: 'Climate Change', category: 'Science', description: 'Earth\'s climate is warming faster than at any point in recorded history due to human greenhouse gas emissions. The consequences span from rising seas to extreme weather events globally.', book: { title: 'The Uninhabitable Earth', author: 'David Wallace-Wells', reason: 'A visceral, scientifically grounded portrait of our climate future.' } },
-                    { title: 'Artificial Intelligence', category: 'Technology', description: 'AI systems are now matching and surpassing human performance across a growing range of cognitive tasks. The technology is reshaping industries, labor markets, and the nature of creativity itself.', book: { title: 'Life 3.0', author: 'Max Tegmark', reason: 'Explores what it means to be human in the age of artificial intelligence.' } },
-                    { title: 'Space Exploration', category: 'Science', description: 'Humanity is entering a new golden age of space exploration, with missions to the Moon, Mars, and beyond being planned by both governments and private companies. The commercialization of space is transforming what is possible.', book: { title: 'An Astronaut\'s Guide to Life on Earth', author: 'Chris Hadfield', reason: 'Life lessons from the cosmos, told by a legendary space explorer.' } },
-                    { title: 'Global Economics', category: 'Business', description: 'The world economy is navigating unprecedented challenges including inflation, supply chain disruptions, and geopolitical tensions. New financial technologies are simultaneously reshaping how value is created and distributed.', book: { title: 'The Wealth of Nations', author: 'Adam Smith', reason: 'The foundational text for understanding how economies function.' } },
-                    { title: 'Cultural Heritage', category: 'Culture', description: 'As globalization accelerates, communities worldwide are grappling with how to preserve their unique cultural identities and historical legacies. Museums and institutions are redefining who owns history.', book: { title: 'The Buried Giant', author: 'Kazuo Ishiguro', reason: 'A profound meditation on memory, identity, and what societies choose to forget.' } }
-                ],
-                scholarlyAnalysis: 'Today\'s most-read topics reflect humanity\'s dual fascination with technological possibility and cultural identity. The global mind simultaneously reaches outward toward the cosmos and inward toward the question of what it means to be human.',
-                generatedAt: new Date().toISOString()
-            };
-            cacheTimestamp = now;
-        }
+        // Keep serving whatever we have (fallback or last good data)
+        // Don't update cacheTimestamp so it retries next request (after cooldown)
+        console.log('[Trending] Continuing with existing cached data');
     }
 
     return trendingCache;
 }
 
-// Warm up the cache when server starts
-getTrendingContent().catch(err => console.error('[Trending] Initial warm-up failed:', err.message));
+// NO warm-up call. Server boots instantly with zero Gemini API usage.
+console.log('[Trending] Server booted with pre-loaded fallback data. Gemini will be called lazily after 90s cooldown.');
 
 // ============================================================
 // HELPER FUNCTIONS
