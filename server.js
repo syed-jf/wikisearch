@@ -129,12 +129,35 @@ IMPORTANT: Return ONLY a raw JSON object. No markdown, no backticks, no extra te
     return parsed;
 }
 
+const CACHE_FILE_PATH = path.join(__dirname, 'trending-cache.json');
+
 async function getTrendingContent() {
     const now = Date.now();
-    // Return cached result if still fresh
+    
+    // 1. Serve from in-memory cache if fresh
     if (trendingCache && cacheTimestamp && (now - cacheTimestamp) < CACHE_DURATION_MS) {
-        console.log('[Trending] Serving from cache');
+        console.log('[Trending] Serving from memory cache');
         return trendingCache;
+    }
+
+    // 2. Try loading persistent disk cache on startup or cold-boot
+    if (!trendingCache && fs.existsSync(CACHE_FILE_PATH)) {
+        try {
+            const rawData = fs.readFileSync(CACHE_FILE_PATH, 'utf8');
+            const parsed = JSON.parse(rawData);
+            if (parsed && parsed.generatedAt) {
+                const generatedTime = new Date(parsed.generatedAt).getTime();
+                if ((now - generatedTime) < CACHE_DURATION_MS) {
+                    console.log('[Trending] Loaded fresh persistent cache from disk');
+                    trendingCache = parsed;
+                    cacheTimestamp = generatedTime;
+                    return trendingCache;
+                }
+                console.log('[Trending] Persistent disk cache exists but is expired');
+            }
+        } catch (diskErr) {
+            console.error('[Trending] Failed to read persistent disk cache:', diskErr.message);
+        }
     }
 
     console.log('[Trending] Refreshing cache...');
@@ -142,6 +165,8 @@ async function getTrendingContent() {
         trendingCache = await buildTrendingContent();
         cacheTimestamp = now;
         console.log('[Trending] Cache refreshed successfully at', new Date().toISOString());
+        // Save to persistent file to survive reboots/deploys
+        fs.writeFileSync(CACHE_FILE_PATH, JSON.stringify(trendingCache, null, 2), 'utf8');
     } catch (err) {
         console.error('[Trending] Cache refresh failed:', err.message);
         if (!trendingCache) {
