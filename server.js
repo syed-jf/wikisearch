@@ -160,6 +160,11 @@ Please provide a helpful, fascinating, and accurate response. Format it nicely w
         
         const data = await geminiRes.json();
         
+        if (data.error && data.error.code === 429) {
+            console.warn("Gemini Rate Limit Hit");
+            return res.json({ response: "### 🚦 Whoa, slow down!\n\nThe Gemini Free API allows a maximum of 15-20 requests per minute. You've been searching so fast that we hit the speed limit!\n\n**Please wait about 30 seconds and try asking again.**" });
+        }
+
         if (data.candidates && data.candidates.length > 0) {
             const answer = data.candidates[0].content.parts[0].text;
             return res.json({ response: answer });
@@ -217,6 +222,14 @@ Return ONLY a raw JSON object (no markdown formatting, no backticks) with this e
         
         const data = await geminiRes.json();
         
+        if (data.error && data.error.code === 429) {
+            console.warn("Diary Gemini Rate Limit Hit");
+            return res.json({ 
+                analysis: "The Scholar is overwhelmed by your rapid inquiries. Please wait 30 seconds before asking for another analysis.", 
+                books: [] 
+            });
+        }
+
         if (data.candidates && data.candidates.length > 0) {
             const rawText = data.candidates[0].content.parts[0].text;
             // Clean up any potential markdown formatting the AI might add by mistake
