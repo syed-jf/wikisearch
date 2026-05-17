@@ -39,10 +39,12 @@ function resetToHeroMode() {
 }
 
 const mobileHomeBtn = document.getElementById('mobileHomeBtn');
+const backBtn = document.getElementById('backBtn');
 
 newInquiryBtn.addEventListener('click', resetToHeroMode);
 if (homeBtn) homeBtn.addEventListener('click', resetToHeroMode);
 if (mobileHomeBtn) mobileHomeBtn.addEventListener('click', resetToHeroMode);
+if (backBtn) backBtn.addEventListener('click', resetToHeroMode);
 
 function addMessage(text, sender) {
     const msgDiv = document.createElement('div');

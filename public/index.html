@@ -199,6 +199,13 @@
 
         <!-- Chat Screen (Hidden Initially) -->
         <div id="chatScreen" class="hidden absolute top-20 bottom-0 left-0 right-0 flex flex-col bg-surface-container-lowest dark:bg-zinc-950 z-10">
+            <!-- Back Button Bar -->
+            <div class="shrink-0 flex items-center px-6 md:px-16 py-3 border-b border-surface-container dark:border-zinc-800 bg-surface-container-lowest dark:bg-zinc-950">
+                <button id="backBtn" class="flex items-center gap-2 text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-200 group">
+                    <span class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform duration-200">arrow_back</span>
+                    <span class="font-label-sm text-label-sm uppercase tracking-widest">Back to Search</span>
+                </button>
+            </div>
             <div id="chatContainer" class="flex-1 overflow-y-auto relative px-6 md:px-container-padding-desktop py-8 space-y-6 max-w-screen-xl mx-auto w-full pb-32">
                 <!-- Messages dynamically inserted here -->
             </div>
