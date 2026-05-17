@@ -450,23 +450,38 @@ html.dark .designer-label {
     color: #4b5563; /* Subtle slate-gray in dark mode */
 }
 
-.designer-name {
-    font-size: 0.85rem;
-    font-weight: 600;
-    font-family: 'Outfit', sans-serif;
-    letter-spacing: 0.02em;
-    color: #8c6d36; /* Premium bronze/gold in light mode */
-    transition: all 0.25s ease;
+.designer-logo {
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #8c6d36; /* Sophisticated Bronze/Gold */
+    border: 1px solid rgba(140, 109, 54, 0.25);
+    background: rgba(140, 109, 54, 0.05);
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-html.dark .designer-name {
-    color: #ebd3a8; /* Sophisticated champagne gold in dark mode — premium, matte, distinct, and highly elegant */
+html.dark .designer-logo {
+    color: #ebd3a8; /* Champagne Gold in dark mode */
+    border: 1px solid rgba(235, 211, 168, 0.2);
+    background: rgba(235, 211, 168, 0.03);
 }
 
-.designer-name:hover {
+.designer-logo:hover {
     color: #6e5427;
+    border-color: rgba(140, 109, 54, 0.5);
+    background: rgba(140, 109, 54, 0.08);
 }
 
-html.dark .designer-name:hover {
-    color: #f7e9d2; /* Slightly brighter warm champagne on hover */
+html.dark .designer-logo:hover {
+    color: #f7e9d2;
+    border-color: rgba(235, 211, 168, 0.45);
+    background: rgba(235, 211, 168, 0.06);
 }
