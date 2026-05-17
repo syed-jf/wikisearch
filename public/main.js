@@ -405,7 +405,6 @@ if (diaryModal) {
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
-    loadTrending(); // Load trending cards on hero screen
     const isDark = document.documentElement.classList.contains('dark');
     if (darkModeToggle) darkModeToggle.checked = isDark;
     if (darkModeBtn) darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
