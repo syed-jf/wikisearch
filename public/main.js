@@ -59,11 +59,21 @@ function addMessage(text, sender) {
     
     chatContainer.appendChild(msgDiv);
     
-    // Only auto-scroll to the absolute bottom for the user's own messages.
-    // This allows the user to read long AI responses from top to bottom naturally
-    // without the screen jumping down past the beginning of the answer.
+    // Smoothly scroll the container to align the user's question at the top 
+    // when the agent responds, keeping the context fully visible.
     if (sender === 'user') {
         chatContainer.scrollTop = chatContainer.scrollHeight;
+    } else if (sender === 'agent') {
+        const userMessages = chatContainer.querySelectorAll('.chat-message.user');
+        if (userMessages.length > 0) {
+            const lastUserMsg = userMessages[userMessages.length - 1];
+            // Small timeout to let marked.js finish rendering and styling the DOM element
+            setTimeout(() => {
+                lastUserMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
     }
 }
 
