@@ -49,12 +49,22 @@ function addMessage(text, sender) {
     msgDiv.classList.add('chat-message', sender);
     msgDiv.classList.add('font-body-md', 'text-body-md');
     
-    // Simple formatting for newlines
-    const formattedText = text.replace(/\n/g, '<br>');
-    msgDiv.innerHTML = formattedText;
+    if (sender === 'agent' && typeof marked !== 'undefined') {
+        // Use marked.js for AI responses to handle markdown (bold, lists, etc.) properly
+        msgDiv.innerHTML = marked.parse(text);
+    } else {
+        // Simple formatting for user messages
+        msgDiv.innerHTML = text.replace(/\n/g, '<br>');
+    }
     
     chatContainer.appendChild(msgDiv);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    
+    // Only auto-scroll to the absolute bottom for the user's own messages.
+    // This allows the user to read long AI responses from top to bottom naturally
+    // without the screen jumping down past the beginning of the answer.
+    if (sender === 'user') {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
 }
 
 function showTypingIndicator() {
