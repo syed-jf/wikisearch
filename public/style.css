@@ -455,18 +455,18 @@ html.dark .designer-label {
     font-weight: 600;
     font-family: 'Outfit', sans-serif;
     letter-spacing: 0.02em;
-    color: #007a87; /* Sophisticated brand teal in light mode */
+    color: #8c6d36; /* Premium bronze/gold in light mode */
     transition: all 0.25s ease;
 }
 
 html.dark .designer-name {
-    color: #00e5ff; /* Signature brand cyan in dark mode — distinct, premium, and matte (NO glow) */
+    color: #ebd3a8; /* Sophisticated champagne gold in dark mode — premium, matte, distinct, and highly elegant */
 }
 
 .designer-name:hover {
-    color: #004d56;
+    color: #6e5427;
 }
 
 html.dark .designer-name:hover {
-    color: #80f0ff; /* Slightly brighter highlight on hover */
+    color: #f7e9d2; /* Slightly brighter warm champagne on hover */
 }
