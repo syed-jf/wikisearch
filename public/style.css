@@ -1,22 +1,4 @@
 /* Minimal custom CSS for absolute necessities not handled by utilities */
-.bento-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
-@media (min-width: 768px) {
-    .bento-grid { grid-template-columns: repeat(8, 1fr); gap: 1.5rem; }
-}
-@media (min-width: 1024px) {
-    .bento-grid { grid-template-columns: repeat(12, 1fr); }
-}
-
-/* Subtle paper texture effect */
-body {
-    background-color: #f7f9fb;
-    background-image: radial-gradient(#d8dadc 1px, transparent 0);
-    background-size: 40px 40px;
-}
 
 /* Chat Bubbles */
 .chat-message {
@@ -30,70 +12,30 @@ body {
 .chat-message.user {
     align-self: flex-end;
     margin-left: auto;
-    background-color: #ffffff;
-    border: 1px solid #c6c6cd;
-    color: #191c1e;
+    background-color: #2a2a2a; /* surface-container-high */
+    border: 1px solid #474746; /* secondary-container */
+    color: #e5e2e1; /* on-surface */
     border-radius: 1rem 1rem 0 1rem;
     padding: 1rem 1.5rem;
     max-width: 70%;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
-}
-
-html.dark .chat-message.user {
-    background-color: #2d3133;
-    border-color: #45464d;
-    color: #ffffff;
 }
 
 .chat-message.agent {
     align-self: flex-start;
     margin-right: auto;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #dc2626; /* primary-container */
+    color: #fff6f5; /* on-primary-container */
     border: none;
     border-radius: 1rem 1rem 1rem 0;
     padding: 1rem 1.5rem;
     max-width: 85%;
 }
 
-html.dark .chat-message.agent {
-    background-color: #89f5e7;
-    color: #00201d;
-}
-
-/* Dark Mode Overrides */
-html.dark body {
-    background-color: #191c1e;
-    color: #eff1f3;
-    background-image: radial-gradient(#45464d 1px, transparent 0);
-}
-html.dark .bg-surface, 
-html.dark .bg-surface-container-lowest, 
-html.dark .bg-surface-container-low,
-html.dark .bg-background {
-    background-color: #191c1e !important;
-    color: #eff1f3 !important;
-}
-html.dark .bg-surface-container {
-    background-color: #2d3133 !important;
-}
-html.dark header {
-    background-color: rgba(25, 28, 30, 0.9) !important;
-    border-color: #45464d !important;
-}
-html.dark .text-primary, html.dark .text-on-surface { color: #eff1f3 !important; }
-html.dark .text-on-surface-variant { color: #c6c6cd !important; }
-html.dark .border-outline-variant { border-color: #45464d !important; }
-html.dark input {
-    background-color: #2d3133 !important;
-    color: #ffffff !important;
-}
-
 .chat-message.system {
     align-self: center;
     margin: 1rem auto;
     background-color: transparent;
-    color: #76777d;
+    color: #ac8884; /* outline */
     font-style: italic;
     font-size: 0.9rem;
     text-align: center;
@@ -125,15 +67,9 @@ html.dark input {
 }
 
 /* Markdown styling inside agent messages */
-.chat-message.agent strong {
-    font-weight: 700;
-}
-.chat-message.agent p {
-    margin-bottom: 0.75rem;
-}
-.chat-message.agent p:last-child {
-    margin-bottom: 0;
-}
+.chat-message.agent strong { font-weight: 700; }
+.chat-message.agent p { margin-bottom: 0.75rem; }
+.chat-message.agent p:last-child { margin-bottom: 0; }
 .chat-message.agent h1, .chat-message.agent h2, .chat-message.agent h3, .chat-message.agent h4 {
     font-weight: 600;
     margin-top: 1.5rem;
@@ -143,68 +79,34 @@ html.dark input {
 .chat-message.agent h1 { font-size: 1.3em; }
 .chat-message.agent h2 { font-size: 1.2em; }
 .chat-message.agent h3 { font-size: 1.1em; }
-.chat-message.agent ul {
-    list-style-type: disc;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-}
-.chat-message.agent ol {
-    list-style-type: decimal;
-    padding-left: 1.5rem;
-    margin-bottom: 0.75rem;
-}
-.chat-message.agent li {
-    margin-bottom: 0.25rem;
-}
+.chat-message.agent ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.chat-message.agent ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.chat-message.agent li { margin-bottom: 0.25rem; }
 .chat-message.agent hr {
     border: 0;
     height: 1px;
     background: rgba(255, 255, 255, 0.2);
     margin: 1.5rem 0;
 }
-html.dark .chat-message.agent hr {
-    background: rgba(0, 0, 0, 0.2);
-}
 
-/* Voice Search Animation */
-@keyframes spacePulse {
+/* Voice Search Animation (Crimson Space Pulse) */
+@keyframes spacePulseCrimson {
     0% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6);
         transform: scale(0.95);
     }
     70% {
-        box-shadow: 0 0 0 12px rgba(0, 0, 0, 0);
+        box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
         transform: scale(1);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
-        transform: scale(0.95);
-    }
-}
-
-@keyframes spacePulseDark {
-    0% {
-        box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.6);
-        transform: scale(0.95);
-    }
-    70% {
-        box-shadow: 0 0 0 12px rgba(66, 133, 244, 0);
-        transform: scale(1);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(66, 133, 244, 0);
+        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
         transform: scale(0.95);
     }
 }
 
 .mic-active {
-    animation: spacePulse 1.5s infinite ease-in-out;
-    background-color: #000000 !important;
-    color: #4285f4 !important;
-}
-
-html.dark .mic-active {
-    animation: spacePulseDark 1.5s infinite ease-in-out;
-    background-color: #0a0e17 !important; /* deep space black */
-    color: #4285f4 !important; /* Gemini blue */
+    animation: spacePulseCrimson 1.5s infinite ease-in-out;
+    background-color: #0e0e0e !important; /* surface-container-lowest */
+    color: #dc2626 !important; /* primary-container */
 }

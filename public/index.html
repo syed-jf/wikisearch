@@ -1,424 +1,389 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>WikiSearch</title>
+    <title>WikiSearch AI</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;450;500;600&family=JetBrains+Mono:wght@500&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
     <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <!-- Marked.js for Markdown parsing -->
+    <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script id="tailwind-config">
-        tailwind.config = {
-          darkMode: "class",
-          theme: {
-            extend: {
-              "colors": {
-                      "surface-dim": "#d8dadc",
-                      "on-secondary-fixed": "#00201d",
-                      "on-surface-variant": "#45464d",
-                      "on-tertiary-fixed": "#211b00",
-                      "surface": "#f7f9fb",
-                      "surface-container": "#eceef0",
-                      "error-container": "#ffdad6",
-                      "primary": "#000000",
-                      "on-surface": "#191c1e",
-                      "inverse-primary": "#bec6e0",
-                      "surface-container-highest": "#e0e3e5",
-                      "inverse-on-surface": "#eff1f3",
-                      "surface-bright": "#f7f9fb",
-                      "on-secondary-container": "#006f66",
-                      "tertiary-fixed": "#ffe24c",
-                      "primary-fixed": "#dae2fd",
-                      "on-error": "#ffffff",
-                      "on-tertiary": "#ffffff",
-                      "outline-variant": "#c6c6cd",
-                      "on-error-container": "#93000a",
-                      "secondary-fixed": "#89f5e7",
-                      "on-primary-fixed-variant": "#3f465c",
-                      "surface-container-low": "#f2f4f6",
-                      "surface-variant": "#e0e3e5",
-                      "tertiary-fixed-dim": "#e2c62d",
-                      "on-primary": "#ffffff",
-                      "on-secondary": "#ffffff",
-                      "on-tertiary-fixed-variant": "#524600",
-                      "inverse-surface": "#2d3133",
-                      "primary-container": "#131b2e",
-                      "surface-container-high": "#e6e8ea",
-                      "on-tertiary-container": "#4a3f00",
-                      "primary-fixed-dim": "#bec6e0",
-                      "background": "#f7f9fb",
-                      "surface-container-lowest": "#ffffff",
-                      "secondary": "#006a61",
-                      "on-secondary-fixed-variant": "#005049",
-                      "on-primary-container": "#7c839b",
-                      "surface-tint": "#565e74",
-                      "secondary-fixed-dim": "#6bd8cb",
-                      "error": "#ba1a1a",
-                      "on-primary-fixed": "#131b2e",
-                      "tertiary": "#6d5e00",
-                      "on-background": "#191c1e",
-                      "outline": "#76777d",
-                      "secondary-container": "#86f2e4",
-                      "tertiary-container": "#c5ab02"
-              },
-              "borderRadius": {
-                      "DEFAULT": "0.125rem",
-                      "lg": "0.25rem",
-                      "xl": "0.5rem",
-                      "full": "0.75rem"
-              },
-              "spacing": {
-                      "xs": "0.5rem",
-                      "container-max": "1120px",
-                      "sm": "1rem",
-                      "md": "1.5rem",
-                      "xl": "4rem",
-                      "baseline": "4px",
-                      "lg": "2.5rem",
-                      "gutter": "24px"
-              },
-              "fontFamily": {
-                      "body-lg": ["Hanken Grotesk"],
-                      "chat-bubble": ["Hanken Grotesk"],
-                      "caption": ["Hanken Grotesk"],
-                      "headline-md": ["Source Serif 4"],
-                      "display-lg-mobile": ["Source Serif 4"],
-                      "label-caps": ["JetBrains Mono"],
-                      "display-lg": ["Source Serif 4"],
-                      "body-md": ["Hanken Grotesk"]
-              },
-              "fontSize": {
-                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
-                      "chat-bubble": ["15px", {"lineHeight": "22px", "fontWeight": "450"}],
-                      "caption": ["13px", {"lineHeight": "18px", "fontWeight": "400"}],
-                      "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
-                      "display-lg-mobile": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
-                      "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
-                      "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
-              }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#474746",
+                    "surface-bright": "#3a3939",
+                    "surface-container-low": "#1c1b1b",
+                    "tertiary-fixed": "#cbe6ff",
+                    "primary-container": "#dc2626",
+                    "inverse-primary": "#bf0715",
+                    "on-tertiary": "#003450",
+                    "outline": "#ac8884",
+                    "tertiary-container": "#0078b2",
+                    "surface": "#131313",
+                    "secondary-fixed-dim": "#c8c6c5",
+                    "on-tertiary-fixed": "#001e30",
+                    "inverse-surface": "#e5e2e1",
+                    "on-primary": "#690005",
+                    "surface-variant": "#353534",
+                    "on-primary-fixed-variant": "#93000b",
+                    "on-tertiary-fixed-variant": "#004b71",
+                    "on-secondary-fixed": "#1c1b1b",
+                    "secondary-fixed": "#e5e2e1",
+                    "inverse-on-surface": "#313030",
+                    "secondary": "#c8c6c5",
+                    "on-secondary-fixed-variant": "#474746",
+                    "on-primary-container": "#fff6f5",
+                    "surface-container-lowest": "#0e0e0e",
+                    "error-container": "#93000a",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#e6bdb8",
+                    "tertiary-fixed-dim": "#90cdff",
+                    "surface-dim": "#131313",
+                    "background": "#131313",
+                    "surface-container-highest": "#353534",
+                    "on-surface": "#e5e2e1",
+                    "on-tertiary-container": "#f3f8ff",
+                    "primary-fixed-dim": "#ffb4ab",
+                    "on-secondary-container": "#b7b5b4",
+                    "surface-container-high": "#2a2a2a",
+                    "on-secondary": "#313030",
+                    "surface-container": "#201f1f",
+                    "surface-tint": "#ffb4ab",
+                    "outline-variant": "#5c403c",
+                    "error": "#ffb4ab",
+                    "on-primary-fixed": "#410002",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#ffb4ab",
+                    "tertiary": "#90cdff",
+                    "primary-fixed": "#ffdad6",
+                    "on-background": "#e5e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "4px",
+                    "container-max": "1120px",
+                    "gutter": "24px",
+                    "margin-mobile": "16px",
+                    "stack-sm": "8px",
+                    "margin-desktop": "48px",
+                    "stack-lg": "32px",
+                    "stack-md": "16px",
+                    "pb-safe": "max(24px, env(safe-area-inset-bottom))"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-caps": ["JetBrains Mono"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
             }
           }
         }
+      }
     </script>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
 </head>
-<body class="bg-background text-on-background font-body-md text-body-md antialiased selection:bg-tertiary-fixed selection:text-on-tertiary-fixed">
-<div class="flex h-[100dvh] overflow-hidden">
-    <!-- SideNavBar (Desktop) -->
-    <aside class="hidden lg:flex flex-col h-full py-md px-sm bg-surface border-r border-outline-variant w-64">
-        <div class="mb-xl px-sm pt-sm">
-            <div class="flex items-center gap-xs mb-xs">
+<body class="bg-background text-on-surface font-body-md text-body-md antialiased h-[100dvh] w-full flex overflow-hidden">
+<!-- Main Content Canvas -->
+<div class="flex-1 flex flex-col h-full overflow-hidden relative scroll-smooth">
+    <!-- TopAppBar -->
+    <header class="bg-surface sticky top-0 z-30 w-full shadow-sm border-b border-surface-variant">
+        <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-stack-md max-w-container-max mx-auto">
+            <div class="flex items-center gap-stack-md cursor-pointer" id="homeBtn">
                 <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
-                <h1 class="font-headline-md text-headline-md font-bold text-primary">WikiSearch</h1>
+                <span class="font-display text-headline-lg-mobile md:text-headline-md font-bold text-on-surface tracking-tight hidden sm:block">WIKISEARCH AI</span>
             </div>
-        </div>
-        <button id="newInquiryBtn" class="mb-lg mx-sm py-sm px-md bg-primary text-on-primary rounded-full font-label-caps text-label-caps flex items-center justify-center gap-xs hover:bg-on-surface transition-colors cursor-pointer">
-            <span class="material-symbols-outlined text-[18px]">add</span>
-            New Inquiry
-        </button>
-        <nav class="flex-1 flex flex-col gap-xs">
-            <a id="homeBtn" class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">home</span>
-                <span class="font-body-md text-body-md">Home</span>
-            </a>
-            <a id="diaryBtn" class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">menu_book</span>
-                <span class="font-body-md text-body-md">Philosopher's Diary</span>
-            </a>
-            <a id="historyBtn" class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">history</span>
-                <span class="font-body-md text-body-md">History</span>
-            </a>
-            <a id="settingsBtn" class="flex items-center gap-sm px-md py-sm rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer active:opacity-80">
-                <span class="material-symbols-outlined">settings</span>
-                <span class="font-body-md text-body-md">Settings</span>
-            </a>
-        </nav>
-        <div class="mt-auto border-t border-outline-variant pt-sm flex flex-col gap-xs">
-            <a id="aboutBtn" class="flex items-center gap-sm px-md py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer text-caption font-caption">
-                <span class="material-symbols-outlined text-[16px]">info</span>
-                About WikiSearch
-            </a>
-            <a class="flex items-center gap-sm px-md py-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors duration-200 cursor-pointer text-caption font-caption">
-                <span class="material-symbols-outlined text-[16px]">help</span>
-                Help
-            </a>
-        </div>
-    </aside>
-
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col min-w-0 relative h-full">
-        <!-- TopAppBar -->
-        <header class="flex justify-between items-center w-full px-md py-xs sticky top-0 z-50 bg-surface/90 backdrop-blur-md border-b border-outline-variant">
-            <div class="lg:hidden flex items-center gap-xs">
-                <span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
-                <h1 class="font-headline-md text-headline-md font-bold text-primary">WikiSearch</h1>
-            </div>
-            <div class="hidden lg:block flex-1"></div>
-            <div class="flex items-center gap-sm">
-                <button id="mobileAboutBtn" class="lg:hidden p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
-                    <span class="material-symbols-outlined text-[24px]">info</span>
+            <!-- Replaced new names with original names as requested -->
+            <nav class="hidden lg:flex gap-gutter items-center">
+                <button id="newInquiryBtn" class="text-primary font-bold border-b-2 border-primary pb-1 transition-colors hover:text-primary">SEARCH</button>
+                <button id="diaryBtn" class="text-on-surface-variant hover:text-primary transition-colors pb-1 uppercase">Philosopher's Diary</button>
+                <button id="historyBtn" class="text-on-surface-variant hover:text-primary transition-colors pb-1 uppercase">History</button>
+            </nav>
+            <div class="flex items-center gap-2">
+                <button id="aboutBtn" class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">info</span>
                 </button>
-                <button id="darkModeBtn" class="p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
-                    <span class="material-symbols-outlined text-[24px]">dark_mode</span>
+                <button id="settingsBtn" class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined">settings</span>
                 </button>
-                <button class="p-xs text-on-surface-variant hover:bg-surface-container-highest/50 rounded-full transition-all active:scale-95 duration-150">
+                <button class="p-2 rounded-full hover:bg-surface-variant text-on-surface transition-colors scale-95 active:opacity-80 flex items-center justify-center hidden sm:flex">
                     <span class="material-symbols-outlined text-[28px]">account_circle</span>
                 </button>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Scrollable Canvas -->
-        <main class="flex-1 relative flex flex-col overflow-hidden h-full">
-            
-            <!-- Hero Screen (Initial) -->
-            <div id="heroScreen" class="absolute inset-0 overflow-y-auto pb-24 lg:pb-lg transition-opacity duration-300">
-                <div class="max-w-[container-max] mx-auto px-md md:px-gutter pt-xl lg:pt-24">
-                    <section class="text-center mb-xl flex flex-col items-center">
-                        <h2 class="font-display-lg-mobile text-display-lg-mobile md:font-display-lg md:text-display-lg text-primary mb-md max-w-3xl">
-                            What would you like to explore today?
-                        </h2>
-                        <div class="w-full max-w-2xl relative group">
-                            <div class="absolute inset-y-0 left-0 pl-md flex items-center pointer-events-none">
-                                <span class="material-symbols-outlined text-outline group-focus-within:text-primary transition-colors">search</span>
-                            </div>
-                            <input id="heroInput" class="block w-full pl-xl pr-lg py-md rounded-full border border-outline-variant bg-surface-container-lowest text-body-lg font-body-lg text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary focus:border-primary shadow-sm transition-all outline-none" placeholder="Search the archive..." type="text"/>
-                            <div class="absolute inset-y-0 right-0 pr-xs flex items-center gap-1">
-                                <button id="heroMicBtn" class="p-xs text-on-surface-variant bg-transparent rounded-full hover:bg-surface-container-highest transition-colors flex items-center justify-center h-10 w-10">
-                                    <span class="material-symbols-outlined text-[20px]">mic</span>
-                                </button>
-                                <button id="heroSendBtn" class="p-xs bg-primary text-on-primary rounded-full hover:bg-on-surface transition-colors flex items-center justify-center h-10 w-10">
-                                    <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="mt-sm flex gap-sm justify-center flex-wrap">
-                            <span class="font-label-caps text-label-caps text-on-surface-variant">Try:</span>
-                            <button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4" onclick="handleSend('trending topics')">Trending Today</button>
-                            <button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4" onclick="handleSend('Quantum Computing')">Quantum Computing</button>
-                            <button class="font-label-caps text-label-caps text-secondary hover:text-primary transition-colors underline decoration-secondary/30 underline-offset-4" onclick="handleSend('Deep Sea Exploration')">Deep Sea Exploration</button>
-                        </div>
-                    </section>
-
-                    <div class="flex items-center gap-md mb-lg">
-                        <div class="h-px bg-outline-variant flex-1"></div>
-                        <h3 class="font-label-caps text-label-caps text-on-surface-variant tracking-widest uppercase">Curated Inquiries</h3>
-                        <div class="h-px bg-outline-variant flex-1"></div>
-                    </div>
-
-                    <section class="bento-grid">
-                        <!-- Large Featured Card -->
-                        <article onclick="handleSend('Evolution of the Written Word')" class="col-span-4 md:col-span-8 lg:col-span-8 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col md:flex-row relative">
-                            <div class="w-full md:w-2/5 h-48 md:h-auto bg-surface-container relative">
-                                <div class="absolute inset-0 bg-secondary/10 mix-blend-multiply z-10"></div>
-                                <img alt="Old books" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" src="https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800"/>
-                            </div>
-                            <div class="p-lg flex flex-col justify-center w-full md:w-3/5">
-                                <div class="flex items-center gap-xs mb-xs">
-                                    <span class="material-symbols-outlined text-outline text-[16px]">history_edu</span>
-                                    <span class="font-label-caps text-label-caps text-outline">History & Culture</span>
-                                </div>
-                                <h4 class="font-headline-md text-headline-md text-primary mb-sm group-hover:text-secondary transition-colors">The Evolution of the Written Word</h4>
-                                <p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-3">From cuneiform tablets to the Gutenberg press and modern digital typography, explore how humanity has recorded knowledge.</p>
-                                <div class="mt-auto flex items-center justify-between">
-                                    <span class="font-label-caps text-label-caps text-primary px-sm py-xs bg-surface-container rounded-md">8 Articles</span>
-                                    <span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-[-10px] group-hover:translate-x-0">arrow_forward</span>
-                                </div>
-                            </div>
-                        </article>
+    <!-- Main Body Wrapper -->
+    <main class="w-full max-w-container-max mx-auto flex-1 flex flex-col h-full overflow-hidden relative">
+        
+        <!-- Hero Search Section -->
+        <div id="heroScreen" class="absolute inset-0 overflow-y-auto px-margin-mobile md:px-margin-desktop pb-[88px] lg:pb-16 transition-opacity duration-300">
+            <section class="flex flex-col items-center justify-center w-full mt-12 md:mt-24 mb-16">
+                <h1 class="font-display text-headline-lg-mobile md:text-display text-on-surface text-center max-w-3xl mb-stack-lg leading-tight">
+                    Discover the world's knowledge.
+                </h1>
+                <div class="w-full max-w-3xl relative group">
+                    <!-- Glassmorphic Search Bar -->
+                    <div class="flex items-center w-full rounded-full bg-surface-bright/20 backdrop-blur-[20px] border border-surface-variant transition-all duration-300 focus-within:border-primary-container focus-within:shadow-[0_0_20px_rgba(220,38,38,0.15)] px-6 py-4 overflow-hidden">
+                        <span class="material-symbols-outlined text-on-surface-variant mr-4 text-2xl group-focus-within:text-primary-container transition-colors hidden sm:block">search</span>
+                        <input id="heroInput" class="w-full bg-transparent border-none outline-none text-on-surface font-body-lg text-body-lg placeholder:text-on-surface-variant/70 placeholder:font-light" placeholder="What do you want to learn?" type="text"/>
                         
-                        <!-- Medium Card -->
-                        <article onclick="handleSend('Standard Model of Particle Physics')" class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
-                            <div class="flex items-center justify-between mb-sm">
-                                <div class="flex items-center gap-xs">
-                                    <span class="material-symbols-outlined text-outline text-[16px]">science</span>
-                                    <span class="font-label-caps text-label-caps text-outline">Physics</span>
-                                </div>
-                                <span class="material-symbols-outlined text-outline">bookmark_border</span>
-                            </div>
-                            <h4 class="font-headline-md text-headline-md text-primary mb-xs group-hover:text-secondary transition-colors">Particle Physics</h4>
-                            <p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-2">The theoretical framework describing three of the four known fundamental forces.</p>
-                            <div class="mt-auto pt-sm border-t border-outline-variant border-dashed">
-                                <div class="flex gap-xs flex-wrap">
-                                    <span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Quarks</span>
-                                    <span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Bosons</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- Medium Card -->
-                        <article onclick="handleSend('Brutalist Architecture')" class="col-span-4 bg-surface-container-lowest border border-outline-variant rounded-xl p-md shadow-sm hover:shadow-md transition-shadow group cursor-pointer flex flex-col">
-                            <div class="flex items-center justify-between mb-sm">
-                                <div class="flex items-center gap-xs">
-                                    <span class="material-symbols-outlined text-outline text-[16px]">architecture</span>
-                                    <span class="font-label-caps text-label-caps text-outline">Architecture</span>
-                                </div>
-                                <span class="material-symbols-outlined text-outline">bookmark_border</span>
-                            </div>
-                            <h4 class="font-headline-md text-headline-md text-primary mb-xs group-hover:text-secondary transition-colors">Brutalist Architecture</h4>
-                            <p class="font-body-md text-body-md text-on-surface-variant mb-md line-clamp-2">Characterized by minimalist constructions that showcase structural elements.</p>
-                            <div class="mt-auto pt-sm border-t border-outline-variant border-dashed">
-                                <div class="flex gap-xs flex-wrap">
-                                    <span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Post-war</span>
-                                    <span class="text-[11px] font-label-caps bg-surface-container-low px-2 py-1 rounded text-on-surface">Concrete</span>
-                                </div>
-                            </div>
-                        </article>
-
-                        <!-- Quote Card -->
-                        <article onclick="handleSend('Philosophy of Knowledge')" class="col-span-4 md:col-span-8 lg:col-span-4 bg-surface border border-outline-variant rounded-xl p-lg shadow-sm flex flex-col justify-center text-center relative overflow-hidden">
-                            <div class="absolute -top-6 -left-6 text-[120px] text-surface-container-highest opacity-50 font-display-lg leading-none select-none">"</div>
-                            <blockquote class="font-headline-md text-headline-md text-primary relative z-10 mb-md italic">
-                                Knowledge is a navigation of an ocean of uncertainty.
-                            </blockquote>
-                            <cite class="font-label-caps text-label-caps text-on-surface-variant relative z-10 not-italic uppercase tracking-wider">— Edgar Morin</cite>
-                        </article>
-                    </section>
-                </div>
-            </div>
-
-            <!-- Chat Screen (Hidden Initially) -->
-            <div id="chatScreen" class="hidden absolute inset-0 flex flex-col h-full bg-background z-10">
-                <div id="chatContainer" class="flex-1 overflow-y-auto px-md md:px-gutter py-md space-y-4 max-w-[container-max] mx-auto w-full">
-                    <!-- Messages dynamically inserted here -->
-                </div>
-                <div class="w-full max-w-[container-max] mx-auto px-md md:px-gutter pb-[88px] lg:pb-md pt-xs bg-background">
-                    <div class="relative group">
-                        <input id="chatInput" class="block w-full pl-lg pr-xl py-md rounded-full border border-outline-variant bg-surface-container-lowest text-body-lg font-body-lg text-on-surface placeholder-on-surface-variant focus:ring-2 focus:ring-primary focus:border-primary shadow-sm transition-all outline-none" placeholder="Ask a question or type a command..." type="text"/>
-                        <div class="absolute inset-y-0 right-0 pr-xs flex items-center gap-1">
-                            <button id="chatMicBtn" class="p-xs text-on-surface-variant bg-transparent rounded-full hover:bg-surface-container-highest transition-colors flex items-center justify-center h-10 w-10">
-                                <span class="material-symbols-outlined text-[20px]">mic</span>
+                        <div class="flex items-center gap-2 ml-2">
+                            <button id="heroMicBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                                <span class="material-symbols-outlined">mic</span>
                             </button>
-                            <button id="chatSendBtn" class="p-xs bg-primary text-on-primary rounded-full hover:bg-on-surface transition-colors flex items-center justify-center h-10 w-10">
-                                <span class="material-symbols-outlined text-[20px]">send</span>
+                            <button id="heroSendBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                                <span class="material-symbols-outlined">arrow_forward</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Modular Information Grid -->
+            <section class="w-full flex flex-col gap-stack-lg pb-16">
+                <div class="flex items-center justify-between border-b border-surface-variant pb-stack-sm">
+                    <h2 class="font-headline-md text-headline-md text-on-surface">Trending Insights</h2>
+                    <span class="material-symbols-outlined text-on-surface-variant">tune</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+                    <article onclick="handleSend('History of AI')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
+                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"/>
+                        </div>
+                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Technology</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">History of AI</h3>
+                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Tracing the evolution from early conceptual logic frameworks to modern deep learning architectures.</p>
+                        </div>
+                    </article>
+                    <article onclick="handleSend('Ancient Rome')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
+                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out grayscale hover:grayscale-0" src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=800"/>
+                        </div>
+                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Civilization</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Ancient Rome</h3>
+                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Understanding the sociopolitical engineering that allowed a republic to become a continental empire.</p>
+                        </div>
+                    </article>
+                    <article onclick="handleSend('Astrophysics Advancements')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
+                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
+                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800"/>
+                        </div>
+                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Science</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Astrophysics Advancements</h3>
+                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">New methodologies in observing gravitational waves and mapping dark matter distribution.</p>
+                        </div>
+                    </article>
+                </div>
+            </section>
+            
+            <footer class="w-full py-stack-lg border-t border-surface-variant mt-8 flex flex-col md:flex-row justify-between items-center z-10">
+                <p class="font-label-sm text-label-sm text-on-secondary-container mb-4 md:mb-0">
+                    © 2024 WikiSearch AI. Crimson Insight.
+                </p>
+            </footer>
+        </div>
+
+        <!-- Chat Screen (Hidden Initially) -->
+        <div id="chatScreen" class="hidden absolute inset-0 flex flex-col h-full bg-background z-10">
+            <div id="chatContainer" class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop py-stack-md space-y-6 max-w-container-max mx-auto w-full pb-32">
+                <!-- Messages dynamically inserted here -->
+            </div>
+            
+            <!-- Chat Input matching the new design -->
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background via-background to-transparent pb-[88px] lg:pb-8 pt-12 px-margin-mobile md:px-margin-desktop pointer-events-none">
+                <div class="max-w-3xl mx-auto relative group pointer-events-auto">
+                    <div class="flex items-center w-full rounded-full bg-surface-bright/40 backdrop-blur-[20px] border border-surface-variant transition-all duration-300 focus-within:border-primary-container focus-within:shadow-[0_0_20px_rgba(220,38,38,0.15)] px-6 py-4 shadow-xl">
+                        <input id="chatInput" class="w-full bg-transparent border-none outline-none text-on-surface font-body-lg text-body-lg placeholder:text-on-surface-variant/70" placeholder="Ask a follow-up question..." type="text"/>
+                        
+                        <div class="flex items-center gap-2 ml-2">
+                            <button id="chatMicBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                                <span class="material-symbols-outlined">mic</span>
+                            </button>
+                            <button id="chatSendBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                                <span class="material-symbols-outlined">send</span>
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-        </main>
+    </main>
+</div>
+
+<!-- SideNavBar (Context Explorer - Desktop Only) -->
+<aside class="hidden xl:flex w-72 h-full bg-surface-container-low border-l border-surface-variant flex-col p-stack-md shrink-0 z-20">
+    <div class="mb-stack-lg flex flex-col gap-1 border-b border-surface-variant/50 pb-stack-sm mt-4">
+        <h2 class="font-headline-md text-headline-md text-on-surface">CONTEXT EXPLORER</h2>
+        <p class="font-label-sm text-label-sm text-on-surface-variant">AI-Powered Connections</p>
     </div>
-
-    <!-- BottomNavBar (Mobile) -->
-    <nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface border-t border-outline-variant shadow-sm h-[72px]">
-        <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
-            <span class="material-symbols-outlined mb-1">home</span>
-            <span class="font-label-caps text-[10px] leading-none">Home</span>
+    <nav class="flex flex-col gap-unit flex-1">
+        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
+            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">hub</span>
+            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Related Topics</span>
         </button>
-        <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
-            <span class="material-symbols-outlined mb-1">menu_book</span>
-            <span class="font-label-caps text-[10px] leading-tight text-center">Philosopher's<br>Diary</span>
+        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
+            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">timeline</span>
+            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Timelines</span>
         </button>
-        <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
-            <span class="material-symbols-outlined mb-1">history</span>
-            <span class="font-label-caps text-[10px] leading-none">History</span>
-        </button>
-        <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-xs hover:bg-surface-container active:scale-90 duration-200 flex-1 rounded-xl">
-            <span class="material-symbols-outlined mb-1">settings</span>
-            <span class="font-label-caps text-[10px] leading-none">Settings</span>
+        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
+            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">mediation</span>
+            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Connected Ideas</span>
         </button>
     </nav>
+    <div class="flex-1 flex flex-col items-center justify-center opacity-40 select-none">
+        <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">auto_awesome</span>
+        <p class="font-label-sm text-label-sm text-center text-on-surface-variant px-4">Select a topic to explore deeper connections.</p>
+    </div>
+</aside>
 
+<!-- BottomNavBar (Mobile) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface border-t border-surface-variant shadow-sm h-[72px]">
+    <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+        <span class="material-symbols-outlined mb-1">home</span>
+        <span class="font-label-caps text-[10px] leading-none">Home</span>
+    </button>
+    <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+        <span class="material-symbols-outlined mb-1">menu_book</span>
+        <span class="font-label-caps text-[10px] leading-tight text-center">Philosopher's<br>Diary</span>
+    </button>
+    <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+        <span class="material-symbols-outlined mb-1">history</span>
+        <span class="font-label-caps text-[10px] leading-none">History</span>
+    </button>
+    <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+        <span class="material-symbols-outlined mb-1">settings</span>
+        <span class="font-label-caps text-[10px] leading-none">Settings</span>
+    </button>
+</nav>
 
-    <!-- Settings Modal -->
-    <div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg w-full max-w-sm shadow-xl flex flex-col gap-md">
-            <div class="flex justify-between items-center border-b border-outline-variant pb-sm">
-                <h2 class="font-headline-md text-primary">Settings</h2>
-                <button id="closeSettingsBtn" class="text-on-surface-variant hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            <div class="flex justify-between items-center py-sm">
-                <span class="font-body-md text-primary">Dark Mode</span>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" id="darkModeToggle" class="sr-only peer">
-                    <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
-                </label>
-            </div>
+<!-- History Modal -->
+<div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-md shadow-2xl flex flex-col gap-stack-md max-h-[80vh]">
+        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm">
+            <h2 class="font-headline-md text-on-surface">Your History</h2>
+            <button id="closeHistoryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div id="historyContent" class="overflow-y-auto flex flex-col gap-2 py-2 text-on-surface">
+            <!-- populated by main.js -->
         </div>
     </div>
+</div>
 
-    <!-- History Modal -->
-    <div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg w-full max-w-md shadow-xl flex flex-col gap-md max-h-[80vh]">
-            <div class="flex justify-between items-center border-b border-outline-variant pb-sm">
-                <h2 class="font-headline-md text-primary">Your History</h2>
-                <button id="closeHistoryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+<!-- Philosopher's Diary Modal -->
+<div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-3xl shadow-2xl flex flex-col gap-stack-md max-h-[90vh]">
+        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm shrink-0">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">auto_stories</span>
+                <h2 class="font-headline-md text-on-surface">Philosopher's Diary</h2>
             </div>
-            <div id="historyContent" class="overflow-y-auto flex flex-col gap-sm py-sm text-on-surface">
-                <p class="text-on-surface-variant italic">No searches yet. Start exploring!</p>
-            </div>
+            <button id="closeDiaryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
-    </div>
-
-    <!-- About Modal -->
-    <div id="aboutModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg w-full max-w-md shadow-xl flex flex-col gap-md">
-            <div class="flex justify-between items-center border-b border-outline-variant pb-sm">
-                <h2 class="font-headline-md text-primary">About WikiSearch</h2>
-                <button id="closeAboutBtn" class="text-on-surface-variant hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+        
+        <div class="overflow-y-auto pr-2">
+            <div class="mb-stack-lg bg-surface-container rounded-lg p-6 border border-surface-variant">
+                <h3 class="font-label-sm text-primary mb-2 uppercase tracking-widest">The Scholar's Analysis</h3>
+                <p id="diaryAnalysis" class="font-body-md text-on-surface italic leading-relaxed text-lg border-l-2 border-primary pl-4">
+                    Consulting the archives...
+                </p>
             </div>
-            <div class="py-sm text-on-surface leading-relaxed">
-                <p class="mb-4"><strong>The Scholar's Vision:</strong></p>
-                <p class="mb-4">WikiSearch leverages the vast, collective knowledge of humanity stored in Wikipedia. Like a digital scholar, it rapidly sifts through millions of articles to find exactly what you need.</p>
-                <p>It's not just a search engine—it's a bridge to the sum of all human knowledge, designed to make learning incredibly fast and fascinating!</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- Philosopher's Diary Modal -->
-    <div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
-        <div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-lg w-full max-w-2xl shadow-xl flex flex-col gap-md max-h-[85vh]">
-            <div class="flex justify-between items-center border-b border-outline-variant pb-sm">
-                <div class="flex items-center gap-sm">
-                    <span class="material-symbols-outlined text-primary">auto_stories</span>
-                    <h2 class="font-headline-md text-primary">Philosopher's Diary</h2>
-                </div>
-                <button id="closeDiaryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            
-            <div class="overflow-y-auto pr-xs">
-                <div class="mb-lg">
-                    <h3 class="font-label-caps text-label-caps text-secondary mb-sm uppercase tracking-widest">The Scholar's Analysis</h3>
-                    <p id="diaryAnalysis" class="font-body-md text-on-surface italic leading-relaxed">
-                        "Your inquiries suggest a wandering mind seeking deep connections. As you explore, I observe patterns in your curiosity..."
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="font-label-caps text-label-caps text-secondary mb-md uppercase tracking-widest">Suggested Readings</h3>
-                    <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-md">
-                        <!-- Book cards will be inserted here -->
-                        <div class="p-md bg-surface-container-low rounded-xl border border-outline-variant flex gap-md">
-                            <div class="w-16 h-24 bg-outline-variant/20 rounded flex-shrink-0 flex items-center justify-center">
-                                <span class="material-symbols-outlined text-outline">book</span>
-                            </div>
-                            <div class="flex flex-col justify-center">
-                                <p class="text-on-surface-variant italic text-caption mb-1">Start searching to get recommendations...</p>
-                            </div>
-                        </div>
-                    </div>
+            <div>
+                <h3 class="font-label-sm text-primary mb-4 uppercase tracking-widest">Suggested Readings</h3>
+                <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- populated by main.js -->
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Settings & About Modals -->
+<div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-sm shadow-2xl">
+        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm mb-4">
+            <h2 class="font-headline-md text-on-surface">Settings</h2>
+            <button id="closeSettingsBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <p class="text-on-surface-variant mb-4">Dark mode is natively enforced by the Crimson Insight theme.</p>
+        <!-- Keep the toggle for JS compatibility, though it won't do much visually now -->
+        <div class="flex justify-between items-center hidden" id="darkModeToggleContainer">
+            <label class="relative inline-flex items-center cursor-pointer">
+                <input type="checkbox" id="darkModeToggle" class="sr-only peer" checked>
+                <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+            </label>
+        </div>
+    </div>
+</div>
+
+<div id="aboutModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-md shadow-2xl">
+        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm mb-4">
+            <h2 class="font-headline-md text-on-surface">About WikiSearch</h2>
+            <button id="closeAboutBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="text-on-surface leading-relaxed font-body-md">
+            <p class="mb-4 text-primary font-bold">The Scholar's Vision</p>
+            <p>WikiSearch leverages the vast, collective knowledge of humanity, powered by Gemini AI, wrapped in the sleek Crimson Insight interface.</p>
+        </div>
+    </div>
+</div>
+
 <script src="main.js"></script>
 </body>
 </html>

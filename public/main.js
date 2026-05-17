@@ -381,11 +381,11 @@ function stopRecording() {
     isRecording = false;
     if (heroMicBtn) {
         heroMicBtn.classList.remove('mic-active');
-        if (heroInput) heroInput.placeholder = "Search the archive...";
+        if (heroInput) heroInput.placeholder = "What do you want to learn?";
     }
     if (chatMicBtn) {
         chatMicBtn.classList.remove('mic-active');
-        if (chatInput) chatInput.placeholder = "Ask a question or type a command...";
+        if (chatInput) chatInput.placeholder = "Ask a follow-up question...";
     }
 }
 

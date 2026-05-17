@@ -1,96 +1,97 @@
 ---
-name: Knowledge Explorer
+name: Crimson Insight
 colors:
-  surface: '#f7f9fb'
-  surface-dim: '#d8dadc'
-  surface-bright: '#f7f9fb'
-  surface-container-lowest: '#ffffff'
-  surface-container-low: '#f2f4f6'
-  surface-container: '#eceef0'
-  surface-container-high: '#e6e8ea'
-  surface-container-highest: '#e0e3e5'
-  on-surface: '#191c1e'
-  on-surface-variant: '#45464d'
-  inverse-surface: '#2d3133'
-  inverse-on-surface: '#eff1f3'
-  outline: '#76777d'
-  outline-variant: '#c6c6cd'
-  surface-tint: '#565e74'
-  primary: '#000000'
-  on-primary: '#ffffff'
-  primary-container: '#131b2e'
-  on-primary-container: '#7c839b'
-  inverse-primary: '#bec6e0'
-  secondary: '#006a61'
-  on-secondary: '#ffffff'
-  secondary-container: '#86f2e4'
-  on-secondary-container: '#006f66'
-  tertiary: '#6d5e00'
-  on-tertiary: '#ffffff'
-  tertiary-container: '#c5ab02'
-  on-tertiary-container: '#4a3f00'
-  error: '#ba1a1a'
-  on-error: '#ffffff'
-  error-container: '#ffdad6'
-  on-error-container: '#93000a'
-  primary-fixed: '#dae2fd'
-  primary-fixed-dim: '#bec6e0'
-  on-primary-fixed: '#131b2e'
-  on-primary-fixed-variant: '#3f465c'
-  secondary-fixed: '#89f5e7'
-  secondary-fixed-dim: '#6bd8cb'
-  on-secondary-fixed: '#00201d'
-  on-secondary-fixed-variant: '#005049'
-  tertiary-fixed: '#ffe24c'
-  tertiary-fixed-dim: '#e2c62d'
-  on-tertiary-fixed: '#211b00'
-  on-tertiary-fixed-variant: '#524600'
-  background: '#f7f9fb'
-  on-background: '#191c1e'
-  surface-variant: '#e0e3e5'
+  surface: '#131313'
+  surface-dim: '#131313'
+  surface-bright: '#3a3939'
+  surface-container-lowest: '#0e0e0e'
+  surface-container-low: '#1c1b1b'
+  surface-container: '#201f1f'
+  surface-container-high: '#2a2a2a'
+  surface-container-highest: '#353534'
+  on-surface: '#e5e2e1'
+  on-surface-variant: '#e6bdb8'
+  inverse-surface: '#e5e2e1'
+  inverse-on-surface: '#313030'
+  outline: '#ac8884'
+  outline-variant: '#5c403c'
+  surface-tint: '#ffb4ab'
+  primary: '#ffb4ab'
+  on-primary: '#690005'
+  primary-container: '#dc2626'
+  on-primary-container: '#fff6f5'
+  inverse-primary: '#bf0715'
+  secondary: '#c8c6c5'
+  on-secondary: '#313030'
+  secondary-container: '#474746'
+  on-secondary-container: '#b7b5b4'
+  tertiary: '#90cdff'
+  on-tertiary: '#003450'
+  tertiary-container: '#0078b2'
+  on-tertiary-container: '#f3f8ff'
+  error: '#ffb4ab'
+  on-error: '#690005'
+  error-container: '#93000a'
+  on-error-container: '#ffdad6'
+  primary-fixed: '#ffdad6'
+  primary-fixed-dim: '#ffb4ab'
+  on-primary-fixed: '#410002'
+  on-primary-fixed-variant: '#93000b'
+  secondary-fixed: '#e5e2e1'
+  secondary-fixed-dim: '#c8c6c5'
+  on-secondary-fixed: '#1c1b1b'
+  on-secondary-fixed-variant: '#474746'
+  tertiary-fixed: '#cbe6ff'
+  tertiary-fixed-dim: '#90cdff'
+  on-tertiary-fixed: '#001e30'
+  on-tertiary-fixed-variant: '#004b71'
+  background: '#131313'
+  on-background: '#e5e2e1'
+  surface-variant: '#353534'
 typography:
-  display-lg:
-    fontFamily: Source Serif 4
+  display:
+    fontFamily: Inter
     fontSize: 48px
     fontWeight: '700'
-    lineHeight: 56px
+    lineHeight: '1.1'
     letterSpacing: -0.02em
-  display-lg-mobile:
-    fontFamily: Source Serif 4
+  headline-lg:
+    fontFamily: Inter
     fontSize: 32px
     fontWeight: '700'
-    lineHeight: 40px
+    lineHeight: '1.2'
+    letterSpacing: -0.01em
+  headline-lg-mobile:
+    fontFamily: Inter
+    fontSize: 24px
+    fontWeight: '700'
+    lineHeight: '1.2'
   headline-md:
-    fontFamily: Source Serif 4
+    fontFamily: Inter
     fontSize: 24px
     fontWeight: '600'
-    lineHeight: 32px
+    lineHeight: '1.3'
   body-lg:
-    fontFamily: Hanken Grotesk
+    fontFamily: Inter
     fontSize: 18px
     fontWeight: '400'
-    lineHeight: 28px
+    lineHeight: '1.6'
   body-md:
-    fontFamily: Hanken Grotesk
+    fontFamily: Inter
     fontSize: 16px
     fontWeight: '400'
-    lineHeight: 24px
-  chat-bubble:
-    fontFamily: Hanken Grotesk
-    fontSize: 15px
-    fontWeight: '450'
-    lineHeight: 22px
-  label-caps:
-    fontFamily: JetBrains Mono
+    lineHeight: '1.6'
+  label-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '600'
+    lineHeight: '1.4'
+    letterSpacing: 0.01em
+  label-sm:
+    fontFamily: Inter
     fontSize: 12px
     fontWeight: '500'
-    lineHeight: 16px
-    letterSpacing: 0.05em
-  caption:
-    fontFamily: Hanken Grotesk
-    fontSize: 13px
-    fontWeight: '400'
-    lineHeight: 18px
+    lineHeight: '1.4'
 rounded:
   sm: 0.125rem
   DEFAULT: 0.25rem
@@ -99,78 +100,66 @@ rounded:
   xl: 0.75rem
   full: 9999px
 spacing:
-  baseline: 4px
-  xs: 0.5rem
-  sm: 1rem
-  md: 1.5rem
-  lg: 2.5rem
-  xl: 4rem
+  unit: 4px
   container-max: 1120px
   gutter: 24px
+  margin-mobile: 16px
+  margin-desktop: 48px
+  stack-sm: 8px
+  stack-md: 16px
+  stack-lg: 32px
 ---
 
 ## Brand & Style
+The design system is anchored in "Intelligent Minimalism." It is designed for a professional AI search environment where clarity, speed, and deep focus are paramount. The aesthetic balances a sophisticated dark-mode workspace with high-energy crimson accents that guide the user's eye toward critical insights.
 
-This design system embodies the "Modern Academic" aesthetic, bridging the gap between a prestigious university library and a cutting-edge AI laboratory. The design narrative centers on the concept of "Digital Parchment"—the interface should feel as intentional and permanent as a printed encyclopedia but as fluid and responsive as a modern chat interface.
-
-The target audience consists of researchers, students, and curious minds who value information density without the cognitive load of cluttered interfaces. The emotional response is one of **focused intellectualism**: the UI retreats to allow the knowledge to take center stage, using whitespace and structural clarity to evoke a sense of calm authority. 
-
-The style is a hybrid of **Minimalism** and **Tactile** design, utilizing subtle grain textures to mimic paper and precise, high-contrast typography to ensure elite readability.
+The style is primarily **Minimalist** with a specialized **Glassmorphism** treatment reserved for input layers to create a sense of depth and focus. By avoiding "techy" neon glows and instead utilizing crisp edges, modular panels, and generous whitespace, the system ensures that the AI's content remains the hero of the experience. The emotional response is one of authority, precision, and undistracted cognition.
 
 ## Colors
+The palette is built on a "Void & Pulse" philosophy. The foundation is **Deep Charcoal Black (#0a0a0a)**, which serves as the primary canvas to minimize eye strain during long reading sessions. 
 
-The palette is rooted in the "Paper & Ink" philosophy. The primary color is a deep **Oxford Blue**, used for text and structural headers to provide a sense of grounded authority. The secondary **Muted Teal** serves as the "Library Ink" accent for interactive elements and iconography.
-
-A functional "Highlighter Yellow" is used sparingly for text selection, search highlights, and key AI insights, mimicking the physical act of marking a manuscript. The background is not a pure white, but a warm, off-white "Surface Paper" (`#FCFCFA`) that reduces eye strain during long-form reading sessions. 
-
-- **Primary (Oxford Blue):** Foundation, headings, and deep-contrast elements.
-- **Secondary (Library Teal):** Actionable items, links, and secondary branding.
-- **Accent (Scholar Yellow):** Highlights and focus states.
-- **Surface (Parchment):** The canvas for all content, providing a soft tactile feel.
+- **Primary (Crimson Red):** Used strictly for interactive states, primary actions, and branding marks. It represents the "insight" found within the data.
+- **Secondary (Elevated Charcoal):** A slightly lighter #1a1a1a used for modular panels and container backgrounds to differentiate content from the base canvas.
+- **Neutral/Text (Off-White):** High-contrast #f9fafb ensures maximum readability for AI-generated responses and search results.
+- **Surface Overlays:** Semi-transparent variants of the neutral color are used for glassmorphic blurring on the search bar.
 
 ## Typography
+The system utilizes **Inter** for all roles to maintain a cohesive, systematic, and highly readable interface. The hierarchy is driven by significant weight differences and intentional leading (line height) to support dense information consumption.
 
-The typography system pairs the authoritative, scholarly weight of **Source Serif 4** with the contemporary precision of **Hanken Grotesk**. 
-
-- **Headlines:** Source Serif 4 is used for all title levels to mimic the look of an editorial publication or academic journal.
-- **Body & Chat:** Hanken Grotesk provides a neutral, highly legible sans-serif for the AI’s responses and user inputs, ensuring high information density remains readable.
-- **Metadata:** **JetBrains Mono** is introduced for citations, timestamps, and technical metadata, providing a "cataloged" feel reminiscent of library index cards.
-
-Line heights are intentionally generous to improve the "reading experience," treating every AI response as a short-form essay rather than a simple text snippet.
+Headings use a bold weight and slightly tighter letter-spacing to feel authoritative and structured. Body text is optimized for long-form reading with a generous 1.6 line-height, ensuring that AI-generated paragraphs remain digestible. Labels and metadata use a medium weight to provide clear categorization without competing with primary content.
 
 ## Layout & Spacing
+This design system uses a **Fixed Grid** approach for its primary reading experience to ensure line lengths remain optimal for comprehension (approx. 70-80 characters). The content is centered within a 1120px max-width container on desktop.
 
-This design system uses a **Fixed Grid** philosophy for content-heavy views to maintain a "book-like" structure. On desktop, the main chat/reading area is centered with generous margins to prevent long line lengths that hinder readability.
-
-- **Desktop:** 12-column grid, 1120px max-width, with wide side gutters to house "marginalia" (citations and related links).
-- **Tablet:** 8-column grid with 32px margins.
-- **Mobile:** 4-column grid with 16px margins; typography scales down and secondary sidebars collapse into bottom sheets.
-
-Spacing follows a strict 4px baseline, but the "macro-spacing" between AI responses and user queries is expansive (`lg` or `xl`) to create a clear separation between "knowledge blocks."
+A 12-column grid is used for modular content panels, allowing for flexible arrangements of search results, source citations, and media. Spacing follows a 4px baseline shift, but primarily relies on larger "stacks" (16px, 32px) to create the "intentional whitespace" required for a minimalist aesthetic. On mobile, the grid collapses to a single column with 16px margins, maintaining the focus on vertical flow.
 
 ## Elevation & Depth
+Depth is achieved through **Tonal Layers** rather than traditional drop shadows. By layering lighter shades of charcoal (#1a1a1a or #262626) over the base (#0a0a0a), the system creates hierarchy through luminance.
 
-Hierarchy is established through **Tonal Layers** and **Subtle Paper-like Shadows**. Instead of aggressive shadows, this design system uses "Ink-bleed" borders and layered surfaces.
-
-1.  **Level 0 (Base):** The Surface Paper (`#FCFCFA`).
-2.  **Level 1 (Cards):** Slightly elevated with a 1px border (`#E2E8F0`) and a very soft, diffused shadow (15% opacity, 10px blur) to represent an index card sitting on a desk.
-3.  **Level 2 (Active Elements/Tooltips):** A sharper shadow to indicate immediate interactivity.
-
-Avoid heavy blurs or colorful glows. Depth should feel physical—like sheets of paper overlapping on a wooden table.
+The search bar is the only element that utilizes **Glassmorphism**. It features a 20px backdrop blur with a 10% opacity white border, giving it a "floating" effect above the content stream. Other modular panels use "Low-contrast outlines" (1px solid #262626) to define their boundaries, maintaining the crisp, professional edges requested. Interactive elements may use a subtle crimson outer glow (2px blur, 10% opacity) only during active/focus states to signal intent.
 
 ## Shapes
+The shape language is "Professional Sharp." UI elements use a **Soft (4px)** corner radius to prevent the interface from feeling aggressive while maintaining the precision of a high-end tool.
 
-The shape language is disciplined and "Soft-Industrial." The `roundedness: 1` setting ensures that elements have a slight curve (4px) to feel modern, but remain sharp enough to maintain an academic, organized tone.
-
-- **Primary Cards:** 8px (`rounded-lg`) corner radius for a "stationery" feel.
-- **Input Fields:** 4px radius, emphasizing a structured, form-like appearance.
-- **Buttons:** Fully squared corners are avoided to prevent a "brutalist" feel, but radii never exceed 8px to maintain the professional aesthetic.
+- **Standard Elements (Buttons, Inputs, Panels):** 4px (0.25rem) corner radius.
+- **Large Containers (Cards, Search Bar):** 8px (0.5rem) corner radius.
+- **Tags/Status Pills:** 4px (0.25rem) to maintain consistency with the modular grid; avoid fully rounded "pill" shapes to keep the professional aesthetic.
 
 ## Components
 
-- **Chat Bubbles:** Unlike casual messengers, AI responses are styled as **Knowledge Cards**. They have no background color but are defined by a thin border and a subtle citation footer.
-- **Citations:** Styled as small "Index Chips" using JetBrains Mono. On hover, they reveal a small preview of the Wikipedia source.
-- **Action Buttons:** Contained buttons use Oxford Blue with white text. Ghost buttons use Library Teal for secondary actions like "Expand" or "Search Related."
-- **Search Bar:** A prominent, fixed element at the bottom or top, styled with a "Typewriter" cursor and high-contrast focus states using the Highlighting Yellow.
-- **Encyclopedia Cards:** Used for Wikipedia summaries. These feature a small thumbnail image with a "duotone" filter in Oxford Blue/Library Teal to maintain visual harmony.
-- **Footnotes:** A dedicated "Marginalia" area on the right side of the desktop view for references, keeping the main reading path clear.
+### Search Bar
+The central component of the system. It uses a glassmorphic background with a 1px #ffffff20 border. The text input uses `body-lg` for prominence. The "Search" action is represented by a ghost button or a simple crimson arrow icon.
+
+### Modular Panels (Cards)
+Used for AI responses and search results. Background is #1a1a1a with no shadow. Borders are 1px solid #262626. These panels should have consistent 24px internal padding to provide breathability for the text.
+
+### Buttons
+- **Primary:** Solid crimson (#dc2626) background with off-white text. No gradients.
+- **Secondary:** Outline style with 1px #dc2626 border and crimson text.
+- **Ghost:** No background, off-white or grey text, becoming crimson on hover.
+
+### Inputs & Selection
+Checkboxes and radio buttons use the crimson accent for their "on" state. Text fields use a solid #141414 background with a 1px border that turns crimson when focused.
+
+### Source Chips
+Small, modular chips used to cite sources. These use #262626 backgrounds with `label-sm` text. They appear tucked within or below AI response panels, maintaining a clean, systematic look for academic-style citations.
