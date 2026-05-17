@@ -98,8 +98,21 @@ function removeTypingIndicator() {
     }
 }
 
+let isThinking = false;
+
 async function handleSend(text) {
-    if (!text) return;
+    if (!text || isThinking) return;
+    isThinking = true;
+
+    // Visual Pacing: Disable inputs & buttons, add thinking indicators
+    heroInput.disabled = true;
+    chatInput.disabled = true;
+    heroSendBtn.disabled = true;
+    chatSendBtn.disabled = true;
+
+    const originalChatPlaceholder = chatInput.placeholder;
+    chatInput.placeholder = "WikiSearch is synthesizing…";
+    chatInput.classList.add('opacity-60', 'cursor-not-allowed');
 
     // Handle Session Creation
     if (!currentSessionId) {
@@ -121,6 +134,22 @@ async function handleSend(text) {
     addMessage(text, 'user');
     showTypingIndicator();
 
+    const cleanupCooldown = () => {
+        // Enforce a 1.5-second pacing cooldown after the response is rendered 
+        // to completely protect the free-tier API from rapid-fire spam.
+        setTimeout(() => {
+            isThinking = false;
+            heroInput.disabled = false;
+            chatInput.disabled = false;
+            heroSendBtn.disabled = false;
+            chatSendBtn.disabled = false;
+
+            chatInput.placeholder = originalChatPlaceholder;
+            chatInput.classList.remove('opacity-60', 'cursor-not-allowed');
+            chatInput.focus();
+        }, 1500);
+    };
+
     try {
         const response = await fetch('/api/chat', {
             method: 'POST',
@@ -138,9 +167,11 @@ async function handleSend(text) {
             session.messages.push({ text: data.response, sender: 'agent' });
             saveSessions();
         }
+        cleanupCooldown();
     } catch (error) {
         removeTypingIndicator();
         addMessage("Error: Could not connect to the agent backend.", 'system');
+        cleanupCooldown();
     }
 }
 

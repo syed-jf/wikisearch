@@ -10,6 +10,14 @@ app.use(express.json());
 app.use(express.static('public'));
 
 // ============================================================
+// SMART IN-MEMORY QUERY CACHE (Layer 2)
+// Normalized user queries mapped to Gemini responses.
+// Expired after 24 hours to keep responses fresh.
+// ============================================================
+const queryCache = new Map();
+const QUERY_CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
+
+// ============================================================
 // TRENDING CONTENT CACHE
 // Uses Wikipedia Pageviews API (free, no key needed) + Gemini
 // Cache is refreshed every 6 hours to stay well within rate limits
@@ -33,7 +41,6 @@ async function buildTrendingContent() {
     const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
     // Fetch yesterday's top Wikipedia pageviews
-    // (today's data is often not yet available)
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const year = yesterday.getFullYear();
     const month = String(yesterday.getMonth() + 1).padStart(2, '0');
@@ -137,7 +144,6 @@ async function getTrendingContent() {
         console.log('[Trending] Cache refreshed successfully at', new Date().toISOString());
     } catch (err) {
         console.error('[Trending] Cache refresh failed:', err.message);
-        // If refresh fails and we have old data, keep serving it
         if (!trendingCache) {
             // Absolute fallback
             trendingCache = {
@@ -163,7 +169,7 @@ async function getTrendingContent() {
 getTrendingContent().catch(err => console.error('[Trending] Initial warm-up failed:', err.message));
 
 // ============================================================
-// API ROUTES
+// HELPER FUNCTIONS
 // ============================================================
 
 const aliases = {
@@ -248,6 +254,21 @@ app.post('/api/chat', async (req, res) => {
         return res.json({ response: "I'm not sure what you're asking. Try asking a question!" });
     }
 
+    // ============================================================
+    // QUERY CACHE CHECK (Layer 2)
+    // ============================================================
+    const cacheKey = normalizeQuestion(userInput);
+    const now = Date.now();
+    if (queryCache.has(cacheKey)) {
+        const cached = queryCache.get(cacheKey);
+        if (now - cached.timestamp < QUERY_CACHE_DURATION_MS) {
+            console.log(`[Cache Hit] Serving cached response for normalized key: "${cacheKey}"`);
+            return res.json({ response: cached.response });
+        } else {
+            queryCache.delete(cacheKey); // Evict expired entry
+        }
+    }
+
     try {
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -275,7 +296,20 @@ Please provide a helpful, fascinating, and accurate response. Format it nicely w
         }
 
         if (data.candidates && data.candidates.length > 0) {
-            return res.json({ response: data.candidates[0].content.parts[0].text });
+            const answer = data.candidates[0].content.parts[0].text;
+            
+            // ============================================================
+            // SAVE TO CACHE (Layer 2)
+            // ============================================================
+            if (cacheKey) {
+                queryCache.set(cacheKey, {
+                    response: answer,
+                    timestamp: now
+                });
+                console.log(`[Cache Write] Cached normalized query: "${cacheKey}"`);
+            }
+
+            return res.json({ response: answer });
         } else {
             console.error("Gemini unexpected response:", data);
             return res.json({ response: "I'm sorry, my neural pathways are a bit tangled right now. Please try again!" });
