@@ -31,12 +31,21 @@ function switchToChatMode() {
 
 function resetToHeroMode() {
     isChatMode = false;
-    currentSessionId = null; // Clear session tracking
+    isThinking = false; // Always unlock when going home — safety reset
+    currentSessionId = null;
     chatScreen.classList.add('hidden');
     heroScreen.classList.remove('hidden');
     heroScreen.classList.remove('opacity-0');
     heroInput.value = '';
     chatContainer.innerHTML = '';
+    // Remove any stale thinking state from inputs
+    chatInput.disabled = false;
+    heroInput.disabled = false;
+    chatSendBtn.disabled = false;
+    heroSendBtn.disabled = false;
+    chatInput.placeholder = 'Ask a follow-up question...';
+    chatInput.classList.remove('opacity-60', 'cursor-not-allowed', 'chat-input-thinking');
+    if (chatInputBg) chatInputBg.classList.remove('chat-input-bg-thinking');
 }
 
 const mobileHomeBtn = document.getElementById('mobileHomeBtn');
@@ -386,6 +395,27 @@ async function loadTrending() {
     }
 }
 
+// Index-safe function called from diary book cards and tooltips
+// Closes the modal, crafts a rich question, fires handleSend exactly once
+function exploreFromDiary(idx) {
+    // Guard: don't allow if already thinking
+    if (isThinking) return;
+
+    const topic = cachedTrendingData && cachedTrendingData.topics && cachedTrendingData.topics[idx];
+    if (!topic) return;
+
+    // Close the diary modal first
+    if (diaryModal) diaryModal.classList.add('hidden');
+
+    // Craft a beautiful, rich question
+    const question = `Tell me everything about "${topic.title}" — why it's trending right now, its key concepts, real-world impact, and how the book "${topic.book.title}" by ${topic.book.author} relates to it.`;
+
+    // Small delay to let the modal close animation finish before switching screens
+    setTimeout(() => {
+        handleSend(question);
+    }, 200);
+}
+
 // Diary refresh: force a fresh fetch every 45 minutes regardless of session cache
 let diaryLastFetched = null;
 const DIARY_REFRESH_MS = 45 * 60 * 1000; // 45 minutes
@@ -411,9 +441,9 @@ async function updateDiary() {
             : '';
         diaryAnalysis.innerHTML = `&#8220;${scholarlyAnalysis}&#8221;${dtLabel}`;
 
-        // Render books grid with hover tooltip
-        suggestedBooksGrid.innerHTML = topics.map(topic => `
-            <div class="book-card relative p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 dark:hover:border-cyan-500/40 transition-all group cursor-pointer" onclick="handleSend('${topic.title.replace(/'/g, "\\'")}')">
+        // Render books grid — use data-idx, NO inline onclick strings to avoid escaping bugs
+        suggestedBooksGrid.innerHTML = topics.map((topic, idx) => `
+            <div class="book-card relative p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 dark:hover:border-cyan-500/40 transition-all group cursor-pointer" data-idx="${idx}">
                 <div class="w-14 h-20 bg-primary/10 dark:bg-primary/5 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 dark:group-hover:bg-cyan-950/40 transition-colors">
                     <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">book</span>
                 </div>
@@ -423,8 +453,8 @@ async function updateDiary() {
                     <p class="text-xs text-primary dark:text-primary-fixed-dim font-medium">${topic.book.author}</p>
                     <p class="text-xs text-on-surface-variant dark:text-zinc-400 line-clamp-2 mt-0.5">${topic.book.reason}</p>
                 </div>
-                <!-- Hover tooltip -->
-                <div class="book-tooltip">
+                <!-- Hover tooltip — click-safe, uses data-idx for identity -->
+                <div class="book-tooltip" onclick="event.stopPropagation(); exploreFromDiary(${idx})">
                     <div class="book-tooltip-inner">
                         <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')} w-fit mb-2">&#35;${topic.category.toUpperCase()}</span>
                         <p class="book-tooltip-title">${topic.book.title}</p>
@@ -439,6 +469,17 @@ async function updateDiary() {
                 </div>
             </div>
         `).join('');
+
+        // Wire up card clicks via event delegation — persistent listener, safe for re-opens
+        // Each render clears innerHTML so previous listeners are naturally removed
+        suggestedBooksGrid.addEventListener('click', (e) => {
+            const card = e.target.closest('.book-card');
+            if (!card) return;
+            // Tooltip already has its own stopPropagation + exploreFromDiary handler
+            if (e.target.closest('.book-tooltip')) return;
+            const idx = parseInt(card.dataset.idx, 10);
+            if (!isNaN(idx)) exploreFromDiary(idx);
+        });
 
     } catch (err) {
         console.error('Diary update error:', err);
