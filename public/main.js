@@ -13,14 +13,14 @@ let isChatMode = false;
 function switchToChatMode() {
     if (isChatMode) return;
     isChatMode = true;
-    
+
     // Hide hero, show chat
     heroScreen.classList.add('opacity-0');
     setTimeout(() => {
         heroScreen.classList.add('hidden');
         chatScreen.classList.remove('hidden');
         chatInput.focus();
-        
+
         // Add initial system greeting if empty
         if (chatContainer.children.length === 0) {
             addMessage("Hi there! 👋 I'm WikiSearch. How can I help you today?", 'agent');
@@ -39,18 +39,16 @@ function resetToHeroMode() {
 }
 
 const mobileHomeBtn = document.getElementById('mobileHomeBtn');
-const backBtn = document.getElementById('backBtn');
 
 newInquiryBtn.addEventListener('click', resetToHeroMode);
 if (homeBtn) homeBtn.addEventListener('click', resetToHeroMode);
 if (mobileHomeBtn) mobileHomeBtn.addEventListener('click', resetToHeroMode);
-if (backBtn) backBtn.addEventListener('click', resetToHeroMode);
 
 function addMessage(text, sender) {
     const msgDiv = document.createElement('div');
     msgDiv.classList.add('chat-message', sender);
     msgDiv.classList.add('font-body-md', 'text-body-md');
-    
+
     if (sender === 'agent' && typeof marked !== 'undefined') {
         // Use marked.js for AI responses to handle markdown (bold, lists, etc.) properly
         msgDiv.innerHTML = marked.parse(text);
@@ -58,9 +56,9 @@ function addMessage(text, sender) {
         // Simple formatting for user messages
         msgDiv.innerHTML = text.replace(/\n/g, '<br>');
     }
-    
+
     chatContainer.appendChild(msgDiv);
-    
+
     // Smoothly scroll the container to align the user's question at the top 
     // when the agent responds, keeping the context fully visible.
     if (sender === 'user') {
@@ -102,7 +100,7 @@ function removeTypingIndicator() {
 
 async function handleSend(text) {
     if (!text) return;
-    
+
     // Handle Session Creation
     if (!currentSessionId) {
         currentSessionId = Date.now();
@@ -129,7 +127,7 @@ async function handleSend(text) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
         });
-        
+
         const data = await response.json();
         removeTypingIndicator();
         addMessage(data.response, 'agent');
@@ -189,7 +187,7 @@ function toggleDarkMode() {
     document.documentElement.classList.toggle('dark');
     const isDark = document.documentElement.classList.contains('dark');
     if (darkModeToggle) darkModeToggle.checked = isDark;
-    
+
     if (darkModeBtn) {
         darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
     }
@@ -242,8 +240,8 @@ function updateHistoryUI() {
         historyContent.innerHTML = '<p class="text-on-surface-variant italic">No sessions yet. Start exploring!</p>';
         return;
     }
-    
-    historyContent.innerHTML = chatSessions.map(session => 
+
+    historyContent.innerHTML = chatSessions.map(session =>
         `<div class="p-xs bg-surface-container-low rounded-md border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer group flex items-center justify-between" onclick="loadSession(${session.id})">
             <div class="flex items-center">
                 <span class="material-symbols-outlined text-[16px] mr-2 text-on-surface-variant">chat_bubble</span>
@@ -257,15 +255,15 @@ function updateHistoryUI() {
 function loadSession(id) {
     const session = chatSessions.find(s => s.id === id);
     if (!session) return;
-    
+
     currentSessionId = id;
     chatContainer.innerHTML = ''; // Clear current chat
     switchToChatMode();
-    
+
     session.messages.forEach(msg => {
         addMessage(msg.text, msg.sender);
     });
-    
+
     if (historyModal) historyModal.classList.add('hidden');
 }
 
@@ -310,7 +308,7 @@ const suggestedBooksGrid = document.getElementById('suggestedBooksGrid');
 async function updateDiary() {
     diaryAnalysis.innerHTML = "<em>The Scholar is analyzing your journey...</em>";
     suggestedBooksGrid.innerHTML = '<div class="col-span-full text-center py-xl text-on-surface-variant"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span><br><span class="text-caption font-label-caps uppercase tracking-widest mt-2 block">Consulting the Archives</span></div>';
-    
+
     try {
         const response = await fetch('/api/recommendations', {
             method: 'POST',
@@ -318,9 +316,9 @@ async function updateDiary() {
             body: JSON.stringify({ history: chatSessions.map(s => s.title) })
         });
         const data = await response.json();
-        
+
         diaryAnalysis.innerHTML = `"${data.analysis}"`;
-        
+
         suggestedBooksGrid.innerHTML = data.books.map(book => `
             <div class="p-md bg-surface-container-low rounded-xl border border-outline-variant flex gap-md hover:bg-surface-container transition-all group">
                 <div class="w-16 h-24 bg-primary/10 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
