@@ -69,7 +69,15 @@ function addMessage(text, sender) {
             const lastUserMsg = userMessages[userMessages.length - 1];
             // Small timeout to let marked.js finish rendering and styling the DOM element
             setTimeout(() => {
-                lastUserMsg.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const containerTop = chatContainer.getBoundingClientRect().top;
+                const elementTop = lastUserMsg.getBoundingClientRect().top;
+                // Scroll container directly to align the user's message 20px below the top of the container
+                // This avoids using scrollIntoView which scrolls the entire window and causes header overlap.
+                const targetScrollTop = chatContainer.scrollTop + (elementTop - containerTop) - 20;
+                chatContainer.scrollTo({
+                    top: targetScrollTop,
+                    behavior: 'smooth'
+                });
             }, 100);
         } else {
             chatContainer.scrollTop = chatContainer.scrollHeight;
