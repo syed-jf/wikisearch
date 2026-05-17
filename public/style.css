@@ -246,3 +246,75 @@ html.dark .chat-message.system {
     background-color: #00e5ff !important; /* glowing cyan */
     color: #001f24 !important; /* dark text */
 }
+
+/* =============================================
+   Chat Input Pacing & Thinking States
+   ============================================= */
+
+/* Animating the glowing border and shadow of the container */
+@keyframes thinkingGlow {
+    0%, 100% {
+        border-color: rgba(0, 229, 255, 0.15);
+        box-shadow: 0 0 15px -3px rgba(0, 229, 255, 0.1), inset 0 0 8px rgba(0, 229, 255, 0.05);
+    }
+    50% {
+        border-color: rgba(0, 229, 255, 0.6);
+        box-shadow: 0 0 25px 2px rgba(0, 229, 255, 0.25), inset 0 0 15px rgba(0, 229, 255, 0.12);
+    }
+}
+
+.chat-input-bg-thinking {
+    animation: thinkingGlow 2s infinite ease-in-out !important;
+    border: 1px solid rgba(0, 229, 255, 0.4) !important;
+    background-color: rgba(9, 10, 15, 0.95) !important;
+}
+
+html:not(.dark) .chat-input-bg-thinking {
+    background-color: rgba(245, 245, 245, 0.98) !important;
+    border-color: rgba(0, 104, 117, 0.5) !important;
+    animation: thinkingGlowLight 2s infinite ease-in-out !important;
+}
+
+@keyframes thinkingGlowLight {
+    0%, 100% {
+        border-color: rgba(0, 104, 117, 0.15);
+        box-shadow: 0 0 15px -3px rgba(0, 104, 117, 0.08), inset 0 0 8px rgba(0, 104, 117, 0.03);
+    }
+    50% {
+        border-color: rgba(0, 104, 117, 0.5);
+        box-shadow: 0 0 25px 2px rgba(0, 104, 117, 0.2), inset 0 0 15px rgba(0, 104, 117, 0.1);
+    }
+}
+
+/* Animating the placeholder text to pulse & glow */
+@keyframes placeholderPulseGlow {
+    0%, 100% {
+        color: rgba(0, 229, 255, 0.3);
+        text-shadow: 0 0 4px rgba(0, 229, 255, 0.1);
+    }
+    50% {
+        color: rgba(0, 229, 255, 0.85);
+        text-shadow: 0 0 10px rgba(0, 229, 255, 0.6), 0 0 2px rgba(0, 229, 255, 0.3);
+    }
+}
+
+.chat-input-thinking::placeholder {
+    animation: placeholderPulseGlow 2s infinite ease-in-out !important;
+    font-style: italic;
+    letter-spacing: 0.03em;
+}
+
+html:not(.dark) .chat-input-thinking::placeholder {
+    animation: placeholderPulseGlowLight 2s infinite ease-in-out !important;
+}
+
+@keyframes placeholderPulseGlowLight {
+    0%, 100% {
+        color: rgba(0, 104, 117, 0.3);
+        text-shadow: 0 0 4px rgba(0, 104, 117, 0.05);
+    }
+    50% {
+        color: rgba(0, 104, 117, 0.75);
+        text-shadow: 0 0 10px rgba(0, 104, 117, 0.4), 0 0 2px rgba(0, 104, 117, 0.2);
+    }
+}

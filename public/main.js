@@ -5,6 +5,7 @@ const heroInput = document.getElementById('heroInput');
 const heroSendBtn = document.getElementById('heroSendBtn');
 const chatInput = document.getElementById('chatInput');
 const chatSendBtn = document.getElementById('chatSendBtn');
+const chatInputBg = document.getElementById('chatInputBg');
 const newInquiryBtn = document.getElementById('newInquiryBtn');
 const homeBtn = document.getElementById('homeBtn');
 
@@ -112,7 +113,8 @@ async function handleSend(text) {
 
     const originalChatPlaceholder = chatInput.placeholder;
     chatInput.placeholder = "WikiSearch is synthesizing…";
-    chatInput.classList.add('opacity-60', 'cursor-not-allowed');
+    chatInput.classList.add('opacity-60', 'cursor-not-allowed', 'chat-input-thinking');
+    if (chatInputBg) chatInputBg.classList.add('chat-input-bg-thinking');
 
     // Handle Session Creation
     if (!currentSessionId) {
@@ -145,7 +147,8 @@ async function handleSend(text) {
             chatSendBtn.disabled = false;
 
             chatInput.placeholder = originalChatPlaceholder;
-            chatInput.classList.remove('opacity-60', 'cursor-not-allowed');
+            chatInput.classList.remove('opacity-60', 'cursor-not-allowed', 'chat-input-thinking');
+            if (chatInputBg) chatInputBg.classList.remove('chat-input-bg-thinking');
             chatInput.focus();
         }, 1500);
     };
