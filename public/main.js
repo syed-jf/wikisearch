@@ -262,6 +262,19 @@ if (historyModal) historyModal.addEventListener('click', (e) => {
     if (e.target === historyModal) historyModal.classList.add('hidden');
 });
 
+const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+if (clearHistoryBtn) {
+    clearHistoryBtn.addEventListener('click', () => {
+        if (confirm("Are you sure you want to clear all of your search history? This cannot be undone.")) {
+            chatSessions = [];
+            saveSessions();
+            updateHistoryUI();
+            resetToHeroMode();
+            if (historyModal) historyModal.classList.add('hidden');
+        }
+    });
+}
+
 const openAbout = () => aboutModal.classList.remove('hidden');
 if (aboutBtn) aboutBtn.addEventListener('click', openAbout);
 if (mobileAboutBtn) mobileAboutBtn.addEventListener('click', openAbout);
