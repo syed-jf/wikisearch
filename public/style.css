@@ -452,21 +452,21 @@ html.dark .designer-label {
 
 .designer-name {
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 600;
     font-family: 'Outfit', sans-serif;
     letter-spacing: 0.02em;
-    color: #1e293b; /* Premium, non-stark dark slate */
-    transition: color 0.2s ease;
+    color: #007a87; /* Sophisticated brand teal in light mode */
+    transition: all 0.25s ease;
 }
 
 html.dark .designer-name {
-    color: #94a3b8; /* Elegant matte silver/gray in dark mode — NO glow, highly premium and balanced */
+    color: #00e5ff; /* Signature brand cyan in dark mode — distinct, premium, and matte (NO glow) */
 }
 
 .designer-name:hover {
-    color: #0f172a;
+    color: #004d56;
 }
 
 html.dark .designer-name:hover {
-    color: #f1f5f9; /* Matte off-white on hover */
+    color: #80f0ff; /* Slightly brighter highlight on hover */
 }
