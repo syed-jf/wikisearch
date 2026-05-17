@@ -434,3 +434,39 @@ html:not(.dark) .book-tooltip-cta { color: #006875; }
     border: 6px solid transparent;
     border-top-color: rgba(0, 229, 255, 0.2);
 }
+
+/* =============================================
+   Designer Credit Styling (Premium Matte Look)
+   ============================================= */
+.designer-label {
+    font-size: 0.68rem;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #64748b; /* Sleek slate gray */
+}
+
+html.dark .designer-label {
+    color: #4b5563; /* Subtle slate-gray in dark mode */
+}
+
+.designer-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.02em;
+    color: #1e293b; /* Premium, non-stark dark slate */
+    transition: color 0.2s ease;
+}
+
+html.dark .designer-name {
+    color: #94a3b8; /* Elegant matte silver/gray in dark mode — NO glow, highly premium and balanced */
+}
+
+.designer-name:hover {
+    color: #0f172a;
+}
+
+html.dark .designer-name:hover {
+    color: #f1f5f9; /* Matte off-white on hover */
+}
