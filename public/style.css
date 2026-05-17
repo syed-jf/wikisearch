@@ -1,4 +1,36 @@
-/* Minimal custom CSS for absolute necessities not handled by utilities */
+/* Custom styles for WikiSearch AI - Cyan Tech Theme */
+
+/* Dark Mode Core Theme Overrides */
+html.dark body {
+    background-color: #090a0f !important;
+    color: #e2e8f0 !important;
+}
+
+html.dark .bg-surface-container-lowest {
+    background-color: #090a0f !important;
+    color: #e2e8f0 !important;
+}
+
+html.dark .bg-surface-container-low,
+html.dark .bg-surface-container,
+html.dark .bg-surface {
+    background-color: #12141c !important;
+    color: #e2e8f0 !important;
+}
+
+html.dark .border-surface-container,
+html.dark .border-surface-variant,
+html.dark .border-outline-variant {
+    border-color: #1f2330 !important;
+}
+
+html.dark .text-on-surface-variant {
+    color: #94a3b8 !important;
+}
+
+html.dark input {
+    color: #f1f5f9 !important;
+}
 
 /* Chat Bubbles */
 .chat-message {
@@ -12,33 +44,48 @@
 .chat-message.user {
     align-self: flex-end;
     margin-left: auto;
-    background-color: #2a2a2a; /* surface-container-high */
-    border: 1px solid #474746; /* secondary-container */
-    color: #e5e2e1; /* on-surface */
+    background-color: #e2e8f0; /* Light Mode User Bubble */
+    border: 1px solid #cbd5e1;
+    color: #0f172a;
     border-radius: 1rem 1rem 0 1rem;
     padding: 1rem 1.5rem;
     max-width: 70%;
 }
 
+html.dark .chat-message.user {
+    background-color: #1e293b; /* Dark Mode User Bubble */
+    border: 1px solid #334155;
+    color: #f1f5f9;
+}
+
 .chat-message.agent {
     align-self: flex-start;
     margin-right: auto;
-    background-color: #dc2626; /* primary-container */
-    color: #fff6f5; /* on-primary-container */
+    background-color: #006875; /* Light Mode Agent Bubble */
+    color: #ffffff;
     border: none;
     border-radius: 1rem 1rem 1rem 0;
     padding: 1rem 1.5rem;
     max-width: 85%;
 }
 
+html.dark .chat-message.agent {
+    background-color: #004f58; /* Dark Mode Agent Bubble */
+    color: #e2e8f0;
+}
+
 .chat-message.system {
     align-self: center;
     margin: 1rem auto;
     background-color: transparent;
-    color: #ac8884; /* outline */
+    color: #6b7a7d;
     font-style: italic;
     font-size: 0.9rem;
     text-align: center;
+}
+
+html.dark .chat-message.system {
+    color: #94a3b8;
 }
 
 /* Typing Indicator Animation */
@@ -89,24 +136,24 @@
     margin: 1.5rem 0;
 }
 
-/* Voice Search Animation (Crimson Space Pulse) */
-@keyframes spacePulseCrimson {
+/* Voice Search Animation (Glowing Cyan Pulse) */
+@keyframes spacePulseCyan {
     0% {
-        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6);
+        box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.6);
         transform: scale(0.95);
     }
     70% {
-        box-shadow: 0 0 0 12px rgba(220, 38, 38, 0);
+        box-shadow: 0 0 0 12px rgba(0, 229, 255, 0);
         transform: scale(1);
     }
     100% {
-        box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+        box-shadow: 0 0 0 0 rgba(0, 229, 255, 0);
         transform: scale(0.95);
     }
 }
 
 .mic-active {
-    animation: spacePulseCrimson 1.5s infinite ease-in-out;
-    background-color: #0e0e0e !important; /* surface-container-lowest */
-    color: #dc2626 !important; /* primary-container */
+    animation: spacePulseCyan 1.5s infinite ease-in-out;
+    background-color: #00e5ff !important; /* glowing cyan */
+    color: #001f24 !important; /* dark text */
 }

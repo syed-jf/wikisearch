@@ -7,8 +7,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect"/>
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&family=Hanken+Grotesk:wght@200;300&family=Newsreader:wght@400&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
     <!-- Material Symbols -->
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <!-- Tailwind CSS -->
@@ -21,92 +20,99 @@
         theme: {
           extend: {
             "colors": {
-                    "secondary-container": "#474746",
-                    "surface-bright": "#3a3939",
-                    "surface-container-low": "#1c1b1b",
-                    "tertiary-fixed": "#cbe6ff",
-                    "primary-container": "#dc2626",
-                    "inverse-primary": "#bf0715",
-                    "on-tertiary": "#003450",
-                    "outline": "#ac8884",
-                    "tertiary-container": "#0078b2",
-                    "surface": "#131313",
-                    "secondary-fixed-dim": "#c8c6c5",
-                    "on-tertiary-fixed": "#001e30",
-                    "inverse-surface": "#e5e2e1",
-                    "on-primary": "#690005",
-                    "surface-variant": "#353534",
-                    "on-primary-fixed-variant": "#93000b",
-                    "on-tertiary-fixed-variant": "#004b71",
-                    "on-secondary-fixed": "#1c1b1b",
-                    "secondary-fixed": "#e5e2e1",
-                    "inverse-on-surface": "#313030",
-                    "secondary": "#c8c6c5",
-                    "on-secondary-fixed-variant": "#474746",
-                    "on-primary-container": "#fff6f5",
-                    "surface-container-lowest": "#0e0e0e",
-                    "error-container": "#93000a",
-                    "on-error": "#690005",
-                    "on-surface-variant": "#e6bdb8",
-                    "tertiary-fixed-dim": "#90cdff",
-                    "surface-dim": "#131313",
-                    "background": "#131313",
-                    "surface-container-highest": "#353534",
-                    "on-surface": "#e5e2e1",
-                    "on-tertiary-container": "#f3f8ff",
-                    "primary-fixed-dim": "#ffb4ab",
-                    "on-secondary-container": "#b7b5b4",
-                    "surface-container-high": "#2a2a2a",
-                    "on-secondary": "#313030",
-                    "surface-container": "#201f1f",
-                    "surface-tint": "#ffb4ab",
-                    "outline-variant": "#5c403c",
-                    "error": "#ffb4ab",
-                    "on-primary-fixed": "#410002",
-                    "on-error-container": "#ffdad6",
-                    "primary": "#ffb4ab",
-                    "tertiary": "#90cdff",
-                    "primary-fixed": "#ffdad6",
-                    "on-background": "#e5e2e1"
+                "error-container": "#ffdad6",
+                "tertiary": "#5a5f62",
+                "on-error-container": "#93000a",
+                "on-tertiary-fixed-variant": "#43474b",
+                "primary-fixed-dim": "#00daf3",
+                "surface-container-low": "#f3f3f4",
+                "on-error": "#ffffff",
+                "tertiary-container": "#cdd1d5",
+                "on-tertiary": "#ffffff",
+                "on-primary-container": "#00626e",
+                "error": "#ba1a1a",
+                "on-primary-fixed-variant": "#004f58",
+                "on-tertiary-fixed-variant": "#004b71",
+                "on-secondary-fixed": "#1c1b1b",
+                "secondary-fixed": "#e5e2e1",
+                "inverse-on-surface": "#313030",
+                "secondary": "#516072",
+                "on-secondary-fixed-variant": "#39485a",
+                "on-primary-container": "#00626e",
+                "surface-container-lowest": "#ffffff",
+                "error-container": "#ffdad6",
+                "on-error": "#ffffff",
+                "on-surface-variant": "#3b494c",
+                "tertiary-fixed-dim": "#c3c7cb",
+                "surface-dim": "#dadada",
+                "background": "#f9f9f9",
+                "surface-container-highest": "#e2e2e2",
+                "on-surface": "#1a1c1c",
+                "on-tertiary-container": "#555a5d",
+                "primary-fixed-dim": "#00daf3",
+                "on-secondary-container": "#556477",
+                "surface-container-high": "#e8e8e8",
+                "on-secondary": "#ffffff",
+                "surface-container": "#eeeeee",
+                "surface-tint": "#006875",
+                "inverse-primary": "#00daf3",
+                "secondary-fixed": "#d4e4fa",
+                "background": "#f9f9f9",
+                "surface-container-lowest": "#ffffff",
+                "tertiary-fixed": "#dfe3e7",
+                "on-primary-fixed": "#001f24",
+                "secondary": "#516072",
+                "surface-tint": "#006875",
+                "inverse-primary": "#00daf3",
+                "secondary-fixed": "#d4e4fa",
+                "background": "#f9f9f9",
+                "surface-container": "#eeeeee",
+                "tertiary-fixed-dim": "#c3c7cb",
+                "inverse-on-surface": "#f0f1f1",
+                "secondary-fixed-dim": "#b9c8de",
+                "on-secondary-fixed": "#0d1c2d",
+                "outline-variant": "#bac9cc",
+                "on-secondary-fixed-variant": "#39485a",
+                "primary-container": "#00e5ff",
+                "primary": "#006875",
+                "surface": "#f9f9f9",
+                "primary-fixed": "#9cf0ff",
+                "on-tertiary-fixed": "#171c1f",
+                "surface-bright": "#f9f9f9"
             },
             "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
             },
             "spacing": {
-                    "unit": "4px",
-                    "container-max": "1120px",
-                    "gutter": "24px",
-                    "margin-mobile": "16px",
-                    "stack-sm": "8px",
-                    "margin-desktop": "48px",
-                    "stack-lg": "32px",
-                    "stack-md": "16px",
-                    "pb-safe": "max(24px, env(safe-area-inset-bottom))"
+                "section-gap": "120px",
+                "unit": "8px",
+                "container-padding-mobile": "24px",
+                "gutter": "32px",
+                "container-padding-desktop": "80px",
+                "pb-safe": "max(24px, env(safe-area-inset-bottom))"
             },
             "fontFamily": {
-                    "body-md": ["Inter"],
-                    "headline-lg": ["Inter"],
-                    "label-md": ["Inter"],
-                    "body-lg": ["Inter"],
-                    "label-sm": ["Inter"],
-                    "headline-md": ["Inter"],
-                    "display": ["Inter"],
-                    "headline-lg-mobile": ["Inter"],
-                    "label-caps": ["JetBrains Mono"]
+                "label-sm": ["Geist"],
+                "academic-quote": ["Newsreader"],
+                "headline-md": ["Hanken Grotesk"],
+                "body-md": ["Geist"],
+                "display-lg": ["Hanken Grotesk"],
+                "display-lg-mobile": ["Hanken Grotesk"],
+                "body-lg": ["Geist"],
+                "label-caps": ["JetBrains Mono"]
             },
             "fontSize": {
-                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
-                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
-                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
-                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}],
-                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
+                "label-sm": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                "academic-quote": ["20px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "300" }],
+                "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "200" }],
+                "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+                "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}]
             }
           }
         }
@@ -117,135 +123,99 @@
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
+        body { font-family: 'Geist', sans-serif; }
+        .hanken { font-family: 'Hanken Grotesk', sans-serif; }
+        .newsreader { font-family: 'Newsreader', serif; }
+        .ambient-shadow-light { box-shadow: 0 4px 24px -4px rgba(0, 104, 117, 0.05); }
+        .ambient-shadow-focus { box-shadow: 0 8px 32px -8px rgba(0, 229, 255, 0.15); }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-md text-body-md antialiased h-[100dvh] w-full flex overflow-hidden">
+<body class="bg-surface-container-lowest text-on-surface antialiased h-[100dvh] w-full flex overflow-hidden">
 <!-- Main Content Canvas -->
-<div class="flex-1 flex flex-col h-full overflow-hidden relative scroll-smooth">
-    <!-- TopAppBar -->
-    <header class="bg-surface sticky top-0 z-30 w-full shadow-sm border-b border-surface-variant">
-        <div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop py-stack-md max-w-container-max mx-auto">
-            <div class="flex items-center gap-stack-md cursor-pointer" id="homeBtn">
-                <span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings: 'FILL' 1;">local_library</span>
-                <span class="font-display text-headline-lg-mobile md:text-headline-md font-bold text-on-surface tracking-tight hidden sm:block">WIKISEARCH AI</span>
+<div class="flex-1 flex flex-col h-full overflow-hidden relative scroll-smooth bg-surface-container-lowest dark:bg-zinc-950">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-surface-container/50 dark:border-zinc-800 flex justify-between items-center px-6 md:px-container-padding-desktop w-full h-20">
+        <div class="flex items-center gap-gutter">
+            <div class="font-headline-md text-headline-md tracking-tighter text-primary dark:text-primary-fixed-dim flex items-center gap-2 cursor-pointer hanken" id="homeBtn">
+                WikiSearch
             </div>
-            <!-- Replaced new names with original names as requested -->
-            <nav class="hidden lg:flex gap-gutter items-center">
-                <button id="newInquiryBtn" class="text-primary font-bold border-b-2 border-primary pb-1 transition-colors hover:text-primary">SEARCH</button>
-                <button id="diaryBtn" class="text-on-surface-variant hover:text-primary transition-colors pb-1 uppercase">Philosopher's Diary</button>
-                <button id="historyBtn" class="text-on-surface-variant hover:text-primary transition-colors pb-1 uppercase">History</button>
-            </nav>
-            <div class="flex items-center gap-2">
-                <button id="aboutBtn" class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors flex items-center justify-center">
-                    <span class="material-symbols-outlined">info</span>
-                </button>
-                <button id="settingsBtn" class="p-2 rounded-full hover:bg-surface-variant text-on-surface-variant transition-colors flex items-center justify-center">
-                    <span class="material-symbols-outlined">settings</span>
-                </button>
-                <button class="p-2 rounded-full hover:bg-surface-variant text-on-surface transition-colors scale-95 active:opacity-80 flex items-center justify-center hidden sm:flex">
-                    <span class="material-symbols-outlined text-[28px]">account_circle</span>
-                </button>
+            <div class="hidden md:flex items-center gap-6 font-body-md text-body-md">
+                <button id="newInquiryBtn" class="text-primary dark:text-primary-fixed-dim font-bold border-b-2 border-primary-container px-2 py-4">Explore</button>
+                <button id="diaryBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300 px-2 py-4">Philosopher's Diary</button>
+                <button id="historyBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300 px-2 py-4">History</button>
             </div>
         </div>
-    </header>
+        <div class="flex items-center gap-6">
+            <!-- Connect AI changed to About WikiSearch as requested -->
+            <button id="aboutBtn" class="font-body-md text-body-md bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-container px-6 py-2 rounded-full hover:opacity-90 transition-opacity">About WikiSearch</button>
+            <div class="hidden md:flex items-center gap-4 text-on-surface-variant dark:text-zinc-400">
+                <span id="darkModeBtn" class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors">dark_mode</span>
+                <span id="settingsBtn" class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors">settings</span>
+            </div>
+        </div>
+    </nav>
 
     <!-- Main Body Wrapper -->
-    <main class="w-full max-w-container-max mx-auto flex-1 flex flex-col h-full overflow-hidden relative">
+    <main class="w-full max-w-screen-xl mx-auto px-6 md:px-container-padding-desktop flex-grow flex flex-col h-full overflow-hidden relative pt-20">
         
         <!-- Hero Search Section -->
-        <div id="heroScreen" class="absolute inset-0 overflow-y-auto px-margin-mobile md:px-margin-desktop pb-[88px] lg:pb-16 transition-opacity duration-300">
-            <section class="flex flex-col items-center justify-center w-full mt-12 md:mt-24 mb-16">
-                <h1 class="font-display text-headline-lg-mobile md:text-display text-on-surface text-center max-w-3xl mb-stack-lg leading-tight">
-                    Discover the world's knowledge.
+        <div id="heroScreen" class="absolute inset-0 overflow-y-auto px-6 md:px-container-padding-desktop pb-[88px] lg:pb-16 pt-12 transition-opacity duration-300">
+            <section class="w-full flex flex-col items-center text-center space-y-12 mt-12 md:mt-24">
+                <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary dark:text-primary-fixed-dim tracking-tighter hanken max-w-2xl leading-none">
+                    Uncover the infinite lattice of human knowledge.
                 </h1>
+                <p class="font-academic-quote text-academic-quote text-secondary dark:text-zinc-400 max-w-xl newsreader">
+                    Ask a question, explore a concept, or delve into the semantic web.
+                </p>
+                <!-- Search Interface -->
                 <div class="w-full max-w-3xl relative group">
-                    <!-- Glassmorphic Search Bar -->
-                    <div class="flex items-center w-full rounded-full bg-surface-bright/20 backdrop-blur-[20px] border border-surface-variant transition-all duration-300 focus-within:border-primary-container focus-within:shadow-[0_0_20px_rgba(220,38,38,0.15)] px-6 py-4 overflow-hidden">
-                        <span class="material-symbols-outlined text-on-surface-variant mr-4 text-2xl group-focus-within:text-primary-container transition-colors hidden sm:block">search</span>
-                        <input id="heroInput" class="w-full bg-transparent border-none outline-none text-on-surface font-body-lg text-body-lg placeholder:text-on-surface-variant/70 placeholder:font-light" placeholder="What do you want to learn?" type="text"/>
+                    <div class="absolute inset-0 bg-surface-container-low dark:bg-zinc-900 rounded-full ambient-shadow-light dark:shadow-none group-focus-within:bg-surface-container-lowest dark:group-focus-within:bg-zinc-950 group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out border border-transparent dark:border-zinc-800"></div>
+                    <div class="relative flex items-center px-6 py-4 md:py-6">
+                        <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim text-opacity-50 group-focus-within:text-primary-container group-focus-within:text-opacity-100 transition-colors duration-300 mr-4 text-2xl">search</span>
                         
-                        <div class="flex items-center gap-2 ml-2">
-                            <button id="heroMicBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                        <input id="heroInput" class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface dark:text-zinc-100 placeholder-tertiary focus:outline-none h-full bg-none" placeholder="What are you curious about today?" type="text"/>
+                        
+                        <div class="ml-4 flex items-center gap-2">
+                            <button id="heroMicBtn" class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity p-2 rounded-full">
                                 <span class="material-symbols-outlined">mic</span>
                             </button>
-                            <button id="heroSendBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                            <button id="heroSendBtn" class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity p-2 rounded-full">
                                 <span class="material-symbols-outlined">arrow_forward</span>
                             </button>
                         </div>
                     </div>
                 </div>
-            </section>
-
-            <!-- Modular Information Grid -->
-            <section class="w-full flex flex-col gap-stack-lg pb-16">
-                <div class="flex items-center justify-between border-b border-surface-variant pb-stack-sm">
-                    <h2 class="font-headline-md text-headline-md text-on-surface">Trending Insights</h2>
-                    <span class="material-symbols-outlined text-on-surface-variant">tune</span>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-                    <article onclick="handleSend('History of AI')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
-                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800"/>
-                        </div>
-                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Technology</span>
-                            </div>
-                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">History of AI</h3>
-                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Tracing the evolution from early conceptual logic frameworks to modern deep learning architectures.</p>
-                        </div>
-                    </article>
-                    <article onclick="handleSend('Ancient Rome')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
-                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out grayscale hover:grayscale-0" src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&q=80&w=800"/>
-                        </div>
-                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Civilization</span>
-                            </div>
-                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Ancient Rome</h3>
-                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Understanding the sociopolitical engineering that allowed a republic to become a continental empire.</p>
-                        </div>
-                    </article>
-                    <article onclick="handleSend('Astrophysics Advancements')" class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(220,38,38,0.1)] transition-all duration-300 relative cursor-pointer">
-                        <div class="h-48 w-full bg-surface-highest relative overflow-hidden">
-                            <img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&q=80&w=800"/>
-                        </div>
-                        <div class="p-stack-md flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-                            <div class="flex items-center gap-2 mb-1">
-                                <span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Science</span>
-                            </div>
-                            <h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Astrophysics Advancements</h3>
-                            <p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">New methodologies in observing gravitational waves and mapping dark matter distribution.</p>
-                        </div>
-                    </article>
+                <!-- Quick Suggestions (Bento/Chips style) -->
+                <div class="flex flex-wrap justify-center gap-4 mt-8">
+                    <button onclick="handleSend('Quantum Mechanics')" class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary dark:text-primary-fixed-dim px-4 py-2 rounded-full hover:bg-opacity-20 transition-colors">Quantum Mechanics</button>
+                    <button onclick="handleSend('Byzantine Architecture')" class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary dark:text-primary-fixed-dim px-4 py-2 rounded-full hover:bg-opacity-20 transition-colors">Byzantine Architecture</button>
+                    <button onclick="handleSend('CRISPR Applications')" class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary dark:text-primary-fixed-dim px-4 py-2 rounded-full hover:bg-opacity-20 transition-colors">CRISPR Applications</button>
                 </div>
             </section>
             
-            <footer class="w-full py-stack-lg border-t border-surface-variant mt-8 flex flex-col md:flex-row justify-between items-center z-10">
-                <p class="font-label-sm text-label-sm text-on-secondary-container mb-4 md:mb-0">
-                    © 2024 WikiSearch AI. Crimson Insight.
-                </p>
+            <footer class="w-full py-6 border-t border-outline-variant/30 dark:border-zinc-800 text-tertiary dark:text-zinc-500 font-label-sm text-label-sm flex flex-col md:flex-row justify-between items-center mt-24">
+                <p>© 2024 WikiSearch AI. Engineered for clarity.</p>
             </footer>
         </div>
 
         <!-- Chat Screen (Hidden Initially) -->
-        <div id="chatScreen" class="hidden absolute inset-0 flex flex-col h-full bg-background z-10">
-            <div id="chatContainer" class="flex-1 overflow-y-auto px-margin-mobile md:px-margin-desktop py-stack-md space-y-6 max-w-container-max mx-auto w-full pb-32">
+        <div id="chatScreen" class="hidden absolute inset-0 flex flex-col h-full bg-surface-container-lowest dark:bg-zinc-950 z-10">
+            <div id="chatContainer" class="flex-1 overflow-y-auto px-6 md:px-container-padding-desktop py-8 space-y-6 max-w-screen-xl mx-auto w-full pb-32">
                 <!-- Messages dynamically inserted here -->
             </div>
             
             <!-- Chat Input matching the new design -->
-            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background via-background to-transparent pb-[88px] lg:pb-8 pt-12 px-margin-mobile md:px-margin-desktop pointer-events-none">
+            <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest to-transparent dark:from-zinc-950 dark:via-zinc-950 pb-[88px] lg:pb-8 pt-12 px-6 md:px-container-padding-desktop pointer-events-none">
                 <div class="max-w-3xl mx-auto relative group pointer-events-auto">
-                    <div class="flex items-center w-full rounded-full bg-surface-bright/40 backdrop-blur-[20px] border border-surface-variant transition-all duration-300 focus-within:border-primary-container focus-within:shadow-[0_0_20px_rgba(220,38,38,0.15)] px-6 py-4 shadow-xl">
-                        <input id="chatInput" class="w-full bg-transparent border-none outline-none text-on-surface font-body-lg text-body-lg placeholder:text-on-surface-variant/70" placeholder="Ask a follow-up question..." type="text"/>
+                    <div class="absolute inset-0 bg-surface-container-low dark:bg-zinc-900 rounded-full ambient-shadow-light dark:shadow-none group-focus-within:bg-surface-container-lowest dark:group-focus-within:bg-zinc-950 group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out border border-transparent dark:border-zinc-800 shadow-xl"></div>
+                    <div class="relative flex items-center px-6 py-4">
+                        <input id="chatInput" class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface dark:text-zinc-100 placeholder:text-tertiary focus:outline-none" placeholder="Ask a follow-up question..." type="text"/>
                         
                         <div class="flex items-center gap-2 ml-2">
-                            <button id="chatMicBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                            <button id="chatMicBtn" class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity p-2 rounded-full">
                                 <span class="material-symbols-outlined">mic</span>
                             </button>
-                            <button id="chatSendBtn" class="flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
+                            <button id="chatSendBtn" class="flex items-center justify-center text-primary hover:opacity-80 transition-opacity p-2 rounded-full">
                                 <span class="material-symbols-outlined">send</span>
                             </button>
                         </div>
@@ -257,90 +227,68 @@
     </main>
 </div>
 
-<!-- SideNavBar (Context Explorer - Desktop Only) -->
-<aside class="hidden xl:flex w-72 h-full bg-surface-container-low border-l border-surface-variant flex-col p-stack-md shrink-0 z-20">
-    <div class="mb-stack-lg flex flex-col gap-1 border-b border-surface-variant/50 pb-stack-sm mt-4">
-        <h2 class="font-headline-md text-headline-md text-on-surface">CONTEXT EXPLORER</h2>
-        <p class="font-label-sm text-label-sm text-on-surface-variant">AI-Powered Connections</p>
-    </div>
-    <nav class="flex flex-col gap-unit flex-1">
-        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">hub</span>
-            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Related Topics</span>
-        </button>
-        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">timeline</span>
-            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Timelines</span>
-        </button>
-        <button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-            <span class="material-symbols-outlined text-xl group-hover:text-primary transition-colors">mediation</span>
-            <span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Connected Ideas</span>
-        </button>
-    </nav>
-    <div class="flex-1 flex flex-col items-center justify-center opacity-40 select-none">
-        <span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">auto_awesome</span>
-        <p class="font-label-sm text-label-sm text-center text-on-surface-variant px-4">Select a topic to explore deeper connections.</p>
-    </div>
-</aside>
+<!-- Background Decorative Elements -->
+<div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-primary-fixed-dim/10 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-tl from-secondary-container/20 to-transparent blur-3xl -z-10 pointer-events-none"></div>
 
 <!-- BottomNavBar (Mobile) -->
-<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface border-t border-surface-variant shadow-sm h-[72px]">
-    <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-sm pb-safe bg-surface dark:bg-zinc-900 border-t border-surface-container/50 dark:border-zinc-800 shadow-sm h-[72px]">
+    <button id="mobileHomeBtn" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-zinc-400 p-2 hover:text-primary active:scale-90 duration-200 flex-1">
         <span class="material-symbols-outlined mb-1">home</span>
         <span class="font-label-caps text-[10px] leading-none">Home</span>
     </button>
-    <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+    <button id="mobileDiaryBtn" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-zinc-400 p-2 hover:text-primary active:scale-90 duration-200 flex-1">
         <span class="material-symbols-outlined mb-1">menu_book</span>
         <span class="font-label-caps text-[10px] leading-tight text-center">Philosopher's<br>Diary</span>
     </button>
-    <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+    <button id="mobileHistoryBtn" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-zinc-400 p-2 hover:text-primary active:scale-90 duration-200 flex-1">
         <span class="material-symbols-outlined mb-1">history</span>
         <span class="font-label-caps text-[10px] leading-none">History</span>
     </button>
-    <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant p-2 hover:text-primary active:scale-90 duration-200 flex-1">
+    <button id="mobileSettingsBtn" class="flex flex-col items-center justify-center text-on-surface-variant dark:text-zinc-400 p-2 hover:text-primary active:scale-90 duration-200 flex-1">
         <span class="material-symbols-outlined mb-1">settings</span>
         <span class="font-label-caps text-[10px] leading-none">Settings</span>
     </button>
 </nav>
 
 <!-- History Modal -->
-<div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
-    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-md shadow-2xl flex flex-col gap-stack-md max-h-[80vh]">
-        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm">
-            <h2 class="font-headline-md text-on-surface">Your History</h2>
-            <button id="closeHistoryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+<div id="historyModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-md shadow-2xl flex flex-col gap-4 max-h-[80vh]">
+        <div class="flex justify-between items-center border-b border-surface-container dark:border-zinc-800 pb-2">
+            <h2 class="font-headline-md text-on-surface dark:text-zinc-100">Your History</h2>
+            <button id="closeHistoryBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <div id="historyContent" class="overflow-y-auto flex flex-col gap-2 py-2 text-on-surface">
+        <div id="historyContent" class="overflow-y-auto flex flex-col gap-2 py-2 text-on-surface dark:text-zinc-200">
             <!-- populated by main.js -->
         </div>
     </div>
 </div>
 
 <!-- Philosopher's Diary Modal -->
-<div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
-    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-3xl shadow-2xl flex flex-col gap-stack-md max-h-[90vh]">
-        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm shrink-0">
+<div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-3xl shadow-2xl flex flex-col gap-4 max-h-[90vh]">
+        <div class="flex justify-between items-center border-b border-surface-container dark:border-zinc-800 pb-2 shrink-0">
             <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary">auto_stories</span>
-                <h2 class="font-headline-md text-on-surface">Philosopher's Diary</h2>
+                <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">auto_stories</span>
+                <h2 class="font-headline-md text-on-surface dark:text-zinc-100">Philosopher's Diary</h2>
             </div>
-            <button id="closeDiaryBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+            <button id="closeDiaryBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
         
         <div class="overflow-y-auto pr-2">
-            <div class="mb-stack-lg bg-surface-container rounded-lg p-6 border border-surface-variant">
-                <h3 class="font-label-sm text-primary mb-2 uppercase tracking-widest">The Scholar's Analysis</h3>
-                <p id="diaryAnalysis" class="font-body-md text-on-surface italic leading-relaxed text-lg border-l-2 border-primary pl-4">
+            <div class="mb-6 bg-surface-container dark:bg-zinc-950 rounded-lg p-6 border border-surface-container dark:border-zinc-800">
+                <h3 class="font-label-sm text-primary dark:text-primary-fixed-dim mb-2 uppercase tracking-widest">The Scholar's Analysis</h3>
+                <p id="diaryAnalysis" class="font-body-md text-on-surface dark:text-zinc-200 italic leading-relaxed text-lg border-l-2 border-primary pl-4">
                     Consulting the archives...
                 </p>
             </div>
 
             <div>
-                <h3 class="font-label-sm text-primary mb-4 uppercase tracking-widest">Suggested Readings</h3>
+                <h3 class="font-label-sm text-primary dark:text-primary-fixed-dim mb-4 uppercase tracking-widest">Suggested Readings</h3>
                 <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <!-- populated by main.js -->
                 </div>
@@ -350,36 +298,36 @@
 </div>
 
 <!-- Settings & About Modals -->
-<div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
-    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-sm shadow-2xl">
-        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm mb-4">
-            <h2 class="font-headline-md text-on-surface">Settings</h2>
-            <button id="closeSettingsBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+<div id="settingsModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-sm shadow-2xl">
+        <div class="flex justify-between items-center border-b border-surface-container dark:border-zinc-800 pb-2 mb-4">
+            <h2 class="font-headline-md text-on-surface dark:text-zinc-100">Settings</h2>
+            <button id="closeSettingsBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <p class="text-on-surface-variant mb-4">Dark mode is natively enforced by the Crimson Insight theme.</p>
-        <!-- Keep the toggle for JS compatibility, though it won't do much visually now -->
-        <div class="flex justify-between items-center hidden" id="darkModeToggleContainer">
+        
+        <div class="flex justify-between items-center py-2 text-on-surface dark:text-zinc-200">
+            <span>Dark Theme</span>
             <label class="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" id="darkModeToggle" class="sr-only peer" checked>
-                <div class="w-11 h-6 bg-surface-container-highest peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                <input type="checkbox" id="darkModeToggle" class="sr-only peer">
+                <div class="w-11 h-6 bg-surface-container dark:bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
             </label>
         </div>
     </div>
 </div>
 
-<div id="aboutModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity p-4">
-    <div class="bg-surface-container-low border border-surface-variant rounded-xl p-stack-lg w-full max-w-md shadow-2xl">
-        <div class="flex justify-between items-center border-b border-surface-variant pb-stack-sm mb-4">
-            <h2 class="font-headline-md text-on-surface">About WikiSearch</h2>
-            <button id="closeAboutBtn" class="text-on-surface-variant hover:text-primary transition-colors">
+<div id="aboutModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity p-4">
+    <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-md shadow-2xl">
+        <div class="flex justify-between items-center border-b border-surface-container dark:border-zinc-800 pb-2 mb-4">
+            <h2 class="font-headline-md text-on-surface dark:text-zinc-100">About WikiSearch</h2>
+            <button id="closeAboutBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary transition-colors">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        <div class="text-on-surface leading-relaxed font-body-md">
-            <p class="mb-4 text-primary font-bold">The Scholar's Vision</p>
-            <p>WikiSearch leverages the vast, collective knowledge of humanity, powered by Gemini AI, wrapped in the sleek Crimson Insight interface.</p>
+        <div class="text-on-surface dark:text-zinc-300 leading-relaxed font-body-md">
+            <p class="mb-4 text-primary dark:text-primary-fixed-dim font-bold">The Scholar's Vision</p>
+            <p>WikiSearch leverages the vast, collective knowledge of humanity, powered by Gemini AI, wrapped in the sleek Cyan Tech interface.</p>
         </div>
     </div>
 </div>

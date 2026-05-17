@@ -1,289 +1,173 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en"><head>
+<html lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>WikiSearch AI - Crimson Insight</title>
+<title>WikiSearch Home</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            "colors": {
-                    "secondary-container": "#474746",
-                    "surface-bright": "#3a3939",
-                    "surface-container-low": "#1c1b1b",
-                    "tertiary-fixed": "#cbe6ff",
-                    "primary-container": "#dc2626",
-                    "inverse-primary": "#bf0715",
-                    "on-tertiary": "#003450",
-                    "outline": "#ac8884",
-                    "tertiary-container": "#0078b2",
-                    "surface": "#131313",
-                    "secondary-fixed-dim": "#c8c6c5",
-                    "on-tertiary-fixed": "#001e30",
-                    "inverse-surface": "#e5e2e1",
-                    "on-primary": "#690005",
-                    "surface-variant": "#353534",
-                    "on-primary-fixed-variant": "#93000b",
-                    "on-tertiary-fixed-variant": "#004b71",
-                    "on-secondary-fixed": "#1c1b1b",
-                    "secondary-fixed": "#e5e2e1",
-                    "inverse-on-surface": "#313030",
-                    "secondary": "#c8c6c5",
-                    "on-secondary-fixed-variant": "#474746",
-                    "on-primary-container": "#fff6f5",
-                    "surface-container-lowest": "#0e0e0e",
-                    "error-container": "#93000a",
-                    "on-error": "#690005",
-                    "on-surface-variant": "#e6bdb8",
-                    "tertiary-fixed-dim": "#90cdff",
-                    "surface-dim": "#131313",
-                    "background": "#131313",
-                    "surface-container-highest": "#353534",
-                    "on-surface": "#e5e2e1",
-                    "on-tertiary-container": "#f3f8ff",
-                    "primary-fixed-dim": "#ffb4ab",
-                    "on-secondary-container": "#b7b5b4",
-                    "surface-container-high": "#2a2a2a",
-                    "on-secondary": "#313030",
-                    "surface-container": "#201f1f",
-                    "surface-tint": "#ffb4ab",
-                    "outline-variant": "#5c403c",
-                    "error": "#ffb4ab",
-                    "on-primary-fixed": "#410002",
-                    "on-error-container": "#ffdad6",
-                    "primary": "#ffb4ab",
-                    "tertiary": "#90cdff",
-                    "primary-fixed": "#ffdad6",
-                    "on-background": "#e5e2e1"
-            },
-            "borderRadius": {
-                    "DEFAULT": "0.125rem",
-                    "lg": "0.25rem",
-                    "xl": "0.5rem",
-                    "full": "0.75rem"
-            },
-            "spacing": {
-                    "unit": "4px",
-                    "container-max": "1120px",
-                    "gutter": "24px",
-                    "margin-mobile": "16px",
-                    "stack-sm": "8px",
-                    "margin-desktop": "48px",
-                    "stack-lg": "32px",
-                    "stack-md": "16px"
-            },
-            "fontFamily": {
-                    "body-md": ["Inter"],
-                    "headline-lg": ["Inter"],
-                    "label-md": ["Inter"],
-                    "body-lg": ["Inter"],
-                    "label-sm": ["Inter"],
-                    "headline-md": ["Inter"],
-                    "display": ["Inter"],
-                    "headline-lg-mobile": ["Inter"]
-            },
-            "fontSize": {
-                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
-                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "600"}],
-                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                    "label-sm": ["12px", {"lineHeight": "1.4", "fontWeight": "500"}],
-                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
-                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
-                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "700"}]
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "tertiary": "#5a5f62",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#43474b",
+                        "primary-fixed-dim": "#00daf3",
+                        "surface-container-low": "#f3f3f4",
+                        "on-error": "#ffffff",
+                        "tertiary-container": "#cdd1d5",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-container": "#00626e",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed-variant": "#004f58",
+                        "on-tertiary-container": "#555a5d",
+                        "on-surface-variant": "#3b494c",
+                        "surface-variant": "#e2e2e2",
+                        "on-background": "#1a1c1c",
+                        "on-surface": "#1a1c1c",
+                        "inverse-surface": "#2f3131",
+                        "on-secondary-container": "#556477",
+                        "on-secondary": "#ffffff",
+                        "outline": "#6b7a7d",
+                        "primary-container": "#00e5ff",
+                        "primary": "#006875",
+                        "surface-container-high": "#e8e8e8",
+                        "surface-container-highest": "#e2e2e2",
+                        "surface": "#f9f9f9",
+                        "primary-fixed": "#9cf0ff",
+                        "on-tertiary-fixed": "#171c1f",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-container": "#d2e1f7",
+                        "on-primary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#dfe3e7",
+                        "surface-dim": "#dadada",
+                        "on-primary-fixed": "#001f24",
+                        "secondary": "#516072",
+                        "surface-tint": "#006875",
+                        "inverse-primary": "#00daf3",
+                        "secondary-fixed": "#d4e4fa",
+                        "background": "#f9f9f9",
+                        "surface-container": "#eeeeee",
+                        "tertiary-fixed-dim": "#c3c7cb",
+                        "inverse-on-surface": "#f0f1f1",
+                        "secondary-fixed-dim": "#b9c8de",
+                        "on-secondary-fixed": "#0d1c2d",
+                        "outline-variant": "#bac9cc",
+                        "on-secondary-fixed-variant": "#39485a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "120px",
+                        "unit": "8px",
+                        "container-padding-mobile": "24px",
+                        "gutter": "32px",
+                        "container-padding-desktop": "80px"
+                    },
+                    "fontFamily": {
+                        "label-sm": ["Geist"],
+                        "academic-quote": ["Newsreader"],
+                        "headline-md": ["Hanken Grotesk"],
+                        "body-md": ["Geist"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "display-lg-mobile": ["Hanken Grotesk"],
+                        "body-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "label-sm": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.08em", "fontWeight": "500" }],
+                        "academic-quote": ["20px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["32px", { "lineHeight": "1.3", "fontWeight": "300" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "200" }],
+                        "display-lg-mobile": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
             }
-          }
         }
-      }
     </script>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500&amp;family=Hanken+Grotesk:wght@200;300&amp;family=Newsreader:wght@400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        body { font-family: 'Geist', sans-serif; }
+        .hanken { font-family: 'Hanken Grotesk', sans-serif; }
+        .newsreader { font-family: 'Newsreader', serif; }
+        .ambient-shadow-light { box-shadow: 0 4px 24px -4px rgba(0, 104, 117, 0.05); }
+        .ambient-shadow-focus { box-shadow: 0 8px 32px -8px rgba(0, 229, 255, 0.15); }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-md text-body-md antialiased h-screen w-full flex overflow-hidden">
-<!-- Main Content Canvas -->
-<div class="flex-1 flex flex-col h-full overflow-y-auto relative scroll-smooth">
-<!-- TopAppBar -->
-<header class="bg-surface sticky top-0 z-30 w-full shadow-sm">
-<div class="flex justify-between items-center w-full px-margin-desktop py-stack-md max-w-container-max mx-auto">
-<div class="flex items-center gap-stack-md">
-<span class="font-display text-headline-md font-bold text-on-surface tracking-tight">WIKISEARCH AI</span>
+<body class="bg-surface-container-lowest text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- TopNavBar -->
+<nav aria-label="Main Navigation" class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-lowest/80 backdrop-blur-xl bg-surface-container-lowest/30 shadow-sm dark:shadow-none flex justify-between items-center px-container-padding-desktop max-w-screen-2xl mx-auto h-20">
+<div class="flex items-center gap-gutter">
+<a class="font-headline-md text-headline-md tracking-tighter text-primary dark:text-primary-fixed-dim flex items-center gap-2" href="#">
+                WikiSearch
+            </a>
+<div class="hidden md:flex items-center gap-6 font-body-md text-body-md">
+<a class="text-primary dark:text-primary-fixed-dim font-bold border-b-2 border-primary-container px-2 py-4" href="#">Explore</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant/70 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300 px-2 py-4" href="#">Knowledge Graph</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant/70 hover:text-primary dark:hover:text-primary-fixed-dim transition-colors duration-300 px-2 py-4" href="#">About</a>
 </div>
-<nav class="hidden md:flex gap-gutter items-center">
-<a class="text-primary font-bold border-b-2 border-primary pb-1 transition-colors hover:text-primary" href="#">SEARCH</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors pb-1" href="#">KNOWLEDGE BASES</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors pb-1" href="#">INSIGHTS</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="font-body-md text-body-md bg-gradient-to-r from-primary-container to-primary-fixed-dim text-on-primary-container px-6 py-2 rounded-full hover:opacity-90 transition-opacity">Connect AI</button>
+<div class="hidden md:flex items-center gap-4 text-on-surface-variant">
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" data-icon="settings">settings</span>
+<span class="material-symbols-outlined hover:text-primary cursor-pointer transition-colors" data-icon="notifications_none">notifications_none</span>
+</div>
+</div>
 </nav>
-<div class="flex items-center">
-<button class="p-2 rounded-full hover:bg-surface-variant transition-colors scale-95 active:opacity-80 transition-all flex items-center justify-center">
-<span class="material-symbols-outlined text-on-surface">person</span>
-</button>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto px-container-padding-mobile md:px-container-padding-desktop relative z-10">
+<!-- Hero / Search Section -->
+<section class="w-full max-w-3xl flex flex-col items-center text-center space-y-12">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter hanken max-w-2xl">
+                Uncover the infinite lattice of human knowledge.
+            </h1>
+<p class="font-academic-quote text-academic-quote text-secondary max-w-xl newsreader">
+                Ask a question, explore a concept, or delve into the semantic web.
+            </p>
+<!-- Search Interface -->
+<div class="w-full relative group">
+<div class="absolute inset-0 bg-surface-container-low rounded-full ambient-shadow-light group-focus-within:bg-surface-container-lowest group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out"></div>
+<div class="relative flex items-center px-6 py-4 md:py-6">
+<span class="material-symbols-outlined text-primary text-opacity-50 group-focus-within:text-primary-container group-focus-within:text-opacity-100 transition-colors duration-300 mr-4 text-2xl" data-icon="search">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface placeholder-tertiary focus:outline-none h-full bg-none" placeholder="What are you curious about today?" style="background-color: transparent !important;" type="text"/>
+<div class="ml-4 flex items-center justify-center w-8 h-8 rounded-full bg-primary-container bg-opacity-10 relative">
+<!-- Subtle Pulsing Indicator -->
+<div class="absolute inset-0 rounded-full border border-primary-container animate-ping opacity-30"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
 </div>
 </div>
-</header>
-<!-- Main Body Wrapper -->
-<main class="w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg flex-1 flex flex-col gap-16 md:gap-24">
-<!-- Hero Search Section -->
-<section class="flex flex-col items-center justify-center w-full mt-12 mb-8">
-<h1 class="font-display text-display text-on-surface text-center max-w-3xl mb-stack-lg leading-tight">
-                    Discover the world's knowledge.
-                </h1>
-<div class="w-full max-w-3xl relative group">
-<!-- Glassmorphic Search Bar -->
-<div class="flex items-center w-full rounded-full bg-surface-bright/20 backdrop-blur-[20px] border border-surface-variant transition-all duration-300 focus-within:border-primary-container focus-within:shadow-[0_0_20px_rgba(220,38,38,0.15)] px-6 py-4 overflow-hidden">
-<span class="material-symbols-outlined text-on-surface-variant mr-4 text-2xl group-focus-within:text-primary-container transition-colors">search</span>
-<input class="w-full bg-transparent border-none outline-none text-on-surface font-body-lg text-body-lg placeholder:text-on-surface-variant/70 placeholder:font-light" placeholder="What do you want to learn?" type="text"/>
-<button class="ml-4 flex items-center justify-center text-on-surface-variant hover:text-primary-container transition-colors p-2 rounded-full">
-<span class="material-symbols-outlined">arrow_forward</span>
-</button>
 </div>
-</div>
-</section>
-<!-- Modular Information Grid -->
-<section class="w-full flex flex-col gap-stack-lg pb-16">
-<div class="flex items-center justify-between border-b border-surface-variant pb-stack-sm">
-<h2 class="font-headline-md text-headline-md text-on-surface">Trending Insights</h2>
-<span class="material-symbols-outlined text-on-surface-variant">tune</span>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
-<!-- Panel 1 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" data-alt="A highly complex digital illustration of artificial intelligence architecture. Glowing deep crimson data nodes connect through fine geometric lines against a pitch-black background. The minimalist layout emphasizes advanced computational power. Lighting is dramatic, with high-contrast sharp edges highlighting the futuristic tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5DfgcxSqEJYHOZk3YDgX_0IvlDDNo09mgSM-2DWZWpcAl-cOqxVCOnuXblME2YFqdw0XLuRD56qLphF5c1augtMXUadQJBope15PVbytZJ4LDlyWhWAvExyJDhUvVCIOsZHlgqr76QCQ8AjNhb7joxdaLCbC-GK7vx6weonnP6sM6DdIE5fhXcj4VtMdZhgHUmFlD-vb4QCAzTufFxuCcK50SuicBkVpvuua0_nlfZIzwKyjEbkVve0DEc7qIn_XITVDERBrciTQ"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Technology</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">History of AI</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Tracing the evolution from early conceptual logic frameworks to modern deep learning architectures.</p>
-</div>
-</article>
-<!-- Panel 2 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out grayscale hover:grayscale-0" data-alt="A moody, low-key lighting photograph of ancient Roman structural ruins. The stone architecture is primarily in dark charcoal and shadow, with a subtle, warm crimson spotlight accentuating the texture of a fluted column. The composition is austere and authoritative, reflecting intelligent minimalism. The mood conveys deep historical weight within a modern dark-mode canvas." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpBNXdZwHnEyHK7VCsZ5SIzloBEJXYk_W8U4ESWSXC8-VMmJGdSq0eUlxlbYKonx35n1DntdalYvwmiCdGhCw1DBRY6iflPQACskgQW8hWnJnHqYi7yOcexA9AgX8Umcte1kQqgofllwjITPNXzR5ujx4UB6qh37iQZLkvT7SbcXm7GnV77bAO7O7h0LokZHte6iDDTx7Oy70xAud71DWo0zJEK2LkMxOIXSnepiUnYKjMhMC1Tmub12E8sUz5PsAByQbojxDCq3o"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Civilization</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">Ancient Rome</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Understanding the sociopolitical engineering that allowed a republic to become a continental empire.</p>
-</div>
-</article>
-<!-- Panel 3 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" data-alt="A stark visualization of deep space phenomena, featuring a massive black hole accretion disk. Rendered in monochromatic deep blacks and brilliant whites, punctuated by violent streaks of intense crimson radiation. The framing is asymmetrical and vast. The visual style embodies high-end, precise scientific imaging suitable for a professional AI workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP7DGqR2Ne_WQVb_UzpUilgR47pfF4ZGOoWlkZLegPGTZwIr9nX5cWOThuE1fQSu6u_qBuBO60rLyxVqSbCz1J1y3OLZCV1ItLf-6iL2knkdKMT0fAfDRVDfhnGFc999QFw7r_jxXuEnyycrWBCEsh8A6y8Oqwe4WFoopWug3fEwa_EZ2_BNweVxrkYjYsvwVRTuB0zvnGj7TLdE67hJ0G4b_7wkmreZRS1V0-h8ViI9dvhpI9sOml97gNr_gYfd7_qTuxN9byiJs"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Science</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">Recent Astrophysics Advancements</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">New methodologies in observing gravitational waves and mapping dark matter distribution.</p>
-</div>
-</article>
-<!-- Panel 4 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out grayscale hover:grayscale-0" data-alt="A minimalist abstract render of a perfect silicon wafer floating in an absolute void of deep charcoal black. Intricate microscopic circuitry is visible on the surface, softly glowing with a highly constrained crimson light. The image avoids neon clutter, focusing on crisp, precise edges and negative space. The aesthetic feels authoritative and undistracted." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmzdLOVG5mJL-3TzVjGeyYeeyq4cNe7MYGlld58KTmZZMFBFDHKh9wAOYTN33ugarG-6TUEVf2NAgGH9CAR75Dd_WrpehwMv4epw-SKBgHf2gX1nUWuHGvdpbyiLocRV_Er7MLIG2swJ1c0b20tdCxu4FtRtf5AJyio64SfmQ5Yyd7FWhXapNI0n4kHIIaSxDM37Xc7VGlQNT3cK5CcK9Wx2EGGJnHhK5vZzKC58PeM9yixL8Jkinyxxkb5fu6n0Qs8mcQJ4ifP0M"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Hardware</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">History of AI (alt)</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">The parallel timeline of computational hardware that enabled algorithmic breakthroughs.</p>
-</div>
-</article>
-<!-- Panel 5 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out" data-alt="An extreme macro photograph capturing the cellular structure of a dried leaf. Set against an entirely black background, the skeletal veins are illuminated in stark white. A single, perfectly spherical drop of vibrant crimson fluid rests near the center, providing the only color. The presentation is clinical, systematic, and elegant." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-cD69ib7PvCIAMzwe5MxoxadH3s3FlZD0PiynsxpzobpoRnAQ8baU0sj_j-PPYsKaQYNl7pO6YO8DvalzSO85tnA2KwGBfbFl7z_dyVkqrYZXxD5bS61-Jzg8Cq5B99mngwf9H95PKN7pZYKgQm7jgQ7fh510I1OsALh1w_H-HtK2jXP8gWVraCFMaMA8t-QPXaHjZobq_ovTXJ1a_Ublt0pFZ-uI-OCD64ZldIRgc-snOx1MAI4zUaswOG4M-LRdJDR4YyIzlC0"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Biology</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">Essence of Nature</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Examining the geometric efficiency and evolutionary perfection found in natural cellular structures.</p>
-</div>
-</article>
-<!-- Panel 6 -->
-<article class="flex flex-col bg-surface-container-low border border-surface-variant rounded-xl overflow-hidden group hover:border-surface-variant/80 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)] transition-all duration-300 relative cursor-pointer">
-<div class="h-56 w-full bg-surface-highest relative overflow-hidden">
-<img class="w-full h-full object-cover group-hover:scale-105 group-hover:opacity-80 transition-all duration-700 ease-out grayscale hover:grayscale-0" data-alt="A conceptual digital artwork representing robust cryptographic security. A towering, monolithic structure composed of sharp, interlocking black polygons rises against a dark, tonal gradient background. Thin lines of deep crimson outline secure data pathways. The design utilizes subtle glassmorphism layers to imply depth and impregnable layered defense." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuapFG2WXmcu2yFoXT7G5TI_Ax-sNb2ME2cJ7FOIBhS4maCJlBtUpoH_oXVUKYxeXVRgx4dfdYFN9oGU_qut4vJy8oVGPfCHMMgenCsyz7HvFf3Iy6wrJIaxSLBmkJxxApls84TxOY-rUweljTPUMFKifJixMMyrPf4KQP14mIqPgPaYVgaFEZQRFmqIRIdPrYFJROwarUmNYqQYCP1mohAL5nEg8kZo_q1nCcjXxIZEb01TxwLcSu-Qocftiitec4aifHOWOE3kY"/>
-</div>
-<div class="p-gutter flex flex-col gap-stack-sm relative z-10 bg-surface-container-low">
-<div class="flex items-center gap-2 mb-1">
-<span class="bg-surface-variant px-2 py-1 rounded text-label-sm font-label-sm text-on-surface-variant tracking-wider uppercase">Security</span>
-</div>
-<h3 class="font-headline-md text-headline-md text-on-surface group-hover:text-primary-fixed transition-colors">Robust Cryptography</h3>
-<p class="font-body-md text-body-md text-on-secondary-container line-clamp-2">Principles of modern encryption standards and the future transition toward quantum-resistant algorithms.</p>
-</div>
-</article>
+<!-- Quick Suggestions (Bento/Chips style) -->
+<div class="flex flex-wrap justify-center gap-4 mt-8">
+<span class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary px-4 py-2 rounded-full cursor-pointer hover:bg-opacity-20 transition-colors">Quantum Mechanics</span>
+<span class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary px-4 py-2 rounded-full cursor-pointer hover:bg-opacity-20 transition-colors">Byzantine Architecture</span>
+<span class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary px-4 py-2 rounded-full cursor-pointer hover:bg-opacity-20 transition-colors">CRISPR Applications</span>
+<span class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary px-4 py-2 rounded-full cursor-pointer hover:bg-opacity-20 transition-colors border border-outline-variant/30">Semantic Search Patterns</span>
 </div>
 </section>
 </main>
+<!-- Background Decorative Elements (Ethereal Depth) -->
+<div class="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-gradient-to-br from-primary-fixed-dim/10 to-transparent blur-3xl -z-10 pointer-events-none"></div>
+<div class="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-gradient-to-tl from-secondary-container/20 to-transparent blur-3xl -z-10 pointer-events-none"></div>
 <!-- Footer -->
-<footer class="w-full py-stack-lg px-margin-desktop flex flex-col md:flex-row justify-between items-center max-w-container-max mx-auto border-t border-surface-variant mt-auto bg-surface z-10">
-<p class="font-label-sm text-label-sm text-on-secondary-container mb-4 md:mb-0">
-                © 2024 WikiSearch AI. Intelligent Minimalism.
-            </p>
-<div class="flex gap-gutter">
-<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Privacy</a>
-<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Terms</a>
-<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">API</a>
-<a class="font-label-sm text-label-sm text-on-secondary-container hover:text-primary transition-opacity opacity-80 hover:opacity-100" href="#">Documentation</a>
+<footer class="w-full py-unit-8 border-t border-outline-variant/30 bg-surface dark:bg-background text-tertiary dark:text-tertiary-fixed-dim font-label-sm text-label-sm flex flex-col md:flex-row justify-between items-center px-container-padding-desktop mt-section-gap absolute bottom-0">
+<p class="opacity-100 hover:opacity-80">© 2024 WikiSearch AI. Engineered for clarity.</p>
+<div class="flex gap-6 mt-4 md:mt-0">
+<a class="text-tertiary hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">Privacy Policy</a>
+<a class="text-tertiary hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">Terms of Service</a>
+<a class="text-tertiary hover:text-primary transition-colors opacity-100 hover:opacity-80" href="#">API Documentation</a>
 </div>
 </footer>
-</div>
-<!-- SideNavBar (Context Explorer) -->
-<aside class="hidden lg:flex w-64 h-full bg-surface-container border-l border-surface-variant flex-col p-stack-md shrink-0 z-20">
-<!-- Header -->
-<div class="mb-stack-lg flex flex-col gap-1 border-b border-surface-variant/50 pb-stack-sm">
-<h2 class="font-headline-md text-headline-md text-on-surface">CONTEXT EXPLORER</h2>
-<p class="font-label-sm text-label-sm text-on-surface-variant">AI-Powered Connections</p>
-</div>
-<!-- Navigation Tabs -->
-<nav class="flex flex-col gap-unit flex-1">
-<!-- Tab 1 -->
-<button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-<span class="material-symbols-outlined text-xl group-hover:text-on-surface transition-colors">hub</span>
-<span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Related Topics</span>
-</button>
-<!-- Tab 2 -->
-<button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-<span class="material-symbols-outlined text-xl group-hover:text-on-surface transition-colors">timeline</span>
-<span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Timelines</span>
-</button>
-<!-- Tab 3 -->
-<button class="flex items-center gap-stack-sm p-stack-sm rounded-md text-on-surface-variant hover:bg-surface-variant transition-colors text-left w-full group">
-<span class="material-symbols-outlined text-xl group-hover:text-on-surface transition-colors">mediation</span>
-<span class="font-label-md text-label-md group-hover:text-on-surface transition-colors">Connected Ideas</span>
-</button>
-</nav>
-<!-- Dynamic Context Area (Empty state placeholder) -->
-<div class="flex-1 flex flex-col items-center justify-center opacity-40 select-none">
-<span class="material-symbols-outlined text-4xl text-on-surface-variant mb-2">auto_awesome</span>
-<p class="font-label-sm text-label-sm text-center text-on-surface-variant px-4">Select a topic to explore deeper connections.</p>
-</div>
-<!-- CTA Button -->
-<div class="mt-auto pt-stack-md border-t border-surface-variant/50">
-<button class="w-full py-2.5 px-4 bg-primary-container text-on-primary-container font-label-md text-label-md rounded-md hover:bg-inverse-primary transition-colors flex items-center justify-center gap-2 shadow-sm">
-<span class="material-symbols-outlined text-sm">download</span>
-                Export Insights
-            </button>
-</div>
-</aside>
 </body></html>

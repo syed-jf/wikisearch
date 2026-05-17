@@ -174,9 +174,7 @@ function toggleDarkMode() {
     if (darkModeToggle) darkModeToggle.checked = isDark;
     
     if (darkModeBtn) {
-        darkModeBtn.innerHTML = isDark 
-            ? '<span class="material-symbols-outlined text-[24px]">light_mode</span>' 
-            : '<span class="material-symbols-outlined text-[24px]">dark_mode</span>';
+        darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
     }
 }
 
@@ -329,6 +327,9 @@ if (diaryModal) {
 // Initialize History UI on load
 document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
+    const isDark = document.documentElement.classList.contains('dark');
+    if (darkModeToggle) darkModeToggle.checked = isDark;
+    if (darkModeBtn) darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
 });
 
 // --- Voice Search Implementation ---
@@ -381,7 +382,7 @@ function stopRecording() {
     isRecording = false;
     if (heroMicBtn) {
         heroMicBtn.classList.remove('mic-active');
-        if (heroInput) heroInput.placeholder = "What do you want to learn?";
+        if (heroInput) heroInput.placeholder = "What are you curious about today?";
     }
     if (chatMicBtn) {
         chatMicBtn.classList.remove('mic-active');
