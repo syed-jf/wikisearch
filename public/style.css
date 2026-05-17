@@ -32,6 +32,63 @@
 
 /* Custom styles for WikiSearch AI - Cyan Tech Theme */
 
+/* =============================================
+   Trending Cards
+   ============================================= */
+
+.trending-card {
+    border: 1px solid rgba(0, 229, 255, 0.08);
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
+    animation: fadeIn 0.4s ease-out forwards;
+    background: transparent;
+}
+
+html.dark .trending-card {
+    background: rgba(18, 20, 28, 0.6);
+    border-color: rgba(0, 229, 255, 0.07);
+}
+
+html:not(.dark) .trending-card {
+    background: rgba(238, 238, 238, 0.5);
+    border-color: rgba(0, 104, 117, 0.1);
+}
+
+.trending-card:hover {
+    border-color: rgba(0, 229, 255, 0.35);
+    box-shadow: 0 0 24px -6px rgba(0, 229, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+html:not(.dark) .trending-card:hover {
+    border-color: rgba(0, 104, 117, 0.35);
+    box-shadow: 0 0 24px -6px rgba(0, 104, 117, 0.12);
+}
+
+/* Category badge colors */
+.badge { font-size: 10px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.08em; font-weight: 500; padding: 2px 8px; border-radius: 999px; }
+.badge-Technology   { background: rgba(0,229,255,0.1); color: #00e5ff; }
+.badge-Science      { background: rgba(100,220,150,0.12); color: #64dc96; }
+.badge-Geopolitics  { background: rgba(255,120,80,0.12); color: #ff7850; }
+.badge-Culture      { background: rgba(200,150,255,0.12); color: #c896ff; }
+.badge-History      { background: rgba(255,200,80,0.12); color: #ffc850; }
+.badge-Arts         { background: rgba(255,160,200,0.12); color: #ffa0c8; }
+.badge-Sports       { background: rgba(80,200,255,0.12); color: #50c8ff; }
+.badge-Entertainment { background: rgba(255,180,80,0.12); color: #ffb450; }
+.badge-Nature       { background: rgba(120,240,120,0.12); color: #78f078; }
+.badge-Business     { background: rgba(150,200,255,0.12); color: #96c8ff; }
+.badge-Trending     { background: rgba(0,229,255,0.1); color: #00e5ff; }
+
+html:not(.dark) .badge-Technology   { background: rgba(0,104,117,0.08); color: #006875; }
+html:not(.dark) .badge-Science      { background: rgba(0,130,80,0.08); color: #008050; }
+html:not(.dark) .badge-Geopolitics  { background: rgba(180,60,20,0.08); color: #b43c14; }
+html:not(.dark) .badge-Culture      { background: rgba(130,60,200,0.08); color: #823cc8; }
+html:not(.dark) .badge-Trending     { background: rgba(0,104,117,0.08); color: #006875; }
+
+
+
 /* Dark Mode Core Theme Overrides */
 html.dark body {
     background-color: #090a0f !important;

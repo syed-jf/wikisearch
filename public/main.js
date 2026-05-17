@@ -305,34 +305,84 @@ const closeDiaryBtn = document.getElementById('closeDiaryBtn');
 const diaryAnalysis = document.getElementById('diaryAnalysis');
 const suggestedBooksGrid = document.getElementById('suggestedBooksGrid');
 
-async function updateDiary() {
-    diaryAnalysis.innerHTML = "<em>The Scholar is analyzing your journey...</em>";
-    suggestedBooksGrid.innerHTML = '<div class="col-span-full text-center py-xl text-on-surface-variant"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span><br><span class="text-caption font-label-caps uppercase tracking-widest mt-2 block">Consulting the Archives</span></div>';
+// Shared trending data — fetched once, used by both the cards and the diary
+let cachedTrendingData = null;
+
+async function loadTrending() {
+    const trendingGrid = document.getElementById('trendingGrid');
+    const trendingTimestamp = document.getElementById('trendingTimestamp');
+    if (!trendingGrid) return;
 
     try {
-        const response = await fetch('/api/recommendations', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ history: chatSessions.map(s => s.title) })
-        });
-        const data = await response.json();
+        const res = await fetch('/api/trending');
+        cachedTrendingData = await res.json();
+        const { topics, generatedAt } = cachedTrendingData;
 
-        diaryAnalysis.innerHTML = `"${data.analysis}"`;
+        // Show timestamp
+        if (trendingTimestamp && generatedAt) {
+            const dt = new Date(generatedAt);
+            trendingTimestamp.textContent = `Updated ${dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} · refreshes every 6 hrs`;
+        }
 
-        suggestedBooksGrid.innerHTML = data.books.map(book => `
-            <div class="p-md bg-surface-container-low rounded-xl border border-outline-variant flex gap-md hover:bg-surface-container transition-all group">
-                <div class="w-16 h-24 bg-primary/10 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                    <span class="material-symbols-outlined text-primary">book</span>
+        // Render cards
+        trendingGrid.innerHTML = topics.map(topic => `
+            <div class="trending-card" onclick="handleSend('${topic.title.replace(/'/g, "\\'")}')"> 
+                <div class="flex items-start justify-between mb-3">
+                    <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')}">&#35;${topic.category.toUpperCase()}</span>
+                    <span class="material-symbols-outlined text-base text-on-surface-variant dark:text-zinc-500" style="font-size:16px">arrow_outward</span>
                 </div>
-                <div class="flex flex-col justify-center">
-                    <h4 class="font-bold text-on-surface">${book.title}</h4>
-                    <p class="text-caption text-secondary font-label-caps">${book.author}</p>
-                    <p class="text-caption text-on-surface-variant line-clamp-2 mt-1">${book.desc}</p>
+                <h3 class="font-semibold text-on-surface dark:text-zinc-100 mb-2 text-sm leading-snug">${topic.title}</h3>
+                <p class="text-xs text-on-surface-variant dark:text-zinc-400 leading-relaxed line-clamp-3">${topic.description}</p>
+                <div class="mt-3 pt-3 border-t border-outline-variant/30 dark:border-zinc-800 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" style="font-size:14px">book</span>
+                    <span class="text-xs text-primary dark:text-primary-fixed-dim truncate">${topic.book.title}</span>
                 </div>
             </div>
         `).join('');
+
     } catch (err) {
-        console.error("Diary update error:", err);
+        console.error('Failed to load trending:', err);
+        if (trendingGrid) {
+            trendingGrid.innerHTML = '<p class="col-span-full text-center text-tertiary italic text-sm py-8">Could not load trending topics right now. Check back shortly.</p>';
+        }
+    }
+}
+
+async function updateDiary() {
+    diaryAnalysis.innerHTML = '<em>Consulting the global archives...</em>';
+    suggestedBooksGrid.innerHTML = '<div class="col-span-full text-center py-8 text-on-surface-variant"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span><br><span class="text-xs font-label-caps uppercase tracking-widest mt-2 block">Consulting the Archives</span></div>';
+
+    try {
+        // Use cached data if available, otherwise fetch
+        if (!cachedTrendingData) {
+            const res = await fetch('/api/trending');
+            cachedTrendingData = await res.json();
+        }
+
+        const { topics, scholarlyAnalysis } = cachedTrendingData;
+
+        // Scholar's analysis
+        diaryAnalysis.innerHTML = `&#8220;${scholarlyAnalysis}&#8221;`;
+
+        // Render books grid
+        suggestedBooksGrid.innerHTML = topics.map(topic => `
+            <div class="p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 transition-all group cursor-pointer" onclick="handleSend('${topic.title.replace(/'/g, "\\'")}')"; >
+                <div class="w-14 h-20 bg-primary/10 dark:bg-primary/5 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                    <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">book</span>
+                </div>
+                <div class="flex flex-col justify-center gap-1 min-w-0">
+                    <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')} w-fit">&#35;${topic.category.toUpperCase()}</span>
+                    <h4 class="font-bold text-on-surface dark:text-zinc-100 text-sm leading-snug">${topic.book.title}</h4>
+                    <p class="text-xs text-primary dark:text-primary-fixed-dim font-medium">${topic.book.author}</p>
+                    <p class="text-xs text-on-surface-variant dark:text-zinc-400 line-clamp-2 mt-0.5">${topic.book.reason}</p>
+                </div>
+            </div>
+        `).join('');
+
+    } catch (err) {
+        console.error('Diary update error:', err);
+        diaryAnalysis.innerHTML = '<em>The archives are misty today. Please try again shortly.</em>';
+        suggestedBooksGrid.innerHTML = '';
     }
 }
 
@@ -352,9 +402,10 @@ if (diaryModal) {
     });
 }
 
-// Initialize History UI on load
+// Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
+    loadTrending(); // Load trending cards on hero screen
     const isDark = document.documentElement.classList.contains('dark');
     if (darkModeToggle) darkModeToggle.checked = isDark;
     if (darkModeBtn) darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';

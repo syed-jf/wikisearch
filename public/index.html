@@ -189,8 +189,28 @@
                     <button onclick="handleSend('CRISPR Applications')" class="font-label-sm text-label-sm bg-primary-container bg-opacity-10 text-primary dark:text-primary-fixed-dim px-4 py-2 rounded-full hover:bg-opacity-20 transition-colors">CRISPR Applications</button>
                 </div>
             </section>
-            
-            <footer class="w-full py-6 border-t border-outline-variant/30 dark:border-zinc-800 text-tertiary dark:text-zinc-500 font-label-sm text-label-sm flex flex-col md:flex-row justify-between items-center mt-24">
+
+            <!-- Trending Now Section -->
+            <section class="w-full max-w-5xl mx-auto px-0 mt-20">
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">trending_up</span>
+                        <h2 class="font-label-caps text-label-caps text-primary dark:text-primary-fixed-dim uppercase tracking-widest">Trending Worldwide</h2>
+                    </div>
+                    <span id="trendingTimestamp" class="font-label-sm text-label-sm text-tertiary dark:text-zinc-500 text-xs italic"></span>
+                </div>
+
+                <!-- Trending Cards Grid -->
+                <div id="trendingGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Loading skeleton -->
+                    <div class="trending-skeleton col-span-full flex justify-center items-center py-10 gap-2 text-tertiary dark:text-zinc-500 text-sm italic">
+                        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                        <span class="ml-2">Loading today's trending topics…</span>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="w-full py-6 border-t border-outline-variant/30 dark:border-zinc-800 text-tertiary dark:text-zinc-500 font-label-sm text-label-sm flex flex-col md:flex-row justify-between items-center mt-16">
                 <p>© 2026 WikiSearch AI. Engineered for clarity.</p>
             </footer>
         </div>
