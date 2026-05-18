@@ -618,7 +618,7 @@ function stopRecording() {
     isRecording = false;
     if (heroMicBtn) {
         heroMicBtn.classList.remove('mic-active');
-        if (heroInput) heroInput.placeholder = "What are you curious about today?";
+        if (heroInput) heroInput.placeholder = "Ask wikisearch";
     }
     if (chatMicBtn) {
         chatMicBtn.classList.remove('mic-active');
