@@ -305,14 +305,14 @@ app.get('/api/books', async (req, res) => {
         return res.json(booksCache);
     }
     try {
-        const response = await fetch('https://openlibrary.org/trending/daily.json?limit=12');
+        const response = await fetch('https://openlibrary.org/search.json?q=trending_z_score:[1+TO+*]&sort=trending&limit=6');
         if (!response.ok) throw new Error('Open Library failed');
         const data = await response.json();
-        const works = (data.works || []).slice(0, 6).map(w => ({
+        const works = (data.docs || []).slice(0, 6).map(w => ({
             title: w.title || 'Unknown Title',
             author: (w.author_name && w.author_name[0]) || 'Unknown Author',
             subject: (w.subject && w.subject[0]) || 'Literature',
-            reason: `Currently one of the most-read books worldwide, trending across ${w.want_to_read_count ? w.want_to_read_count.toLocaleString() + ' readers' : 'thousands of readers'} on Open Library.`,
+            reason: `Highly sought-after today, trending with active reading log events on Open Library.`,
             coverUrl: w.cover_i ? `https://covers.openlibrary.org/b/id/${w.cover_i}-M.jpg` : null
         }));
         booksCache = works.length >= 3 ? works : BOOKS_FALLBACK;
