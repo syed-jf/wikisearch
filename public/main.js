@@ -66,6 +66,26 @@ function addMessage(text, sender) {
     if (sender === 'agent' && typeof marked !== 'undefined') {
         // Use marked.js for AI responses to handle markdown (bold, lists, etc.) properly
         msgDiv.innerHTML = marked.parse(text);
+        
+        // Add a clean save action bar at bottom of card
+        const actionBar = document.createElement('div');
+        actionBar.classList.add('flex', 'justify-end', 'mt-3', 'pt-2', 'border-t', 'border-zinc-200/20', 'dark:border-zinc-800/20');
+        
+        const saveBtn = document.createElement('button');
+        saveBtn.classList.add('text-[11px]', 'font-mono', 'text-primary', 'dark:text-primary-fixed-dim', 'hover:opacity-85', 'transition-opacity', 'flex', 'items-center', 'gap-1', 'focus:outline-none');
+        saveBtn.innerHTML = `<span class="material-symbols-outlined text-xs">bookmark_add</span> Save to Workspace`;
+        
+        saveBtn.addEventListener('click', () => {
+            if (typeof saveToNotebook === 'function') {
+                saveToNotebook(text);
+            }
+            saveBtn.innerHTML = `<span class="material-symbols-outlined text-xs">bookmark_added</span> Saved`;
+            saveBtn.disabled = true;
+            saveBtn.classList.add('opacity-60');
+        });
+        
+        actionBar.appendChild(saveBtn);
+        msgDiv.appendChild(actionBar);
     } else {
         // Simple formatting for user messages
         msgDiv.innerHTML = text.replace(/\n/g, '<br>');
@@ -222,6 +242,9 @@ async function handleSend(text) {
         if (session) {
             session.messages.push({ text: data.response, sender: 'agent' });
             saveSessions();
+            if (typeof incrementDailyGoal === 'function') {
+                incrementDailyGoal(); // Increment curiosity target counter!
+            }
         }
         cleanupCooldown();
     } catch (error) {
@@ -323,20 +346,48 @@ const closeAboutBtn = document.getElementById('closeAboutBtn');
 
 function updateHistoryUI() {
     saveSessions();
+    if (typeof updateProfileDashboard === 'function') {
+        updateProfileDashboard(); // Keep stats completely synced!
+    }
     if (chatSessions.length === 0) {
-        historyContent.innerHTML = '<p class="text-on-surface-variant italic">No sessions yet. Start exploring!</p>';
+        historyContent.innerHTML = '<p class="text-on-surface-variant dark:text-zinc-500 italic text-center py-4">No sessions yet. Start exploring!</p>';
         return;
     }
 
     historyContent.innerHTML = chatSessions.map(session =>
-        `<div class="p-xs bg-surface-container-low rounded-md border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer group flex items-center justify-between" onclick="loadSession(${session.id})">
-            <div class="flex items-center">
-                <span class="material-symbols-outlined text-[16px] mr-2 text-on-surface-variant">chat_bubble</span>
-                <span class="truncate max-w-[200px]">${session.title}</span>
+        `<div id="history-row-${session.id}" class="p-3 bg-zinc-50 dark:bg-zinc-900 rounded-lg border border-zinc-200/50 dark:border-zinc-800/50 hover:bg-zinc-100 dark:hover:bg-zinc-800/60 transition-colors cursor-pointer group flex items-center justify-between gap-3" onclick="loadSession(${session.id})">
+            <div class="flex items-center min-w-0">
+                <span class="material-symbols-outlined text-base mr-2 text-primary dark:text-primary-fixed-dim">chat_bubble</span>
+                <span class="truncate text-sm text-on-surface dark:text-zinc-200 font-medium">${session.title}</span>
             </div>
-            <span class="material-symbols-outlined text-[14px] opacity-0 group-hover:opacity-100 text-secondary">arrow_forward</span>
+            <div class="flex items-center gap-2">
+                <button onclick="deleteHistorySession(event, ${session.id})" class="text-zinc-400 hover:text-red-500 dark:text-zinc-500 dark:hover:text-red-400 p-1 rounded-full hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50 transition-colors flex items-center justify-center">
+                    <span class="material-symbols-outlined text-base">delete</span>
+                </button>
+                <span class="material-symbols-outlined text-sm opacity-0 group-hover:opacity-100 text-secondary dark:text-primary-fixed-dim transition-opacity duration-200">arrow_forward</span>
+            </div>
         </div>`
     ).join('');
+}
+
+function deleteHistorySession(event, sessionId) {
+    event.stopPropagation(); // Avoid loading the session
+    const row = document.getElementById(`history-row-${sessionId}`);
+    if (!row) return;
+
+    // Trigger smooth fade and height collapse transition
+    row.classList.add('collapse-fade-out');
+
+    setTimeout(() => {
+        chatSessions = chatSessions.filter(s => s.id !== sessionId);
+        saveSessions();
+        updateHistoryUI();
+        
+        // If the active session is deleted, go back to hero mode
+        if (currentSessionId === sessionId) {
+            resetToHeroMode();
+        }
+    }, 450);
 }
 
 function loadSession(id) {
@@ -664,3 +715,244 @@ if (chatMicBtn) chatMicBtn.addEventListener('click', toggleRecording);
         });
     }
 })();
+
+// ─── USER PROFILE & STATS DASHBOARD ENGINE ───
+const profileDrawer = document.getElementById('profileDrawer');
+const profileBackdrop = document.getElementById('profileBackdrop');
+const profileAvatarBtn = document.getElementById('profileAvatarBtn');
+const closeProfileBtn = document.getElementById('closeProfileBtn');
+
+function openProfileDrawer() {
+    if (profileDrawer) {
+        updateProfileDashboard(); // Sync up stats dynamically before slide-in!
+        profileDrawer.classList.add('drawer-open');
+    }
+    if (profileBackdrop) {
+        profileBackdrop.classList.remove('hidden');
+    }
+}
+
+function closeProfileDrawer() {
+    if (profileDrawer) {
+        profileDrawer.classList.remove('drawer-open');
+    }
+    if (profileBackdrop) {
+        profileBackdrop.classList.add('hidden');
+    }
+}
+
+if (profileAvatarBtn) profileAvatarBtn.addEventListener('click', openProfileDrawer);
+if (closeProfileBtn) closeProfileBtn.addEventListener('click', closeProfileDrawer);
+if (profileBackdrop) profileBackdrop.addEventListener('click', closeProfileDrawer);
+
+// --- Stats Management, Ranks, Interests, Goals, and Notebook ---
+function incrementDailyGoal() {
+    const today = new Date().toISOString().split('T')[0];
+    let goalData = JSON.parse(localStorage.getItem('wiki_daily_queries')) || { count: 0, date: today };
+    
+    if (goalData.date !== today) {
+        goalData = { count: 0, date: today };
+    }
+    
+    goalData.count += 1;
+    localStorage.setItem('wiki_daily_queries', JSON.stringify(goalData));
+    updateProfileDashboard();
+}
+
+function saveToNotebook(text) {
+    let notebook = JSON.parse(localStorage.getItem('wiki_notebook')) || [];
+    
+    // Create elegant 120-char quote summary
+    const cleanSnippet = text.substring(0, 120).replace(/[#*`]/g, '') + (text.length > 120 ? '...' : '');
+    
+    notebook.unshift({
+        id: Date.now(),
+        snippet: cleanSnippet,
+        fullText: text
+    });
+    
+    localStorage.setItem('wiki_notebook', JSON.stringify(notebook));
+    updateProfileDashboard();
+}
+
+function deleteFromNotebook(event, id) {
+    event.stopPropagation(); // Don't trigger full preview modal!
+    let notebook = JSON.parse(localStorage.getItem('wiki_notebook')) || [];
+    notebook = notebook.filter(item => item.id !== id);
+    localStorage.setItem('wiki_notebook', JSON.stringify(notebook));
+    updateProfileDashboard();
+}
+
+function viewNotebookItem(id) {
+    const notebook = JSON.parse(localStorage.getItem('wiki_notebook')) || [];
+    const item = notebook.find(i => i.id === id);
+    if (!item) return;
+
+    // Create a beautifully responsive temp preview modal
+    const modal = document.createElement('div');
+    modal.className = "fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-md p-4";
+    modal.innerHTML = `
+        <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-lg shadow-2xl flex flex-col gap-4 max-h-[80vh] text-on-surface dark:text-zinc-100">
+            <div class="flex justify-between items-center border-b border-zinc-200/20 dark:border-zinc-800/80 pb-2">
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">bookmark</span>
+                    <h2 class="font-headline-md text-lg tracking-tight font-bold">Saved Insight</h2>
+                </div>
+                <button class="text-zinc-400 hover:text-zinc-600 dark:text-zinc-500 dark:hover:text-zinc-200 transition-colors close-temp-modal">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div class="overflow-y-auto flex flex-col gap-2 py-2 text-zinc-700 dark:text-zinc-300 font-body-md text-sm leading-relaxed max-h-[50vh]">
+                ${typeof marked !== 'undefined' ? marked.parse(item.fullText) : item.fullText.replace(/\n/g, '<br>')}
+            </div>
+            <div class="flex justify-end pt-2 border-t border-zinc-200/20 dark:border-zinc-800/80">
+                <button class="px-5 py-2 text-xs bg-primary/10 hover:bg-primary/20 text-primary dark:bg-primary-fixed-dim/10 dark:hover:bg-primary-fixed-dim/20 dark:text-primary-fixed-dim rounded-full font-semibold transition-all close-temp-modal">Close</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    
+    const closeModal = () => modal.remove();
+    modal.querySelectorAll('.close-temp-modal').forEach(btn => btn.addEventListener('click', closeModal));
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+}
+
+function updateProfileDashboard() {
+    // 1. Searches Count
+    const totalSearches = chatSessions.length;
+    const progressLabel = document.getElementById('rankProgressLabel');
+    if (progressLabel) {
+        progressLabel.textContent = `${totalSearches} inquiry${totalSearches === 1 ? '' : 'ies'} completed`;
+    }
+
+    // 2. Academic Rank Title, Icon & Progress Bar
+    const rankTitleEl = document.getElementById('rankTitle');
+    const rankIconEl = document.getElementById('rankIcon');
+    const rankBarEl = document.getElementById('rankProgressBar');
+    const avatarInitial = document.getElementById('avatarInitial');
+    
+    let rank = "Curious Inquirer";
+    let icon = "school";
+    let progressPct = 20;
+    
+    if (totalSearches >= 2 && totalSearches <= 5) {
+        rank = "Academic Explorer";
+        icon = "explore";
+        progressPct = 50;
+    } else if (totalSearches >= 6 && totalSearches <= 15) {
+        rank = "Philosophical Sage";
+        icon = "psychology";
+        progressPct = 75;
+    } else if (totalSearches > 15) {
+        rank = "Grand Archivist";
+        icon = "auto_stories";
+        progressPct = 100;
+    }
+    
+    if (rankTitleEl) rankTitleEl.textContent = rank;
+    if (rankIconEl) rankIconEl.textContent = icon;
+    if (rankBarEl) rankBarEl.style.width = `${progressPct}%`;
+    
+    if (avatarInitial) {
+        avatarInitial.textContent = rank.charAt(0);
+    }
+
+    // 3. Dynamic Interest Profiling
+    const domainEl = document.getElementById('profileDomain');
+    const listEl = document.getElementById('profileInterestsList');
+    
+    let scores = { Philosophy: 0, Literature: 0, "Social Theory": 0, "Art History": 0 };
+    
+    chatSessions.forEach(s => {
+        const title = s.title.toLowerCase();
+        if (/philosophy|stoic|existential|nihil|rational|ethics|moral|thinker/i.test(title)) scores.Philosophy++;
+        if (/literature|gothic|surreal|realism|book|novel|author|poetry|write/i.test(title)) scores.Literature++;
+        if (/marx|femin|anarch|postmodern|colonial|critical|society/i.test(title)) scores["Social Theory"]++;
+        if (/art|dada|symbolism|classicism|paint|aesthetic/i.test(title)) scores["Art History"]++;
+    });
+    
+    let dominant = "Broad Intellectual Generalist";
+    let maxScore = 0;
+    let categoriesList = [];
+    
+    Object.entries(scores).forEach(([cat, score]) => {
+        if (score > 0) {
+            categoriesList.push(cat);
+            if (score > maxScore) {
+                maxScore = score;
+                dominant = `${cat} Specialist`;
+            }
+        }
+    });
+    
+    if (domainEl) domainEl.textContent = dominant;
+    
+    if (listEl) {
+        if (categoriesList.length === 0) {
+            listEl.innerHTML = `
+                <span class="text-[10px] px-2 py-0.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800/80 text-zinc-400 dark:text-zinc-500 rounded-full font-medium">Philosophy</span>
+                <span class="text-[10px] px-2 py-0.5 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800/80 text-zinc-400 dark:text-zinc-500 rounded-full font-medium">Literature</span>
+            `;
+        } else {
+            listEl.innerHTML = categoriesList.map(cat => 
+                `<span class="text-[10px] px-2 py-0.5 bg-primary/10 dark:bg-primary-fixed-dim/10 border border-primary/20 dark:border-primary-fixed-dim/20 text-primary dark:text-primary-fixed-dim rounded-full font-semibold">${cat}</span>`
+            ).join('');
+        }
+    }
+
+    // 4. Daily Goal Circular Progress
+    const today = new Date().toISOString().split('T')[0];
+    let goalData = JSON.parse(localStorage.getItem('wiki_daily_queries')) || { count: 0, date: today };
+    if (goalData.date !== today) {
+        goalData = { count: 0, date: today };
+    }
+    
+    const count = goalData.count;
+    const progressText = document.getElementById('goalProgressText');
+    const circularEl = document.getElementById('goalCircularProgress');
+    
+    if (progressText) progressText.textContent = `${count}/5`;
+    if (circularEl) {
+        const circum = 213.6; // 2 * pi * 34
+        const offset = Math.max(0, circum - (circum * Math.min(count, 5) / 5));
+        circularEl.style.strokeDasharray = circum;
+        circularEl.style.strokeDashoffset = offset;
+    }
+
+    // 5. Research Notebook
+    const notebook = JSON.parse(localStorage.getItem('wiki_notebook')) || [];
+    const countEl = document.getElementById('savedCount');
+    const emptyPlaceholder = document.getElementById('emptyNotebookPlaceholder');
+    const notebookContainer = document.getElementById('savedInsightsContainer');
+    
+    if (countEl) countEl.textContent = `${notebook.length} item${notebook.length === 1 ? '' : 's'}`;
+    
+    if (notebook.length === 0) {
+        if (emptyPlaceholder) emptyPlaceholder.classList.remove('hidden');
+        if (notebookContainer) notebookContainer.classList.add('hidden');
+    } else {
+        if (emptyPlaceholder) emptyPlaceholder.classList.add('hidden');
+        if (notebookContainer) {
+            notebookContainer.classList.remove('hidden');
+            notebookContainer.innerHTML = notebook.map(item => `
+                <div class="notebook-item p-3 bg-zinc-100/50 dark:bg-zinc-900 border border-zinc-200/50 dark:border-zinc-800/80 rounded-lg relative flex flex-col gap-1 cursor-pointer" onclick="viewNotebookItem(${item.id})">
+                    <p class="text-xs text-zinc-700 dark:text-zinc-300 leading-snug pr-6 font-medium">${item.snippet}</p>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-[9px] text-zinc-400 dark:text-zinc-500 font-mono">Saved ${timeAgo(item.id)}</span>
+                        <button onclick="deleteFromNotebook(event, ${item.id})" class="text-zinc-400 hover:text-red-500 dark:text-zinc-500 dark:hover:text-red-400 p-0.5 rounded-full hover:bg-zinc-200/30 dark:hover:bg-zinc-800 transition-colors flex items-center justify-center">
+                            <span class="material-symbols-outlined text-[14px]">delete</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+    }
+}
+
+// Wire dynamic calculations on boot!
+document.addEventListener('DOMContentLoaded', () => {
+    updateProfileDashboard();
+});

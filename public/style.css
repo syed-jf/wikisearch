@@ -910,4 +910,80 @@ html.dark .designer-logo:hover {
   }
 }
 
+/* ─── SLEEK USER PROFILE & DASHBOARD DRAWER STYLES ─── */
+#profileDrawer {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+#profileDrawer.drawer-open {
+  transform: translateX(0) !important;
+}
+
+#profileAvatarBtn {
+  box-shadow: 0 0 0 0px rgba(0, 104, 117, 0);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#profileAvatarBtn:hover {
+  box-shadow: 0 0 12px 2px rgba(0, 229, 255, 0.25);
+  border-color: rgba(0, 229, 255, 0.6);
+}
+
+/* Custom scrollbars inside stats elements */
+#savedInsightsContainer::-webkit-scrollbar,
+#profileDrawer::-webkit-scrollbar {
+  width: 4px;
+}
+
+#savedInsightsContainer::-webkit-scrollbar-thumb,
+#profileDrawer::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.2);
+  border-radius: 4px;
+}
+
+/* Circular Goal Gauge */
+#goalCircularProgress {
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Notebook Item styling */
+.notebook-item {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.notebook-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* ─── INDIVIDUAL HISTORY ITEM SMOOTH DELETION ─── */
+.collapse-fade-out {
+  animation: collapseFadeOut 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+}
+
+@keyframes collapseFadeOut {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    max-height: 120px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    border-width: 1px;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.92) translateY(-10px);
+    max-height: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    border-width: 0px;
+  }
+}
+
 
