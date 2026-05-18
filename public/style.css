@@ -1150,6 +1150,13 @@ html.dark .designer-logo:hover {
   border: 1px solid;
 }
 
+/* Reposition World News interest button to the bottom-right to avoid overlapping the timestamp */
+.news-card .card-interest-btn {
+  top: auto !important;
+  bottom: 12px !important;
+  right: 16px !important;
+}
+
 /* Light Mode overrides */
 html:not(.dark) .diary-interest-btn, html:not(.dark) .card-interest-btn {
   border-color: rgba(0, 104, 117, 0.15) !important;
