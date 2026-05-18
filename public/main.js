@@ -559,6 +559,9 @@ async function updateDiary() {
         const books = booksResult.value;
         booksEl.innerHTML = books.map(b => `
             <div class="book-card-new" onclick="handleSend('Tell me about the book \\'${b.title.replace(/'/g,"\\'")}\\' by ${b.author.replace(/'/g,"\\'")} and why it\\'s currently trending worldwide.')">
+                <button class="card-interest-btn book-interest-toggle" data-title="${b.title.replace(/'/g,"\\'")}" onclick="toggleBookInterest(event, '${b.title.replace(/'/g,"\\'")}')">
+                    <span class="material-symbols-outlined text-xs btn-icon">interests</span>
+                </button>
                 <span class="book-subject-badge">${b.subject || 'Literature'}</span>
                 <div class="book-title-new">${b.title}</div>
                 <div class="book-author-new">${b.author}</div>
@@ -569,9 +572,10 @@ async function updateDiary() {
                 </div>
             </div>
         `).join('');
-        // Close diary when user explores a book
+        // Close diary when user explores a book (but NOT when clicking interest button!)
         booksEl.querySelectorAll('.book-card-new').forEach(card => {
-            card.addEventListener('click', () => {
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.card-interest-btn')) return;
                 if (diaryModal) diaryModal.classList.add('hidden');
             });
         });
@@ -583,7 +587,10 @@ async function updateDiary() {
     if (newsResult.status === 'fulfilled') {
         const news = newsResult.value;
         newsEl.innerHTML = news.map(n => `
-            <a href="${n.link}" target="_blank" rel="noopener noreferrer" class="news-card">
+            <div onclick="window.open('${n.link}', '_blank', 'noopener,noreferrer')" class="news-card cursor-pointer">
+                <button class="card-interest-btn news-interest-toggle" data-title="${n.title.replace(/'/g,"\\'")}" onclick="toggleNewsInterest(event, '${n.title.replace(/'/g,"\\'")}')">
+                    <span class="material-symbols-outlined text-xs btn-icon">interests</span>
+                </button>
                 <div class="news-source-row">
                     <span class="news-source-badge">${n.source}</span>
                     <span class="news-time">${timeAgo(n.published)}</span>
@@ -591,10 +598,15 @@ async function updateDiary() {
                 <div class="news-title">${n.title}</div>
                 <div class="news-summary">${n.summary}</div>
                 <div class="news-read-more">Read full story →</div>
-            </a>
+            </div>
         `).join('');
     } else {
         newsEl.innerHTML = '<p class="text-zinc-500 text-sm italic">World signals temporarily unavailable.</p>';
+    }
+
+    // Sync card interest togglers with current localStorage values
+    if (typeof updateCardInterestsUI === 'function') {
+        updateCardInterestsUI();
     }
 }
 
@@ -622,24 +634,83 @@ function updateDiaryInterestUI() {
     buttons.forEach(btn => {
         const category = btn.dataset.category;
         const isActive = !!saved[category];
-        const iconEl = btn.querySelector('.btn-icon');
         const textEl = btn.querySelector('.btn-text');
+        const iconEl = btn.querySelector('.btn-icon');
         
         if (isActive) {
             btn.classList.add('interest-active');
-            if (iconEl) iconEl.textContent = 'check_circle';
             if (textEl) textEl.textContent = 'Interested ✓';
         } else {
             btn.classList.remove('interest-active');
-            if (iconEl) iconEl.textContent = 'star';
             if (textEl) textEl.textContent = 'Interested';
         }
+        if (iconEl) iconEl.textContent = 'interests';
     });
 }
+
+window.toggleBookInterest = function(event, title) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    const saved = JSON.parse(localStorage.getItem('wiki_interested_books')) || [];
+    const idx = saved.indexOf(title);
+    if (idx > -1) {
+        saved.splice(idx, 1);
+    } else {
+        saved.push(title);
+    }
+    localStorage.setItem('wiki_interested_books', JSON.stringify(saved));
+    updateCardInterestsUI();
+    updateProfileDashboard();
+};
+
+window.toggleNewsInterest = function(event, title) {
+    if (event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    const saved = JSON.parse(localStorage.getItem('wiki_interested_news')) || [];
+    const idx = saved.indexOf(title);
+    if (idx > -1) {
+        saved.splice(idx, 1);
+    } else {
+        saved.push(title);
+    }
+    localStorage.setItem('wiki_interested_news', JSON.stringify(saved));
+    updateCardInterestsUI();
+    updateProfileDashboard();
+};
+
+window.updateCardInterestsUI = function() {
+    const savedBooks = JSON.parse(localStorage.getItem('wiki_interested_books')) || [];
+    const savedNews = JSON.parse(localStorage.getItem('wiki_interested_news')) || [];
+    
+    document.querySelectorAll('.book-interest-toggle').forEach(btn => {
+        const title = btn.dataset.title;
+        const isActive = savedBooks.includes(title);
+        if (isActive) {
+            btn.classList.add('interest-active');
+        } else {
+            btn.classList.remove('interest-active');
+        }
+    });
+
+    document.querySelectorAll('.news-interest-toggle').forEach(btn => {
+        const title = btn.dataset.title;
+        const isActive = savedNews.includes(title);
+        if (isActive) {
+            btn.classList.add('interest-active');
+        } else {
+            btn.classList.remove('interest-active');
+        }
+    });
+};
 
 const openDiary = () => {
     updateDiary();
     updateDiaryInterestUI(); // Dynamic sync when opened
+    updateCardInterestsUI();  // Card-level sync
     diaryModal.classList.remove('hidden');
 };
 
@@ -657,6 +728,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
     initDiaryInterestListeners();
     updateDiaryInterestUI();
+    updateCardInterestsUI();
     const isDark = document.documentElement.classList.contains('dark');
     if (darkModeToggle) darkModeToggle.checked = isDark;
     if (darkModeBtn) darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
@@ -1079,13 +1151,19 @@ function updateProfileDashboard() {
         if (/art|dada|symbolism|classicism|paint|aesthetic/i.test(title)) scores["Art History"]++;
     });
 
-    // Add explicit diary interests (+3 points)
+    // Add explicit Philosophy header interest toggle (+3 points)
     const diaryInterests = JSON.parse(localStorage.getItem('wiki_diary_interests')) || {};
-    Object.entries(diaryInterests).forEach(([cat, val]) => {
-        if (val && cat in scores) {
-            scores[cat] += 3;
-        }
-    });
+    if (diaryInterests.Philosophy) {
+        scores.Philosophy += 3;
+    }
+
+    // Add explicit individual Book interest toggles (+3 points per card)
+    const savedBooks = JSON.parse(localStorage.getItem('wiki_interested_books')) || [];
+    scores.Literature += savedBooks.length * 3;
+
+    // Add explicit individual News interest toggles (+3 points per card)
+    const savedNews = JSON.parse(localStorage.getItem('wiki_interested_news')) || [];
+    scores["Social Theory"] += savedNews.length * 3;
     
     let dominant = "Broad Intellectual Generalist";
     let maxScore = 0;
