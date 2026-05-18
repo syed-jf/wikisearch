@@ -537,6 +537,10 @@ async function updateDiary() {
     // ── Section 1: Ideology ──
     if (ideologyResult.status === 'fulfilled') {
         const id = ideologyResult.value;
+        localStorage.setItem('wiki_convergence_viewed', 'true'); // Mark convergence as viewed!
+        if (typeof updateProfileDashboard === 'function') {
+            updateProfileDashboard(); // Instantly light up achievements badge!
+        }
         ideologyEl.innerHTML = `
             <div class="ideology-name">${id.name}</div>
             <div class="ideology-meta">
@@ -722,6 +726,17 @@ const profileBackdrop = document.getElementById('profileBackdrop');
 const profileAvatarBtn = document.getElementById('profileAvatarBtn');
 const closeProfileBtn = document.getElementById('closeProfileBtn');
 
+// Identity Edit Form Selectors
+const editProfileBtn = document.getElementById('editProfileBtn');
+const cancelIdentityBtn = document.getElementById('cancelIdentityBtn');
+const saveIdentityBtn = document.getElementById('saveIdentityBtn');
+const profileSetupForm = document.getElementById('profileSetupForm');
+const profileNameInput = document.getElementById('profileNameInput');
+const profileSpecialtyInput = document.getElementById('profileSpecialtyInput');
+const drawerEmblemIcon = document.getElementById('drawerEmblemIcon');
+const profileNameDisplay = document.getElementById('profileNameDisplay');
+const profileSpecialtyDisplay = document.getElementById('profileSpecialtyDisplay');
+
 function openProfileDrawer() {
     if (profileDrawer) {
         updateProfileDashboard(); // Sync up stats dynamically before slide-in!
@@ -739,11 +754,64 @@ function closeProfileDrawer() {
     if (profileBackdrop) {
         profileBackdrop.classList.add('hidden');
     }
+    if (profileSetupForm) {
+        profileSetupForm.classList.remove('form-open');
+    }
 }
 
 if (profileAvatarBtn) profileAvatarBtn.addEventListener('click', openProfileDrawer);
 if (closeProfileBtn) closeProfileBtn.addEventListener('click', closeProfileDrawer);
 if (profileBackdrop) profileBackdrop.addEventListener('click', closeProfileDrawer);
+
+// Form Event Listeners
+if (editProfileBtn) {
+    editProfileBtn.addEventListener('click', () => {
+        if (profileSetupForm) {
+            const isOpen = profileSetupForm.classList.contains('form-open');
+            if (isOpen) {
+                profileSetupForm.classList.remove('form-open');
+            } else {
+                // Populate current values
+                const profile = JSON.parse(localStorage.getItem('wiki_user_profile')) || { name: 'Guest Inquirer', specialty: 'General Scholar', emblem: 'school' };
+                if (profileNameInput) profileNameInput.value = profile.name === 'Guest Inquirer' ? '' : profile.name;
+                if (profileSpecialtyInput) profileSpecialtyInput.value = profile.specialty === 'General Scholar' ? '' : profile.specialty;
+                
+                // Select active radio button
+                const radios = document.getElementsByName('emblemRadio');
+                radios.forEach(r => {
+                    if (r.value === profile.emblem) r.checked = true;
+                });
+
+                profileSetupForm.classList.add('form-open');
+            }
+        }
+    });
+}
+
+if (cancelIdentityBtn) {
+    cancelIdentityBtn.addEventListener('click', () => {
+        if (profileSetupForm) profileSetupForm.classList.remove('form-open');
+    });
+}
+
+if (saveIdentityBtn) {
+    saveIdentityBtn.addEventListener('click', () => {
+        const name = (profileNameInput && profileNameInput.value.trim()) || 'Guest Inquirer';
+        const specialty = (profileSpecialtyInput && profileSpecialtyInput.value.trim()) || 'General Scholar';
+        
+        let emblem = 'school';
+        const radios = document.getElementsByName('emblemRadio');
+        radios.forEach(r => {
+            if (r.checked) emblem = r.value;
+        });
+
+        const profileData = { name, specialty, emblem };
+        localStorage.setItem('wiki_user_profile', JSON.stringify(profileData));
+
+        if (profileSetupForm) profileSetupForm.classList.remove('form-open');
+        updateProfileDashboard();
+    });
+}
 
 // --- Stats Management, Ranks, Interests, Goals, and Notebook ---
 function incrementDailyGoal() {
@@ -821,6 +889,18 @@ function viewNotebookItem(id) {
 }
 
 function updateProfileDashboard() {
+    // 0. Load & Render Custom Identity
+    const profile = JSON.parse(localStorage.getItem('wiki_user_profile')) || { name: 'Guest Inquirer', specialty: 'General Scholar', emblem: 'school' };
+    
+    if (profileNameDisplay) profileNameDisplay.textContent = profile.name;
+    if (profileSpecialtyDisplay) profileSpecialtyDisplay.textContent = profile.specialty;
+    if (drawerEmblemIcon) drawerEmblemIcon.textContent = profile.emblem;
+    
+    // Sync top-nav Avatar button symbol!
+    if (profileAvatarBtn) {
+        profileAvatarBtn.innerHTML = `<span class="material-symbols-outlined text-[26px]">${profile.emblem}</span>`;
+    }
+
     // 1. Searches Count
     const totalSearches = chatSessions.length;
     const progressLabel = document.getElementById('rankProgressLabel');
@@ -948,6 +1028,49 @@ function updateProfileDashboard() {
                     </div>
                 </div>
             `).join('');
+        }
+    }
+
+    // 6. Dynamic Academic Badges Unlocking Checks!
+    const badgeCuriosity = document.getElementById('badge-curiosity');
+    const badgeSynthesis = document.getElementById('badge-synthesis');
+    const badgeNotebook = document.getElementById('badge-notebook');
+    const badgeGoal = document.getElementById('badge-goal');
+
+    // Badge 1: Aura of Curiosity - Unlocked if at least 1 search has been made
+    if (badgeCuriosity) {
+        if (totalSearches >= 1) {
+            badgeCuriosity.classList.add('badge-unlocked');
+        } else {
+            badgeCuriosity.classList.remove('badge-unlocked');
+        }
+    }
+
+    // Badge 2: The Synthesizer - Unlocked if they read/viewed daily convergence ideologies
+    if (badgeSynthesis) {
+        const viewed = localStorage.getItem('wiki_convergence_viewed') === 'true';
+        if (viewed) {
+            badgeSynthesis.classList.add('badge-unlocked');
+        } else {
+            badgeSynthesis.classList.remove('badge-unlocked');
+        }
+    }
+
+    // Badge 3: Archival Curator - Unlocked if at least 3 insights are saved in notebook
+    if (badgeNotebook) {
+        if (notebook.length >= 3) {
+            badgeNotebook.classList.add('badge-unlocked');
+        } else {
+            badgeNotebook.classList.remove('badge-unlocked');
+        }
+    }
+
+    // Badge 4: Unbroken Flame - Unlocked if they completed their daily query goal of 5/5
+    if (badgeGoal) {
+        if (count >= 5) {
+            badgeGoal.classList.add('badge-unlocked');
+        } else {
+            badgeGoal.classList.remove('badge-unlocked');
         }
     }
 }
