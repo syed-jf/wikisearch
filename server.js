@@ -516,6 +516,29 @@ app.get('/api/news', async (req, res) => {
 
 
 
+function isCasualGreeting(text) {
+    const clean = text.toLowerCase().trim().replace(/[^\w\s]/g, '');
+    const greetings = [
+        'hi', 'hello', 'hey', 'yo', 'sup', 'hola', 'good morning', 'good afternoon', 'good evening', 
+        'how are you', 'howdy', 'hows it going', 'how are you doing', 'how do you do', 'whats up', 
+        'what up', 'hey there', 'hello there', 'hi there', 'who are you', 'what is your name',
+        'how are you doing today', 'how are you today', 'how is your day', 'how is your day going'
+    ];
+    if (greetings.includes(clean) || greetings.some(g => clean.startsWith(g + ' '))) return true;
+    
+    const words = clean.split(/\s+/);
+    if (words.length <= 6) {
+        const casualKeywords = [
+            'hi', 'hello', 'hey', 'how', 'you', 'doing', 'sup', 'whats', 'up', 'thanks', 'thank', 
+            'cool', 'awesome', 'great', 'are', 'is', 'am', 'good', 'fine', 'do', 'does', 'there', 
+            'who', 'your', 'name', 'today', 'day', 'going', 'life', 'everything', 'things', 'yo', 
+            'hola', 'morning', 'afternoon', 'evening', 'what', 'it'
+        ];
+        return words.every(w => casualKeywords.includes(w));
+    }
+    return false;
+}
+
 // POST /api/chat — main Gemini chat endpoint
 app.post('/api/chat', async (req, res) => {
     const userInput = req.body.message || "";
@@ -584,10 +607,13 @@ app.post('/api/chat', async (req, res) => {
             return res.json({ response: "⚠️ **API Key Missing!**\n\nPlease go to your Render Dashboard → Environment Variables → Add `GEMINI_API_KEY` or `GROQ_API_KEY`." });
         }
 
-        const answer = await callAI(
-            userInput, 
-            "You are WikiSearch, an incredibly intelligent, scholarly AI assistant with access to vast human knowledge. Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative."
-        );
+        // Determine whether this query is conversational chit-chat vs scholarly lookup
+        const isCasual = isCasualGreeting(userInput);
+        const systemInstruction = isCasual
+            ? "You are WikiSearch, a warm, friendly, and highly humanized AI companion. The user is saying hi or making casual conversation. Respond warmly, casually, and briefly (strictly 1 to 2 sentences max). Do not write long essays or scholarly bullet lists for simple greetings!"
+            : "You are WikiSearch, an incredibly intelligent, scholarly AI assistant with access to vast human knowledge. Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative.";
+
+        const answer = await callAI(userInput, systemInstruction);
 
         // SAVE TO CACHE (only cache successful responses)
         if (cacheKey) {
