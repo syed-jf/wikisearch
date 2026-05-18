@@ -588,7 +588,7 @@ async function updateDiary() {
         const news = newsResult.value;
         newsEl.innerHTML = news.map(n => `
             <div onclick="window.open('${n.link}', '_blank', 'noopener,noreferrer')" class="news-card cursor-pointer">
-                <button class="card-interest-btn news-interest-toggle" data-title="${n.title.replace(/'/g,"\\'")}" onclick="toggleNewsInterest(event, '${n.title.replace(/'/g,"\\'")}')">
+                <button class="card-interest-btn news-interest-toggle" style="top: auto !important; bottom: 12px !important; right: 16px !important;" data-title="${n.title.replace(/'/g,"\\'")}" onclick="toggleNewsInterest(event, '${n.title.replace(/'/g,"\\'")}')">
                     <span class="material-symbols-outlined text-xs btn-icon">interests</span>
                 </button>
                 <div class="news-source-row">
