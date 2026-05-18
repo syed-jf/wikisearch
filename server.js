@@ -18,6 +18,13 @@ const queryCache = new Map();
 const QUERY_CACHE_DURATION_MS = 24 * 60 * 60 * 1000; // 24 hours
 
 // ============================================================
+// GLOBAL GEMINI RATE GUARD
+// Enforces minimum 3-second gap between real API calls.
+// ============================================================
+let lastGeminiCallTime = 0;
+const GEMINI_MIN_INTERVAL_MS = 3000; // 3 seconds minimum between calls
+
+// ============================================================
 // TRENDING CONTENT CACHE
 // Uses Wikipedia Pageviews API (free, no key needed) + Gemini
 // Cache is refreshed every 6 hours to stay well within rate limits
@@ -286,6 +293,16 @@ app.post('/api/chat', async (req, res) => {
         }
     }
 
+    // ============================================================
+    // GLOBAL RATE LIMITER — minimum 3s gap between Gemini API calls
+    // ============================================================
+    const timeSinceLastCall = now - lastGeminiCallTime;
+    if (timeSinceLastCall < GEMINI_MIN_INTERVAL_MS) {
+        const waitTime = Math.ceil((GEMINI_MIN_INTERVAL_MS - timeSinceLastCall) / 1000);
+        console.log(`[Rate Guard] Throttling — ${waitTime}s remaining before next Gemini call`);
+        return res.json({ response: `### ✨ WikiSearch is pacing itself\n\nTo give you the best answers, WikiSearch spaces out its deep thinking. Please wait **${waitTime} seconds** and try again.\n\nGreat minds take their time. ⏳` });
+    }
+
     try {
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
@@ -297,44 +314,103 @@ app.post('/api/chat', async (req, res) => {
 A user is asking you: "${userInput}"
 Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative.`;
 
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // Using gemini-2.0-flash — much more stable on free tier than 2.5-flash
+        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+        const requestBody = JSON.stringify({ contents: [{ parts: [{ text: geminiPrompt }] }] });
 
-        const geminiRes = await fetch(geminiUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: geminiPrompt }] }] })
-        });
+        // Retry logic: up to 3 attempts with exponential backoff
+        let lastError = null;
+        for (let attempt = 1; attempt <= 3; attempt++) {
+            try {
+                lastGeminiCallTime = Date.now(); // Track this call
 
-        const data = await geminiRes.json();
+                const geminiRes = await fetch(geminiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: requestBody
+                });
 
-        if (data.error && data.error.code === 429) {
-            console.warn("Gemini Rate Limit Hit");
-            return res.json({ response: "### ✨ WikiSearch needs a moment to breathe\n\nYou're clearly on a roll! Our knowledge engine processes queries deeply, and it needs just **2 minutes** to recharge before diving back in.\n\nThis isn't a bug — it's WikiSearch giving each question the thoughtful attention it deserves. Grab a coffee, jot down your next question, and we'll be right back with you. ☕" });
+                const data = await geminiRes.json();
+
+                // Handle rate limit (429)
+                if (data.error && data.error.code === 429) {
+                    console.warn(`[Attempt ${attempt}/3] Gemini Rate Limit Hit (429)`);
+                    lastError = '429';
+                    if (attempt < 3) {
+                        await new Promise(r => setTimeout(r, attempt * 5000)); // 5s, 10s backoff
+                        continue;
+                    }
+                    break;
+                }
+
+                // Handle overload (503)
+                if (data.error && (data.error.code === 503 || data.error.status === 'UNAVAILABLE')) {
+                    console.warn(`[Attempt ${attempt}/3] Gemini Overloaded (503)`);
+                    lastError = '503';
+                    if (attempt < 3) {
+                        await new Promise(r => setTimeout(r, attempt * 4000)); // 4s, 8s backoff
+                        continue;
+                    }
+                    break;
+                }
+
+                // Handle any other API error
+                if (data.error) {
+                    console.error(`[Attempt ${attempt}/3] Gemini error:`, data.error);
+                    lastError = 'other';
+                    if (attempt < 3) {
+                        await new Promise(r => setTimeout(r, 3000));
+                        continue;
+                    }
+                    break;
+                }
+
+                // Success!
+                if (data.candidates && data.candidates.length > 0) {
+                    const answer = data.candidates[0].content.parts[0].text;
+                    
+                    // SAVE TO CACHE (only cache successful responses)
+                    if (cacheKey) {
+                        queryCache.set(cacheKey, {
+                            response: answer,
+                            timestamp: Date.now()
+                        });
+                        console.log(`[Cache Write] Cached normalized query: "${cacheKey}"`);
+                    }
+
+                    return res.json({ response: answer });
+                } else {
+                    console.error(`[Attempt ${attempt}/3] Gemini unexpected response:`, data);
+                    lastError = 'empty';
+                    if (attempt < 3) {
+                        await new Promise(r => setTimeout(r, 3000));
+                        continue;
+                    }
+                    break;
+                }
+            } catch (fetchErr) {
+                console.error(`[Attempt ${attempt}/3] Fetch error:`, fetchErr.message);
+                lastError = 'network';
+                if (attempt < 3) {
+                    await new Promise(r => setTimeout(r, 3000));
+                    continue;
+                }
+                break;
+            }
         }
 
-        if (data.candidates && data.candidates.length > 0) {
-            const answer = data.candidates[0].content.parts[0].text;
-            
-            // ============================================================
-            // SAVE TO CACHE (Layer 2)
-            // ============================================================
-            if (cacheKey) {
-                queryCache.set(cacheKey, {
-                    response: answer,
-                    timestamp: now
-                });
-                console.log(`[Cache Write] Cached normalized query: "${cacheKey}"`);
-            }
-
-            return res.json({ response: answer });
+        // All retries exhausted — return user-friendly message based on error type
+        if (lastError === '429') {
+            return res.json({ response: "### ✨ WikiSearch needs a moment to breathe\n\nYou're clearly on a roll! Our knowledge engine needs about **2 minutes** to recharge before diving back in.\n\nGrab a coffee, jot down your next question, and we'll be right back with you. ☕" });
+        } else if (lastError === '503') {
+            return res.json({ response: "### 🌐 WikiSearch's knowledge source is momentarily busy\n\nThe AI backbone is experiencing high global demand right now. This usually clears up within **30–60 seconds**.\n\nYour question is important — please try again shortly! 🔄" });
         } else {
-            console.error("Gemini unexpected response:", data);
-            return res.json({ response: "I'm sorry, my neural pathways are a bit tangled right now. Please try again!" });
+            return res.json({ response: "### 🔄 WikiSearch couldn't complete that thought\n\nSomething unexpected happened while processing your question. Please try again in a moment — it usually works on the next try!" });
         }
 
     } catch (error) {
-        console.error("Gemini API error:", error);
-        return res.json({ response: "Oops, I'm having trouble connecting right now. Please try again later." });
+        console.error("Gemini API critical error:", error);
+        return res.json({ response: "### 🔄 Connection interrupted\n\nWikiSearch is having trouble reaching its knowledge source. Please try again in a few seconds." });
     }
 });
 

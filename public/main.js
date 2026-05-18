@@ -96,18 +96,66 @@ function addMessage(text, sender) {
     }
 }
 
+// Rotating thinking phrases — makes WikiSearch feel alive and intelligent
+const THINKING_PHRASES = [
+    'WikiSearch is synthesizing…',
+    'WikiSearch is thinking…',
+    'Consulting the knowledge lattice…',
+    'Connecting the dots…',
+    'WikiSearch is pondering…',
+    'Searching the archives…',
+    'Distilling the answer…',
+    'WikiSearch is reflecting…',
+    'Processing your inquiry…',
+    'Weaving the knowledge together…'
+];
+
+function getRandomPhrase() {
+    return THINKING_PHRASES[Math.floor(Math.random() * THINKING_PHRASES.length)];
+}
+
 function showTypingIndicator() {
+    const phrase = getRandomPhrase();
     const msgDiv = document.createElement('div');
-    msgDiv.classList.add('chat-message', 'agent');
+    msgDiv.classList.add('chat-message', 'agent', 'thinking-bubble');
     msgDiv.id = 'typingIndicator';
-    msgDiv.innerHTML = '<div class="flex items-center h-5"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    msgDiv.innerHTML = `
+        <div class="thinking-bubble-inner">
+            <div class="thinking-dots">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </div>
+            <span class="thinking-phrase" id="thinkingPhrase">${phrase}</span>
+        </div>
+    `;
     chatContainer.appendChild(msgDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
+
+    // Rotate the phrase every 3 seconds while thinking
+    const rotateInterval = setInterval(() => {
+        const el = document.getElementById('thinkingPhrase');
+        if (el) {
+            el.style.opacity = '0';
+            setTimeout(() => {
+                if (el) {
+                    el.textContent = getRandomPhrase();
+                    el.style.opacity = '1';
+                }
+            }, 300);
+        } else {
+            clearInterval(rotateInterval);
+        }
+    }, 3000);
+
+    // Store interval on the element so removeTypingIndicator can clear it
+    msgDiv._rotateInterval = rotateInterval;
 }
 
 function removeTypingIndicator() {
     const indicator = document.getElementById('typingIndicator');
     if (indicator) {
+        if (indicator._rotateInterval) clearInterval(indicator._rotateInterval);
         indicator.remove();
     }
 }
@@ -118,16 +166,12 @@ async function handleSend(text) {
     if (!text || isThinking) return;
     isThinking = true;
 
-    // Visual Pacing: Disable inputs & buttons, add thinking indicators
+    // Disable inputs & buttons to prevent double-send — thinking state shown in chat bubble
     heroInput.disabled = true;
     chatInput.disabled = true;
     heroSendBtn.disabled = true;
     chatSendBtn.disabled = true;
-
-    const originalChatPlaceholder = chatInput.placeholder;
-    chatInput.placeholder = "WikiSearch is synthesizing…";
-    chatInput.classList.add('opacity-60', 'cursor-not-allowed', 'chat-input-thinking');
-    if (chatInputBg) chatInputBg.classList.add('chat-input-bg-thinking');
+    chatInput.classList.add('opacity-50', 'cursor-not-allowed');
 
     // Handle Session Creation
     if (!currentSessionId) {
@@ -150,18 +194,14 @@ async function handleSend(text) {
     showTypingIndicator();
 
     const cleanupCooldown = () => {
-        // Enforce a 1.5-second pacing cooldown after the response is rendered 
-        // to completely protect the free-tier API from rapid-fire spam.
+        // 1.5-second pacing cooldown after response to prevent rapid-fire spam
         setTimeout(() => {
             isThinking = false;
             heroInput.disabled = false;
             chatInput.disabled = false;
             heroSendBtn.disabled = false;
             chatSendBtn.disabled = false;
-
-            chatInput.placeholder = originalChatPlaceholder;
-            chatInput.classList.remove('opacity-60', 'cursor-not-allowed', 'chat-input-thinking');
-            if (chatInputBg) chatInputBg.classList.remove('chat-input-bg-thinking');
+            chatInput.classList.remove('opacity-50', 'cursor-not-allowed');
             chatInput.focus();
         }, 1500);
     };
