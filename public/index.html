@@ -438,18 +438,57 @@
             </button>
         </div>
 
+        <!-- Inline Password Verification Lock Panel (Hidden by default, slides down smoothly) -->
+        <div id="profilePasswordPrompt" class="hidden px-6 py-5 bg-zinc-100/50 dark:bg-zinc-900/60 border-t border-zinc-200/40 dark:border-zinc-800/40 space-y-3 transition-all duration-300">
+            <h4 class="text-xs font-bold text-on-surface dark:text-zinc-200 tracking-tight flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-sm text-primary dark:text-primary-fixed-dim">lock</span> Secure Unlock
+            </h4>
+            <p class="text-[10px] text-zinc-450 dark:text-zinc-400 leading-normal">Enter your profile password to unlock and edit your workspace identity details.</p>
+            <div class="space-y-1">
+                <input type="password" id="unlockPasswordInput" placeholder="Enter password" class="w-full text-xs px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-on-surface dark:text-zinc-250 focus:outline-none focus:ring-1 focus:ring-primary">
+                <p id="passwordErrorMsg" class="hidden text-[10px] text-red-500 font-semibold mt-1">Incorrect password. Please try again.</p>
+            </div>
+            <div class="flex justify-end gap-2 pt-1">
+                <button type="button" id="cancelUnlockBtn" class="text-xs px-3 py-1.5 text-zinc-550 hover:text-zinc-700 dark:hover:text-zinc-300 font-medium">Cancel</button>
+                <button type="button" id="submitUnlockBtn" class="text-xs px-4 py-1.5 bg-primary text-white dark:bg-primary-fixed-dim dark:text-zinc-950 rounded-lg hover:opacity-90 transition-opacity font-semibold">Unlock Form</button>
+            </div>
+        </div>
+
         <!-- Inline Profile Setup Form (Hidden by default, slides down smoothly) -->
         <div id="profileSetupForm" class="hidden px-6 py-5 bg-zinc-100/50 dark:bg-zinc-900/60 border-t border-zinc-200/40 dark:border-zinc-800/40 space-y-4 transition-all duration-300">
             <h4 class="text-xs font-bold text-on-surface dark:text-zinc-200 tracking-tight">Configure Inquirer Identity</h4>
             
             <div class="space-y-1">
                 <label class="text-[10px] uppercase font-mono tracking-wider text-zinc-400 dark:text-zinc-500 block">Your Name</label>
-                <input type="text" id="profileNameInput" placeholder="Enter name (e.g. Syed)" class="w-full text-xs px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-on-surface dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary">
+                <input type="text" id="profileNameInput" placeholder="Enter name (e.g. John)" class="w-full text-xs px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-on-surface dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary">
             </div>
 
             <div class="space-y-1">
                 <label class="text-[10px] uppercase font-mono tracking-wider text-zinc-400 dark:text-zinc-500 block">Academic Specialty</label>
                 <input type="text" id="profileSpecialtyInput" placeholder="Specialty (e.g. Stoicism)" class="w-full text-xs px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-on-surface dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary">
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-[10px] uppercase font-mono tracking-wider text-zinc-400 dark:text-zinc-500 block">Gender</label>
+                <div class="grid grid-cols-3 gap-2" id="genderPickerGrid">
+                    <label class="flex items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none">
+                        <input type="radio" name="genderRadio" value="Male" checked class="sr-only">
+                        <span class="text-xs font-semibold text-zinc-650 dark:text-zinc-300">Male</span>
+                    </label>
+                    <label class="flex items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none">
+                        <input type="radio" name="genderRadio" value="Female" class="sr-only">
+                        <span class="text-xs font-semibold text-zinc-650 dark:text-zinc-300">Female</span>
+                    </label>
+                    <label class="flex items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none">
+                        <input type="radio" name="genderRadio" value="Other" class="sr-only">
+                        <span class="text-xs font-semibold text-zinc-650 dark:text-zinc-300">Other</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="space-y-1">
+                <label class="text-[10px] uppercase font-mono tracking-wider text-zinc-400 dark:text-zinc-500 block">Set Password</label>
+                <input type="password" id="profilePasswordInput" placeholder="Password (e.g. 1234)" class="w-full text-xs px-3 py-2 rounded-lg bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-on-surface dark:text-zinc-200 focus:outline-none focus:ring-1 focus:ring-primary">
             </div>
 
             <div class="space-y-1">
@@ -459,25 +498,25 @@
                     <label class="flex flex-col items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none relative">
                         <input type="radio" name="emblemRadio" value="school" checked class="sr-only">
                         <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">school</span>
-                        <span class="text-[8px] mt-1 text-zinc-400 scale-90">Minerva</span>
+                        <span class="text-[10px] mt-1 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide select-none">Minerva</span>
                     </label>
                     <!-- Fountain Pen -->
                     <label class="flex flex-col items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none relative">
                         <input type="radio" name="emblemRadio" value="edit_note" class="sr-only">
                         <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">edit_note</span>
-                        <span class="text-[8px] mt-1 text-zinc-400 scale-90">Pen</span>
+                        <span class="text-[10px] mt-1 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide select-none">Pen</span>
                     </label>
                     <!-- Astrolabe -->
                     <label class="flex flex-col items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none relative">
                         <input type="radio" name="emblemRadio" value="explore" class="sr-only">
                         <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">explore</span>
-                        <span class="text-[8px] mt-1 text-zinc-400 scale-90">Navigator</span>
+                        <span class="text-[10px] mt-1 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide select-none">Navigator</span>
                     </label>
                     <!-- Pillar -->
                     <label class="flex flex-col items-center justify-center p-2 rounded-lg border border-zinc-200 dark:border-zinc-800 cursor-pointer bg-white dark:bg-zinc-950 hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-all select-none relative">
                         <input type="radio" name="emblemRadio" value="account_balance" class="sr-only">
                         <span class="material-symbols-outlined text-zinc-500 dark:text-zinc-400 text-lg">account_balance</span>
-                        <span class="text-[8px] mt-1 text-zinc-400 scale-90">Pillar</span>
+                        <span class="text-[10px] mt-1 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide select-none">Pillar</span>
                     </label>
                 </div>
             </div>

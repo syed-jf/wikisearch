@@ -733,9 +733,17 @@ const saveIdentityBtn = document.getElementById('saveIdentityBtn');
 const profileSetupForm = document.getElementById('profileSetupForm');
 const profileNameInput = document.getElementById('profileNameInput');
 const profileSpecialtyInput = document.getElementById('profileSpecialtyInput');
+const profilePasswordInput = document.getElementById('profilePasswordInput');
 const drawerEmblemIcon = document.getElementById('drawerEmblemIcon');
 const profileNameDisplay = document.getElementById('profileNameDisplay');
 const profileSpecialtyDisplay = document.getElementById('profileSpecialtyDisplay');
+
+// Password Lock Selectors
+const profilePasswordPrompt = document.getElementById('profilePasswordPrompt');
+const unlockPasswordInput = document.getElementById('unlockPasswordInput');
+const passwordErrorMsg = document.getElementById('passwordErrorMsg');
+const cancelUnlockBtn = document.getElementById('cancelUnlockBtn');
+const submitUnlockBtn = document.getElementById('submitUnlockBtn');
 
 function openProfileDrawer() {
     if (profileDrawer) {
@@ -757,6 +765,9 @@ function closeProfileDrawer() {
     if (profileSetupForm) {
         profileSetupForm.classList.remove('form-open');
     }
+    if (profilePasswordPrompt) {
+        profilePasswordPrompt.classList.remove('prompt-open');
+    }
 }
 
 if (profileAvatarBtn) profileAvatarBtn.addEventListener('click', openProfileDrawer);
@@ -766,25 +777,83 @@ if (profileBackdrop) profileBackdrop.addEventListener('click', closeProfileDrawe
 // Form Event Listeners
 if (editProfileBtn) {
     editProfileBtn.addEventListener('click', () => {
-        if (profileSetupForm) {
-            const isOpen = profileSetupForm.classList.contains('form-open');
-            if (isOpen) {
-                profileSetupForm.classList.remove('form-open');
-            } else {
-                // Populate current values
-                const profile = JSON.parse(localStorage.getItem('wiki_user_profile')) || { name: 'Guest Inquirer', specialty: 'General Scholar', emblem: 'school' };
-                if (profileNameInput) profileNameInput.value = profile.name === 'Guest Inquirer' ? '' : profile.name;
-                if (profileSpecialtyInput) profileSpecialtyInput.value = profile.specialty === 'General Scholar' ? '' : profile.specialty;
-                
-                // Select active radio button
-                const radios = document.getElementsByName('emblemRadio');
-                radios.forEach(r => {
-                    if (r.value === profile.emblem) r.checked = true;
-                });
-
-                profileSetupForm.classList.add('form-open');
+        const profile = JSON.parse(localStorage.getItem('wiki_user_profile'));
+        
+        // Check if a profile and a password are set
+        if (profile && profile.password) {
+            // Password verification required to unlock edit!
+            if (profilePasswordPrompt) {
+                if (unlockPasswordInput) unlockPasswordInput.value = '';
+                if (passwordErrorMsg) passwordErrorMsg.classList.add('hidden');
+                if (unlockPasswordInput) unlockPasswordInput.classList.remove('shake-error');
+                profilePasswordPrompt.classList.add('prompt-open');
             }
+            if (profileSetupForm) profileSetupForm.classList.remove('form-open');
+        } else {
+            // No profile set yet - open Setup immediately!
+            openSetupFormDirectly();
         }
+    });
+}
+
+function openSetupFormDirectly() {
+    if (profileSetupForm) {
+        const profile = JSON.parse(localStorage.getItem('wiki_user_profile')) || { name: '', specialty: '', gender: 'Male', emblem: 'school', password: '' };
+        
+        if (profileNameInput) profileNameInput.value = profile.name === 'Guest Inquirer' ? '' : profile.name;
+        if (profileSpecialtyInput) profileSpecialtyInput.value = profile.specialty === 'General Scholar' ? '' : profile.specialty;
+        if (profilePasswordInput) profilePasswordInput.value = profile.password || '';
+        
+        // Select active gender radio button
+        const genderRadios = document.getElementsByName('genderRadio');
+        genderRadios.forEach(r => {
+            if (r.value === (profile.gender || 'Male')) r.checked = true;
+        });
+
+        // Select active emblem radio button
+        const radios = document.getElementsByName('emblemRadio');
+        radios.forEach(r => {
+            if (r.value === profile.emblem) r.checked = true;
+        });
+
+        profileSetupForm.classList.add('form-open');
+        if (profilePasswordPrompt) profilePasswordPrompt.classList.remove('prompt-open');
+    }
+}
+
+// Password Unlock Handlers
+if (submitUnlockBtn) {
+    submitUnlockBtn.addEventListener('click', verifyAndUnlockForm);
+}
+if (unlockPasswordInput) {
+    unlockPasswordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') verifyAndUnlockForm();
+    });
+}
+
+function verifyAndUnlockForm() {
+    const profile = JSON.parse(localStorage.getItem('wiki_user_profile'));
+    if (!profile) return;
+
+    const entered = (unlockPasswordInput && unlockPasswordInput.value) || '';
+    if (entered === profile.password) {
+        if (profilePasswordPrompt) profilePasswordPrompt.classList.remove('prompt-open');
+        openSetupFormDirectly();
+    } else {
+        // Trigger shaking error visual cue
+        if (unlockPasswordInput) {
+            unlockPasswordInput.classList.add('shake-error');
+            setTimeout(() => {
+                unlockPasswordInput.classList.remove('shake-error');
+            }, 350);
+        }
+        if (passwordErrorMsg) passwordErrorMsg.classList.remove('hidden');
+    }
+}
+
+if (cancelUnlockBtn) {
+    cancelUnlockBtn.addEventListener('click', () => {
+        if (profilePasswordPrompt) profilePasswordPrompt.classList.remove('prompt-open');
     });
 }
 
@@ -798,6 +867,13 @@ if (saveIdentityBtn) {
     saveIdentityBtn.addEventListener('click', () => {
         const name = (profileNameInput && profileNameInput.value.trim()) || 'Guest Inquirer';
         const specialty = (profileSpecialtyInput && profileSpecialtyInput.value.trim()) || 'General Scholar';
+        const password = (profilePasswordInput && profilePasswordInput.value) || '';
+
+        let gender = 'Male';
+        const genderRadios = document.getElementsByName('genderRadio');
+        genderRadios.forEach(r => {
+            if (r.checked) gender = r.value;
+        });
         
         let emblem = 'school';
         const radios = document.getElementsByName('emblemRadio');
@@ -805,7 +881,7 @@ if (saveIdentityBtn) {
             if (r.checked) emblem = r.value;
         });
 
-        const profileData = { name, specialty, emblem };
+        const profileData = { name, specialty, gender, emblem, password };
         localStorage.setItem('wiki_user_profile', JSON.stringify(profileData));
 
         if (profileSetupForm) profileSetupForm.classList.remove('form-open');
@@ -895,6 +971,15 @@ function updateProfileDashboard() {
     if (profileNameDisplay) profileNameDisplay.textContent = profile.name;
     if (profileSpecialtyDisplay) profileSpecialtyDisplay.textContent = profile.specialty;
     if (drawerEmblemIcon) drawerEmblemIcon.textContent = profile.emblem;
+
+    // Toggle trigger button text between Setup Profile and Edit Profile
+    if (editProfileBtn) {
+        if (profile.password) {
+            editProfileBtn.innerHTML = `<span class="material-symbols-outlined text-xs">edit</span> Edit Profile`;
+        } else {
+            editProfileBtn.innerHTML = `<span class="material-symbols-outlined text-xs">edit</span> Setup Profile`;
+        }
+    }
     
     // Sync top-nav Avatar button symbol!
     if (profileAvatarBtn) {
