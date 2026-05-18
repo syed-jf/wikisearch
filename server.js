@@ -45,8 +45,147 @@ function isExcluded(title) {
     return EXCLUDED_PAGES.some(ex => title.includes(ex));
 }
 
+async function callAI(prompt, systemInstruction = '', isJson = false) {
+    const GEMINI_KEYS = [
+        process.env.GEMINI_API_KEY,
+        process.env.GEMINI_API_KEY_2,
+        process.env.GEMINI_API_KEY_3
+    ].filter(Boolean);
+
+    let lastErrorType = null;
+    let lastErrorMessage = '';
+
+    // 1. Try Gemini keys sequentially
+    if (GEMINI_KEYS.length > 0) {
+        for (let keyIdx = 0; keyIdx < GEMINI_KEYS.length; keyIdx++) {
+            const currentKey = GEMINI_KEYS[keyIdx];
+            for (let attempt = 1; attempt <= 2; attempt++) {
+                try {
+                    // Respect global pace guard
+                    const timeSinceLastCall = Date.now() - lastGeminiCallTime;
+                    if (timeSinceLastCall < GEMINI_MIN_INTERVAL_MS) {
+                        await new Promise(r => setTimeout(r, GEMINI_MIN_INTERVAL_MS - timeSinceLastCall));
+                    }
+                    lastGeminiCallTime = Date.now();
+
+                    const modelName = isJson ? "gemini-2.0-flash" : "gemini-2.0-flash";
+                    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${currentKey}`;
+                    
+                    const requestBody = {
+                        contents: [{ parts: [{ text: `${systemInstruction}\n\nUser Input: ${prompt}` }] }]
+                    };
+
+                    const geminiRes = await fetch(geminiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(requestBody)
+                    });
+
+                    const data = await geminiRes.json();
+
+                    if (data.error) {
+                        if (data.error.code === 429) {
+                            console.warn(`[Failover] Gemini Key ${keyIdx + 1} Attempt ${attempt} hit 429 (Rate Limit)`);
+                            lastErrorType = '429';
+                            lastErrorMessage = data.error.message;
+                            if (attempt < 2) {
+                                await new Promise(r => setTimeout(r, 1500));
+                                continue;
+                            }
+                            break; // Move to next key
+                        }
+                        if (data.error.code === 503 || data.error.status === 'UNAVAILABLE') {
+                            console.warn(`[Failover] Gemini Key ${keyIdx + 1} Attempt ${attempt} hit 503 (Unavailable)`);
+                            lastErrorType = '503';
+                            lastErrorMessage = data.error.message;
+                            if (attempt < 2) {
+                                await new Promise(r => setTimeout(r, 1500));
+                                continue;
+                            }
+                            break; // Move to next key
+                        }
+                        throw new Error(`Gemini Error: ${data.error.message}`);
+                    }
+
+                    if (data.candidates && data.candidates.length > 0 && data.candidates[0].content && data.candidates[0].content.parts) {
+                        console.log(`[Failover] Success! Answered via Gemini Key ${keyIdx + 1}`);
+                        return data.candidates[0].content.parts[0].text;
+                    } else {
+                        throw new Error('Unexpected empty response structure from Gemini');
+                    }
+
+                } catch (err) {
+                    console.error(`[Failover] Gemini Key ${keyIdx + 1} Attempt ${attempt} error:`, err.message);
+                    lastErrorType = 'other';
+                    lastErrorMessage = err.message;
+                    if (attempt < 2) {
+                        await new Promise(r => setTimeout(r, 1000));
+                        continue;
+                    }
+                }
+            }
+        }
+    }
+
+    // 2. If all Gemini keys failed or no keys were provided, try Groq
+    if (process.env.GROQ_API_KEY) {
+        console.log('[Failover] Initiating failover to Groq API...');
+        for (let attempt = 1; attempt <= 2; attempt++) {
+            try {
+                const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        model: "llama-3.3-70b-versatile",
+                        messages: [
+                            { role: "system", content: systemInstruction || "You are WikiSearch, an incredibly intelligent, scholarly AI assistant." },
+                            { role: "user", content: prompt }
+                        ],
+                        temperature: 0.7
+                    })
+                });
+
+                const groqData = await groqRes.json();
+                if (groqRes.ok && groqData.choices && groqData.choices[0] && groqData.choices[0].message) {
+                    console.log('[Failover] Success! Answered via Groq!');
+                    return groqData.choices[0].message.content;
+                } else {
+                    const errMsg = (groqData.error && groqData.error.message) || JSON.stringify(groqData);
+                    console.warn(`[Failover] Groq Attempt ${attempt} failed: ${errMsg}`);
+                    lastErrorType = 'groq_failed';
+                    lastErrorMessage = errMsg;
+                    if (attempt < 2) {
+                        await new Promise(r => setTimeout(r, 1500));
+                        continue;
+                    }
+                }
+            } catch (groqErr) {
+                console.error(`[Failover] Groq Attempt ${attempt} exception:`, groqErr.message);
+                lastErrorType = 'groq_failed';
+                lastErrorMessage = groqErr.message;
+                if (attempt < 2) {
+                    await new Promise(r => setTimeout(r, 1000));
+                    continue;
+                }
+            }
+        }
+    }
+
+    // 3. Exhausted all providers
+    const finalErr = new Error(`All AI providers failed. Last status: ${lastErrorType} (${lastErrorMessage})`);
+    finalErr.statusType = lastErrorType;
+    throw finalErr;
+}
+
 async function buildTrendingContent() {
-    const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+    const GEMINI_KEYS = [
+        process.env.GEMINI_API_KEY,
+        process.env.GEMINI_API_KEY_2,
+        process.env.GEMINI_API_KEY_3
+    ].filter(Boolean);
 
     // Fetch yesterday's top Wikipedia pageviews
     const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -73,7 +212,7 @@ async function buildTrendingContent() {
         .slice(0, 8)
         .map(a => a.article.replace(/_/g, ' '));
 
-    if (!GEMINI_API_KEY) {
+    if (GEMINI_KEYS.length === 0 && !process.env.GROQ_API_KEY) {
         // Return basic data without AI enrichment
         return {
             topics: topTopics.slice(0, 6).map(title => ({
@@ -115,26 +254,25 @@ IMPORTANT: Return ONLY a raw JSON object. No markdown, no backticks, no extra te
   "scholarlyAnalysis": "2-sentence synthesis"
 }`;
 
-    const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-
-    const geminiRes = await fetch(geminiUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: geminiPrompt }] }] })
-    });
-
-    const geminiData = await geminiRes.json();
-
-    if (geminiData.error) {
-        throw new Error(`Gemini error: ${geminiData.error.message}`);
+    try {
+        const rawText = await callAI(geminiPrompt, "You are a scholarly AI curator. Return ONLY a raw JSON object.", true);
+        const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+        const parsed = JSON.parse(cleanJson);
+        parsed.generatedAt = new Date().toISOString();
+        return parsed;
+    } catch (err) {
+        console.error('[Trending] Failed to enrich topics via AI. Serving basic un-enriched data:', err.message);
+        return {
+            topics: topTopics.slice(0, 6).map(title => ({
+                title,
+                category: 'Trending',
+                description: `${title} is currently one of the most-read topics on Wikipedia worldwide.`,
+                book: { title: 'The Library of Babel', author: 'Jorge Luis Borges', reason: 'A timeless exploration of infinite knowledge.' }
+            })),
+            scholarlyAnalysis: 'Explore the world\'s most trending topics right now.',
+            generatedAt: new Date().toISOString()
+        };
     }
-
-    const rawText = geminiData.candidates[0].content.parts[0].text;
-    const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-    const parsed = JSON.parse(cleanJson);
-    parsed.generatedAt = new Date().toISOString();
-
-    return parsed;
 }
 
 // Pre-populated fallback — served INSTANTLY on boot, zero Gemini API calls.
@@ -436,102 +574,36 @@ app.post('/api/chat', async (req, res) => {
     }
 
     try {
-        const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+        const GEMINI_KEYS = [
+            process.env.GEMINI_API_KEY,
+            process.env.GEMINI_API_KEY_2,
+            process.env.GEMINI_API_KEY_3
+        ].filter(Boolean);
 
-        if (!GEMINI_API_KEY) {
-            return res.json({ response: "⚠️ **API Key Missing!**\n\nPlease go to your Render Dashboard → Environment Variables → Add `GEMINI_API_KEY`." });
+        if (GEMINI_KEYS.length === 0 && !process.env.GROQ_API_KEY) {
+            return res.json({ response: "⚠️ **API Key Missing!**\n\nPlease go to your Render Dashboard → Environment Variables → Add `GEMINI_API_KEY` or `GROQ_API_KEY`." });
         }
 
-        const geminiPrompt = `You are WikiSearch, an incredibly intelligent, scholarly AI assistant with access to vast human knowledge.
-A user is asking you: "${userInput}"
-Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative.`;
+        const answer = await callAI(
+            userInput, 
+            "You are WikiSearch, an incredibly intelligent, scholarly AI assistant with access to vast human knowledge. Please provide a helpful, fascinating, and accurate response. Format it nicely with markdown if appropriate (use bolding, bullet points, etc). Keep it concise but deeply informative."
+        );
 
-        // Using gemini-2.0-flash — much more stable on free tier than 2.5-flash
-        const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
-        const requestBody = JSON.stringify({ contents: [{ parts: [{ text: geminiPrompt }] }] });
-
-        // Retry logic: up to 3 attempts with exponential backoff
-        let lastError = null;
-        for (let attempt = 1; attempt <= 3; attempt++) {
-            try {
-                lastGeminiCallTime = Date.now(); // Track this call
-
-                const geminiRes = await fetch(geminiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: requestBody
-                });
-
-                const data = await geminiRes.json();
-
-                // Handle rate limit (429)
-                if (data.error && data.error.code === 429) {
-                    console.warn(`[Attempt ${attempt}/3] Gemini Rate Limit Hit (429)`);
-                    lastError = '429';
-                    if (attempt < 3) {
-                        await new Promise(r => setTimeout(r, attempt * 5000)); // 5s, 10s backoff
-                        continue;
-                    }
-                    break;
-                }
-
-                // Handle overload (503)
-                if (data.error && (data.error.code === 503 || data.error.status === 'UNAVAILABLE')) {
-                    console.warn(`[Attempt ${attempt}/3] Gemini Overloaded (503)`);
-                    lastError = '503';
-                    if (attempt < 3) {
-                        await new Promise(r => setTimeout(r, attempt * 4000)); // 4s, 8s backoff
-                        continue;
-                    }
-                    break;
-                }
-
-                // Handle any other API error
-                if (data.error) {
-                    console.error(`[Attempt ${attempt}/3] Gemini error:`, data.error);
-                    lastError = 'other';
-                    if (attempt < 3) {
-                        await new Promise(r => setTimeout(r, 3000));
-                        continue;
-                    }
-                    break;
-                }
-
-                // Success!
-                if (data.candidates && data.candidates.length > 0) {
-                    const answer = data.candidates[0].content.parts[0].text;
-                    
-                    // SAVE TO CACHE (only cache successful responses)
-                    if (cacheKey) {
-                        queryCache.set(cacheKey, {
-                            response: answer,
-                            timestamp: Date.now()
-                        });
-                        console.log(`[Cache Write] Cached normalized query: "${cacheKey}"`);
-                    }
-
-                    return res.json({ response: answer });
-                } else {
-                    console.error(`[Attempt ${attempt}/3] Gemini unexpected response:`, data);
-                    lastError = 'empty';
-                    if (attempt < 3) {
-                        await new Promise(r => setTimeout(r, 3000));
-                        continue;
-                    }
-                    break;
-                }
-            } catch (fetchErr) {
-                console.error(`[Attempt ${attempt}/3] Fetch error:`, fetchErr.message);
-                lastError = 'network';
-                if (attempt < 3) {
-                    await new Promise(r => setTimeout(r, 3000));
-                    continue;
-                }
-                break;
-            }
+        // SAVE TO CACHE (only cache successful responses)
+        if (cacheKey) {
+            queryCache.set(cacheKey, {
+                response: answer,
+                timestamp: Date.now()
+            });
+            console.log(`[Cache Write] Cached normalized query: "${cacheKey}"`);
         }
 
-        // All retries exhausted — return user-friendly message based on error type
+        return res.json({ response: answer });
+
+    } catch (error) {
+        console.error("Failover AI pipeline error:", error.message);
+        const lastError = error.statusType;
+
         if (lastError === '429') {
             return res.json({ response: "### ✨ WikiSearch needs a moment to breathe\n\nYou're clearly on a roll! Our knowledge engine needs about **2 minutes** to recharge before diving back in.\n\nGrab a coffee, jot down your next question, and we'll be right back with you. ☕" });
         } else if (lastError === '503') {
@@ -539,10 +611,6 @@ Please provide a helpful, fascinating, and accurate response. Format it nicely w
         } else {
             return res.json({ response: "### 🔄 WikiSearch couldn't complete that thought\n\nSomething unexpected happened while processing your question. Please try again in a moment — it usually works on the next try!" });
         }
-
-    } catch (error) {
-        console.error("Gemini API critical error:", error);
-        return res.json({ response: "### 🔄 Connection interrupted\n\nWikiSearch is having trouble reaching its knowledge source. Please try again in a few seconds." });
     }
 });
 
