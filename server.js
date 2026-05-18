@@ -336,7 +336,7 @@ const rssParser = new RssParser({ timeout: 8000 });
 const RSS_FEEDS = [
     { source: 'Al Jazeera', url: 'https://www.aljazeera.com/xml/rss/all.xml' },
     { source: 'BBC World', url: 'https://feeds.bbci.co.uk/news/world/rss.xml' },
-    { source: 'Reuters', url: 'https://feeds.reuters.com/reuters/topNews' }
+    { source: 'NY Times', url: 'https://rss.nytimes.com/services/xml/rss/nyt/World.xml' }
 ];
 
 const NEWS_FALLBACK = [
