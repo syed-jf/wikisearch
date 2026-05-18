@@ -442,11 +442,58 @@ const IDEOLOGIES = [
     { name: 'Neoplatonism', era: '3rd–6th century CE', thinkers: ['Plotinus', 'Porphyry', 'Proclus'], description: 'Neoplatonism was the final grand school of pagan Greek philosophy, developed by Plotinus. Drawing on Plato\'s works, Neoplatonists formulated a majestic, monistic cosmology where all reality emanates from a single, transcendent source called "the One" or "the Good." The One is so infinite it exceeds description. From the One emanates Intellect (Nous), which contains the Forms, which in turn emanates World Soul (Psyche), ultimately yielding the physical world. The human soul\'s purpose is to turn away from material distractions and ascend back to mystical union with the One through contemplation. It profoundly shaped Christian, Islamic, and Renaissance mysticism.', book: 'The Enneads — Plotinus' }
 ];
 
-// Returns today's ideology based on day of year
+// Returns today's ideology based on day of year, synthesized deterministically for infinite daily variety!
 app.get('/api/ideology', (req, res) => {
     const dayOfYear = Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
-    const ideology = IDEOLOGIES[dayOfYear % IDEOLOGIES.length];
-    res.json(ideology);
+    
+    // Deterministic pair
+    const indexA = dayOfYear % IDEOLOGIES.length;
+    // 13 is prime and provides a lovely gap to ensure rich variety
+    const indexB = (dayOfYear + 13) % IDEOLOGIES.length;
+    
+    const idA = IDEOLOGIES[indexA];
+    const idB = (indexA === indexB) ? IDEOLOGIES[(indexB + 1) % IDEOLOGIES.length] : IDEOLOGIES[indexB];
+    
+    // 1. Synthesize Name
+    const name = `${idA.name} & ${idB.name} Convergence`;
+    
+    // 2. Synthesize Era (e.g., "mid-20th century & 3rd century BCE")
+    let era = `${idA.era} & ${idB.era}`;
+    if (idA.era === idB.era) era = idA.era;
+    
+    // 3. Synthesize Thinkers (deduplicate and limit to 4)
+    const thinkers = Array.from(new Set([...idA.thinkers, ...idB.thinkers])).slice(0, 4);
+    
+    // 4. Synthesize Book Recommendations
+    const getBookTitle = (bookStr) => bookStr.split(' — ')[0] || bookStr;
+    const book = `Comparative Study: ${getBookTitle(idA.book)} & ${getBookTitle(idB.book)}`;
+    
+    // 5. Synthesize Description in a deeply premium, academic voice
+    const descASentences = idA.description.split('. ').filter(s => s.trim().length > 0);
+    const descBSentences = idB.description.split('. ').filter(s => s.trim().length > 0);
+    
+    const firstSentenceA = descASentences[0] ? descASentences[0].trim() : '';
+    const firstSentenceB = descBSentences[0] ? descBSentences[0].trim() : '';
+    
+    const intro = `This unique daily synthesis explores the profound intersection between ${idA.name} and ${idB.name}.`;
+    
+    // Ensure correct punctuation at the end of the clean first sentences
+    const cleanSentenceA = firstSentenceA.endsWith('.') ? firstSentenceA.slice(0, -1) : firstSentenceA;
+    const cleanSentenceB = firstSentenceB.endsWith('.') ? firstSentenceB.slice(0, -1) : firstSentenceB;
+    
+    const thesis = `While ${cleanSentenceA.charAt(0).toLowerCase() + cleanSentenceA.slice(1)} (representing ${idA.name}), it is profoundly complemented by the insight that ${cleanSentenceB.charAt(0).toLowerCase() + cleanSentenceB.slice(1)} (representing ${idB.name}).`;
+    
+    const synthesis = `By juxtaposing these frameworks, scholars can trace how ${idA.name}'s focus on ${idA.thinkers[0]}'s ideals interacts with ${idB.name}'s legacy through ${idB.thinkers[0]}. This convergence invites a new methodology: one that embraces both the analytical rigor of ${idA.name} and the humanistic depth of ${idB.name}.`;
+    
+    const description = `${intro} ${thesis} ${synthesis}`;
+    
+    res.json({
+        name,
+        era: era.toUpperCase(),
+        thinkers,
+        description,
+        book
+    });
 });
 
 // ============================================================
