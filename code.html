@@ -103,6 +103,37 @@
         .newsreader { font-family: 'Newsreader', serif; }
         .ambient-shadow-light { box-shadow: 0 4px 24px -4px rgba(0, 104, 117, 0.05); }
         .ambient-shadow-focus { box-shadow: 0 8px 32px -8px rgba(0, 229, 255, 0.15); }
+
+        /* ─── ANTIGRAVITY DUAL-PHASE ANIMATIONS ─── */
+        .antigravity-title, .antigravity-search, .antigravity-subtext {
+          opacity: 0;
+          will-change: transform, opacity;
+        }
+
+        .antigravity-title {
+          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, 
+                     zeroGravity 7s ease-in-out infinite 1.8s;
+        }
+
+        .antigravity-subtext {
+          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s, 
+                     zeroGravity 7s ease-in-out infinite 2.0s;
+        }
+
+        .antigravity-search {
+          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s, 
+                     zeroGravity 7s ease-in-out infinite 2.2s;
+        }
+
+        @keyframes driftUp {
+          0% { opacity: 0; transform: translateY(60px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes zeroGravity {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-12px); }
+        }
     </style>
 </head>
 <body class="bg-surface-container-lowest text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
@@ -130,14 +161,14 @@
 <main class="flex-grow flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto px-container-padding-mobile md:px-container-padding-desktop relative z-10">
 <!-- Hero / Search Section -->
 <section class="w-full max-w-3xl flex flex-col items-center text-center space-y-12">
-<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter hanken max-w-2xl">
+<h1 class="antigravity-title font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter hanken max-w-2xl">
                 Uncover the infinite lattice of human knowledge.
             </h1>
-<p class="font-academic-quote text-academic-quote text-secondary max-w-xl newsreader">
+<p class="antigravity-subtext font-academic-quote text-academic-quote text-secondary max-w-xl newsreader">
                 Ask a question, explore a concept, or delve into the semantic web.
             </p>
 <!-- Search Interface -->
-<div class="w-full relative group">
+<div class="antigravity-search w-full relative group">
 <div class="absolute inset-0 bg-surface-container-low rounded-full ambient-shadow-light group-focus-within:bg-surface-container-lowest group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out"></div>
 <div class="relative flex items-center px-6 py-4 md:py-6">
 <span class="material-symbols-outlined text-primary text-opacity-50 group-focus-within:text-primary-container group-focus-within:text-opacity-100 transition-colors duration-300 mr-4 text-2xl" data-icon="search">search</span>
