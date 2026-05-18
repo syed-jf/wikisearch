@@ -798,3 +798,42 @@ html.dark .designer-logo:hover {
 
 .news-card:hover .news-read-more { opacity: 1; }
 
+/* ─── ANTIGRAVITY DUAL-PHASE ANIMATIONS ─── */
+@keyframes antigravity-drift {
+    0% {
+        opacity: 0;
+        transform: translateY(60px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes antigravity-float {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-12px);
+    }
+}
+
+.antigravity-title {
+    will-change: transform, opacity;
+    animation: antigravity-drift 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) both,
+               antigravity-float 7s ease-in-out 1.8s infinite alternate;
+}
+
+.antigravity-subtext {
+    will-change: transform, opacity;
+    animation: antigravity-drift 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s both,
+               antigravity-float 7s ease-in-out 2.0s infinite alternate;
+}
+
+.antigravity-search {
+    will-change: transform, opacity;
+    animation: antigravity-drift 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.4s both,
+               antigravity-float 7s ease-in-out 2.2s infinite alternate;
+}
+
