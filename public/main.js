@@ -460,73 +460,89 @@ function exploreFromDiary(idx) {
 let diaryLastFetched = null;
 const DIARY_REFRESH_MS = 45 * 60 * 1000; // 45 minutes
 
+// ─── Helper: format relative time ───
+function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    const hrs = Math.floor(mins / 60);
+    if (mins < 2) return 'just now';
+    if (mins < 60) return `${mins}m ago`;
+    if (hrs < 24) return `${hrs}h ago`;
+    return `${Math.floor(hrs/24)}d ago`;
+}
+
 async function updateDiary() {
-    diaryAnalysis.innerHTML = '<em>Consulting the global archives...</em>';
-    suggestedBooksGrid.innerHTML = '<div class="col-span-full text-center py-8 text-on-surface-variant"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span><br><span class="text-xs font-label-caps uppercase tracking-widest mt-2 block">Consulting the Archives</span></div>';
+    const ideologyEl   = document.getElementById('ideologyContent');
+    const booksEl      = document.getElementById('suggestedBooksGrid');
+    const newsEl       = document.getElementById('newsList');
 
-    try {
-        // Force re-fetch if no data or 45-min window has passed
-        const now = Date.now();
-        if (!cachedTrendingData || !diaryLastFetched || (now - diaryLastFetched) > DIARY_REFRESH_MS) {
-            const res = await fetch('/api/trending');
-            cachedTrendingData = await res.json();
-            diaryLastFetched = now;
-        }
+    // All 3 fetch in parallel — each section loads independently
+    const [ideologyResult, booksResult, newsResult] = await Promise.allSettled([
+        fetch('/api/ideology').then(r => r.json()),
+        fetch('/api/books').then(r => r.json()),
+        fetch('/api/news').then(r => r.json())
+    ]);
 
-        const { topics, scholarlyAnalysis, generatedAt } = cachedTrendingData;
+    // ── Section 1: Ideology ──
+    if (ideologyResult.status === 'fulfilled') {
+        const id = ideologyResult.value;
+        ideologyEl.innerHTML = `
+            <div class="ideology-name">${id.name}</div>
+            <div class="ideology-meta">
+                <span class="ideology-era">${id.era}</span>
+                <span class="ideology-thinkers">— ${id.thinkers.join(', ')}</span>
+            </div>
+            <p class="ideology-description">${id.description}</p>
+            <div class="ideology-book">📖 Essential reading: <strong>${id.book}</strong></div>
+        `;
+    } else {
+        ideologyEl.innerHTML = '<p class="text-zinc-500 text-sm italic">The archives are resting. Check back soon.</p>';
+    }
 
-        // Scholar's analysis with timestamp
-        const dtLabel = generatedAt
-            ? `<span class="text-xs text-tertiary dark:text-zinc-500 block mt-2 not-italic font-normal">Last updated: ${new Date(generatedAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>`
-            : '';
-        diaryAnalysis.innerHTML = `&#8220;${scholarlyAnalysis}&#8221;${dtLabel}`;
-
-        // Render books grid — use data-idx, NO inline onclick strings to avoid escaping bugs
-        suggestedBooksGrid.innerHTML = topics.map((topic, idx) => `
-            <div class="book-card relative p-4 bg-surface-container dark:bg-zinc-900 rounded-xl border border-outline-variant dark:border-zinc-800 flex gap-4 hover:border-primary/40 dark:hover:border-cyan-500/40 transition-all group cursor-pointer" data-idx="${idx}">
-                <div class="w-14 h-20 bg-primary/10 dark:bg-primary/5 rounded flex-shrink-0 flex items-center justify-center group-hover:bg-primary/20 dark:group-hover:bg-cyan-950/40 transition-colors">
-                    <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">book</span>
-                </div>
-                <div class="flex flex-col justify-center gap-1 min-w-0">
-                    <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')} w-fit">&#35;${topic.category.toUpperCase()}</span>
-                    <h4 class="font-bold text-on-surface dark:text-zinc-100 text-sm leading-snug">${topic.book.title}</h4>
-                    <p class="text-xs text-primary dark:text-primary-fixed-dim font-medium">${topic.book.author}</p>
-                    <p class="text-xs text-on-surface-variant dark:text-zinc-400 line-clamp-2 mt-0.5">${topic.book.reason}</p>
-                </div>
-                <!-- Hover tooltip — click-safe, uses data-idx for identity -->
-                <div class="book-tooltip" onclick="event.stopPropagation(); exploreFromDiary(${idx})">
-                    <div class="book-tooltip-inner">
-                        <span class="badge badge-${topic.category.replace(/[^a-zA-Z]/g, '')} w-fit mb-2">&#35;${topic.category.toUpperCase()}</span>
-                        <p class="book-tooltip-title">${topic.book.title}</p>
-                        <p class="book-tooltip-author">${topic.book.author}</p>
-                        <div class="book-tooltip-divider"></div>
-                        <p class="book-tooltip-reason">${topic.book.reason}</p>
-                        <div class="book-tooltip-divider"></div>
-                        <p class="book-tooltip-label">Why it's trending</p>
-                        <p class="book-tooltip-topic">${topic.description}</p>
-                        <p class="book-tooltip-cta">Click to explore with WikiSearch &rarr;</p>
-                    </div>
+    // ── Section 2: Books ──
+    if (booksResult.status === 'fulfilled') {
+        const books = booksResult.value;
+        booksEl.innerHTML = books.map(b => `
+            <div class="book-card-new" onclick="handleSend('Tell me about the book \\'${b.title.replace(/'/g,"\\'")}\\' by ${b.author.replace(/'/g,"\\'")} and why it\\'s currently trending worldwide.')">
+                <span class="book-subject-badge">${b.subject || 'Literature'}</span>
+                <div class="book-title-new">${b.title}</div>
+                <div class="book-author-new">${b.author}</div>
+                <div class="book-reason-new">${b.reason}</div>
+                <div class="book-explore-btn">
+                    <span>Ask WikiSearch</span>
+                    <span>→</span>
                 </div>
             </div>
         `).join('');
-
-        // Wire up card clicks via event delegation — persistent listener, safe for re-opens
-        // Each render clears innerHTML so previous listeners are naturally removed
-        suggestedBooksGrid.addEventListener('click', (e) => {
-            const card = e.target.closest('.book-card');
-            if (!card) return;
-            // Tooltip already has its own stopPropagation + exploreFromDiary handler
-            if (e.target.closest('.book-tooltip')) return;
-            const idx = parseInt(card.dataset.idx, 10);
-            if (!isNaN(idx)) exploreFromDiary(idx);
+        // Close diary when user explores a book
+        booksEl.querySelectorAll('.book-card-new').forEach(card => {
+            card.addEventListener('click', () => {
+                if (diaryModal) diaryModal.classList.add('hidden');
+            });
         });
+    } else {
+        booksEl.innerHTML = '<p class="col-span-full text-zinc-500 text-sm italic">Shelves temporarily unavailable.</p>';
+    }
 
-    } catch (err) {
-        console.error('Diary update error:', err);
-        diaryAnalysis.innerHTML = '<em>The archives are misty today. Please try again shortly.</em>';
-        suggestedBooksGrid.innerHTML = '';
+    // ── Section 3: News ──
+    if (newsResult.status === 'fulfilled') {
+        const news = newsResult.value;
+        newsEl.innerHTML = news.map(n => `
+            <a href="${n.link}" target="_blank" rel="noopener noreferrer" class="news-card">
+                <div class="news-source-row">
+                    <span class="news-source-badge">${n.source}</span>
+                    <span class="news-time">${timeAgo(n.published)}</span>
+                </div>
+                <div class="news-title">${n.title}</div>
+                <div class="news-summary">${n.summary}</div>
+                <div class="news-read-more">Read full story →</div>
+            </a>
+        `).join('');
+    } else {
+        newsEl.innerHTML = '<p class="text-zinc-500 text-sm italic">World signals temporarily unavailable.</p>';
     }
 }
+
 
 const mobileDiaryBtn = document.getElementById('mobileDiaryBtn');
 

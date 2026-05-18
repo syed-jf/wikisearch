@@ -1,0 +1,4 @@
+node_modules/
+trending-cache.json
+.env
+*.log

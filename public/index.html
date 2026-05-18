@@ -270,33 +270,87 @@
     </div>
 </div>
 
-<!-- Philosopher's Diary Modal -->
-<div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-md transition-opacity p-4">
-    <div class="bg-surface-container-lowest dark:bg-zinc-900 border border-surface-container dark:border-zinc-800 rounded-xl p-6 w-full max-w-3xl shadow-2xl flex flex-col gap-4 max-h-[90vh]">
-        <div class="flex justify-between items-center border-b border-surface-container dark:border-zinc-800 pb-2 shrink-0">
-            <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim">auto_stories</span>
-                <h2 class="font-headline-md text-on-surface dark:text-zinc-100">Philosopher's Diary</h2>
+<!-- Philosopher's Diary Modal — 3-section redesign -->
+<div id="diaryModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-md transition-opacity p-4">
+    <div class="diary-modal-card w-full max-w-2xl shadow-2xl flex flex-col max-h-[92vh]">
+
+        <!-- Header -->
+        <div class="flex justify-between items-center pb-4 mb-4 border-b border-white/10 shrink-0">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined diary-header-icon">auto_stories</span>
+                <div>
+                    <h2 class="font-headline-md text-zinc-100 tracking-tight leading-none">Philosopher's Diary</h2>
+                    <p class="text-xs text-zinc-500 mt-0.5 font-mono tracking-widest uppercase">Daily Knowledge Digest</p>
+                </div>
             </div>
-            <button id="closeDiaryBtn" class="text-on-surface-variant dark:text-zinc-400 hover:text-primary transition-colors">
+            <button id="closeDiaryBtn" class="text-zinc-500 hover:text-zinc-200 transition-colors p-1">
                 <span class="material-symbols-outlined">close</span>
             </button>
         </div>
-        
-        <div class="overflow-y-auto pr-2">
-            <div class="mb-6 bg-surface-container dark:bg-zinc-950 rounded-lg p-6 border border-surface-container dark:border-zinc-800">
-                <h3 class="font-label-sm text-primary dark:text-primary-fixed-dim mb-2 uppercase tracking-widest">The Scholar's Analysis</h3>
-                <p id="diaryAnalysis" class="font-body-md text-on-surface dark:text-zinc-200 italic leading-relaxed text-lg border-l-2 border-primary pl-4">
-                    Consulting the archives...
-                </p>
-            </div>
 
-            <div>
-                <h3 class="font-label-sm text-primary dark:text-primary-fixed-dim mb-4 uppercase tracking-widest">Suggested Readings</h3>
-                <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- populated by main.js -->
+        <!-- Scrollable content -->
+        <div class="overflow-y-auto flex flex-col gap-6 pr-1 pb-2">
+
+            <!-- ═══════════════════════════════════════
+                 SECTION 1: IDEOLOGY OF THE DAY
+                 Design: Deep purple/indigo, philosophical
+                 ═══════════════════════════════════════ -->
+            <div class="diary-section ideology-section">
+                <div class="diary-section-header ideology-header">
+                    <span class="diary-section-icon">🏛️</span>
+                    <div>
+                        <p class="diary-section-label">Idea of the Day</p>
+                        <p class="diary-section-sublabel">A living intellectual tradition, explored</p>
+                    </div>
+                </div>
+                <div id="ideologyContent" class="ideology-body">
+                    <div class="diary-loading">
+                        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                        <span class="diary-loading-text">Opening the archives…</span>
+                    </div>
                 </div>
             </div>
+
+            <!-- ═══════════════════════════════════════
+                 SECTION 2: TRENDING BOOKS
+                 Design: Warm amber/gold, literary warmth
+                 ═══════════════════════════════════════ -->
+            <div class="diary-section books-section">
+                <div class="diary-section-header books-header">
+                    <span class="diary-section-icon">📚</span>
+                    <div>
+                        <p class="diary-section-label">Trending Books</p>
+                        <p class="diary-section-sublabel">What the world is reading right now</p>
+                    </div>
+                </div>
+                <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
+                    <div class="diary-loading col-span-full">
+                        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                        <span class="diary-loading-text">Scanning the shelves…</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ═══════════════════════════════════════
+                 SECTION 3: WORLD NEWS
+                 Design: Teal/cyan news-wire aesthetic
+                 ═══════════════════════════════════════ -->
+            <div class="diary-section news-section">
+                <div class="diary-section-header news-header">
+                    <span class="diary-section-icon">🌐</span>
+                    <div>
+                        <p class="diary-section-label">World Pulse</p>
+                        <p class="diary-section-sublabel">Live feeds from Al Jazeera · BBC · Reuters</p>
+                    </div>
+                </div>
+                <div id="newsList" class="flex flex-col gap-3 mt-4">
+                    <div class="diary-loading">
+                        <span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>
+                        <span class="diary-loading-text">Tuning in to world signals…</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
