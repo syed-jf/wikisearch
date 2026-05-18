@@ -305,12 +305,17 @@
                  Design: Deep purple/indigo, philosophical
                  ═══════════════════════════════════════ -->
             <div class="diary-section ideology-section">
-                <div class="diary-section-header ideology-header">
-                    <span class="diary-section-icon">🏛️</span>
-                    <div>
-                        <p class="diary-section-label">Idea of the Day</p>
-                        <p class="diary-section-sublabel">A living intellectual tradition, explored</p>
+                <div class="diary-section-header ideology-header flex justify-between items-center w-full">
+                    <div class="flex items-center gap-3">
+                        <span class="diary-section-icon">🏛️</span>
+                        <div>
+                            <p class="diary-section-label">Idea of the Day</p>
+                            <p class="diary-section-sublabel">A living intellectual tradition, explored</p>
+                        </div>
                     </div>
+                    <button class="diary-interest-btn flex items-center gap-1 text-[10px] uppercase font-mono tracking-wider px-2.5 py-1 rounded-full border border-white/10 hover:border-primary-fixed-dim hover:text-primary-fixed-dim transition-all duration-200 select-none shrink-0" data-category="Philosophy">
+                        <span class="material-symbols-outlined text-xs btn-icon">star</span> <span class="btn-text">Interested</span>
+                    </button>
                 </div>
                 <div id="ideologyContent" class="ideology-body">
                     <div class="diary-loading">
@@ -325,12 +330,17 @@
                  Design: Warm amber/gold, literary warmth
                  ═══════════════════════════════════════ -->
             <div class="diary-section books-section">
-                <div class="diary-section-header books-header">
-                    <span class="diary-section-icon">📚</span>
-                    <div>
-                        <p class="diary-section-label">Trending Books</p>
-                        <p class="diary-section-sublabel">What the world is reading right now</p>
+                <div class="diary-section-header books-header flex justify-between items-center w-full">
+                    <div class="flex items-center gap-3">
+                        <span class="diary-section-icon">📚</span>
+                        <div>
+                            <p class="diary-section-label">Trending Books</p>
+                            <p class="diary-section-sublabel">What the world is reading right now</p>
+                        </div>
                     </div>
+                    <button class="diary-interest-btn flex items-center gap-1 text-[10px] uppercase font-mono tracking-wider px-2.5 py-1 rounded-full border border-white/10 hover:border-primary-fixed-dim hover:text-primary-fixed-dim transition-all duration-200 select-none shrink-0" data-category="Literature">
+                        <span class="material-symbols-outlined text-xs btn-icon">star</span> <span class="btn-text">Interested</span>
+                    </button>
                 </div>
                 <div id="suggestedBooksGrid" class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
                     <div class="diary-loading col-span-full">
@@ -345,12 +355,17 @@
                  Design: Teal/cyan news-wire aesthetic
                  ═══════════════════════════════════════ -->
             <div class="diary-section news-section">
-                <div class="diary-section-header news-header">
-                    <span class="diary-section-icon">🌐</span>
-                    <div>
-                        <p class="diary-section-label">World Pulse</p>
-                        <p class="diary-section-sublabel">Live Feed</p>
+                <div class="diary-section-header news-header flex justify-between items-center w-full">
+                    <div class="flex items-center gap-3">
+                        <span class="diary-section-icon">🌐</span>
+                        <div>
+                            <p class="diary-section-label">World Pulse</p>
+                            <p class="diary-section-sublabel">Live Feed</p>
+                        </div>
                     </div>
+                    <button class="diary-interest-btn flex items-center gap-1 text-[10px] uppercase font-mono tracking-wider px-2.5 py-1 rounded-full border border-white/10 hover:border-primary-fixed-dim hover:text-primary-fixed-dim transition-all duration-200 select-none shrink-0" data-category="Social Theory">
+                        <span class="material-symbols-outlined text-xs btn-icon">star</span> <span class="btn-text">Interested</span>
+                    </button>
                 </div>
                 <div id="newsList" class="flex flex-col gap-3 mt-4">
                     <div class="diary-loading">

@@ -1097,3 +1097,64 @@ html.dark .designer-logo:hover {
     transform: scale(1) translateY(0);
   }
 }
+
+/* Diary Interest Toggle Buttons */
+.diary-interest-btn {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  cursor: pointer;
+}
+
+.diary-interest-btn:hover {
+  border-color: rgba(0, 218, 243, 0.5) !important;
+  color: #00daf3 !important;
+  background-color: rgba(0, 218, 243, 0.06) !important;
+  transform: translateY(-1px);
+}
+
+.diary-interest-btn:active {
+  transform: scale(0.95);
+}
+
+/* Active State Styles */
+.diary-interest-btn.interest-active {
+  background-color: #00daf3 !important;
+  color: #001f24 !important;
+  border-color: #00daf3 !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 16px rgba(0, 218, 243, 0.4), 0 2px 4px rgba(0, 218, 243, 0.2) !important;
+  transform: scale(1.02);
+}
+
+.diary-interest-btn.interest-active .btn-icon {
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24 !important;
+  transform: scale(1.1);
+  color: #001f24 !important;
+}
+
+/* Light Mode overrides */
+html:not(.dark) .diary-interest-btn {
+  border-color: rgba(0, 104, 117, 0.15) !important;
+  color: rgba(0, 104, 117, 0.7) !important;
+  background-color: rgba(0, 104, 117, 0.03) !important;
+}
+
+html:not(.dark) .diary-interest-btn:hover {
+  border-color: rgba(0, 104, 117, 0.5) !important;
+  color: #006875 !important;
+  background-color: rgba(0, 104, 117, 0.06) !important;
+}
+
+html:not(.dark) .diary-interest-btn.interest-active {
+  background-color: #006875 !important;
+  color: #ffffff !important;
+  border-color: #006875 !important;
+  box-shadow: 0 0 12px rgba(0, 104, 117, 0.3) !important;
+}
+
+html:not(.dark) .diary-interest-btn.interest-active .btn-icon {
+  color: #ffffff !important;
+}
+

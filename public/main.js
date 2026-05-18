@@ -601,8 +601,45 @@ async function updateDiary() {
 
 const mobileDiaryBtn = document.getElementById('mobileDiaryBtn');
 
+function initDiaryInterestListeners() {
+    const buttons = document.querySelectorAll('.diary-interest-btn');
+    buttons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Avoid click bubbles
+            const category = btn.dataset.category;
+            const saved = JSON.parse(localStorage.getItem('wiki_diary_interests')) || {};
+            saved[category] = !saved[category];
+            localStorage.setItem('wiki_diary_interests', JSON.stringify(saved));
+            updateDiaryInterestUI();
+            updateProfileDashboard(); // Recalculate combined stats and focus specialty!
+        });
+    });
+}
+
+function updateDiaryInterestUI() {
+    const saved = JSON.parse(localStorage.getItem('wiki_diary_interests')) || {};
+    const buttons = document.querySelectorAll('.diary-interest-btn');
+    buttons.forEach(btn => {
+        const category = btn.dataset.category;
+        const isActive = !!saved[category];
+        const iconEl = btn.querySelector('.btn-icon');
+        const textEl = btn.querySelector('.btn-text');
+        
+        if (isActive) {
+            btn.classList.add('interest-active');
+            if (iconEl) iconEl.textContent = 'check_circle';
+            if (textEl) textEl.textContent = 'Interested ✓';
+        } else {
+            btn.classList.remove('interest-active');
+            if (iconEl) iconEl.textContent = 'star';
+            if (textEl) textEl.textContent = 'Interested';
+        }
+    });
+}
+
 const openDiary = () => {
     updateDiary();
+    updateDiaryInterestUI(); // Dynamic sync when opened
     diaryModal.classList.remove('hidden');
 };
 
@@ -618,6 +655,8 @@ if (diaryModal) {
 // Initialize UI on load
 document.addEventListener('DOMContentLoaded', () => {
     updateHistoryUI();
+    initDiaryInterestListeners();
+    updateDiaryInterestUI();
     const isDark = document.documentElement.classList.contains('dark');
     if (darkModeToggle) darkModeToggle.checked = isDark;
     if (darkModeBtn) darkModeBtn.textContent = isDark ? 'light_mode' : 'dark_mode';
@@ -1031,12 +1070,21 @@ function updateProfileDashboard() {
     
     let scores = { Philosophy: 0, Literature: 0, "Social Theory": 0, "Art History": 0 };
     
+    // Add search query keywords (+1 point)
     chatSessions.forEach(s => {
         const title = s.title.toLowerCase();
         if (/philosophy|stoic|existential|nihil|rational|ethics|moral|thinker/i.test(title)) scores.Philosophy++;
         if (/literature|gothic|surreal|realism|book|novel|author|poetry|write/i.test(title)) scores.Literature++;
         if (/marx|femin|anarch|postmodern|colonial|critical|society/i.test(title)) scores["Social Theory"]++;
         if (/art|dada|symbolism|classicism|paint|aesthetic/i.test(title)) scores["Art History"]++;
+    });
+
+    // Add explicit diary interests (+3 points)
+    const diaryInterests = JSON.parse(localStorage.getItem('wiki_diary_interests')) || {};
+    Object.entries(diaryInterests).forEach(([cat, val]) => {
+        if (val && cat in scores) {
+            scores[cat] += 3;
+        }
     });
     
     let dominant = "Broad Intellectual Generalist";
@@ -1048,7 +1096,11 @@ function updateProfileDashboard() {
             categoriesList.push(cat);
             if (score > maxScore) {
                 maxScore = score;
-                dominant = `${cat} Specialist`;
+                if (cat === 'Philosophy') dominant = "Stoic & Rational Scholar";
+                else if (cat === 'Literature') dominant = "Classical Literary Archivist";
+                else if (cat === 'Social Theory') dominant = "Critical Social Theorist";
+                else if (cat === 'Art History') dominant = "Art History Specialist";
+                else dominant = `${cat} Specialist`;
             }
         }
     });
