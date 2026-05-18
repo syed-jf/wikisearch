@@ -131,6 +131,11 @@
     </style>
 </head>
 <body class="bg-surface-container-lowest text-on-surface antialiased h-[100dvh] w-full flex overflow-hidden">
+    <!-- Cinematic Intro Portal -->
+    <div id="intro-portal">
+        <div class="intro-logo">WikiSearch</div>
+    </div>
+
 <!-- Main Content Canvas -->
 <div class="flex-1 flex flex-col h-full overflow-hidden relative scroll-smooth bg-surface-container-lowest dark:bg-zinc-950">
     <!-- TopNavBar -->
@@ -160,14 +165,14 @@
         <!-- Hero Search Section -->
         <div id="heroScreen" class="absolute top-20 bottom-0 left-0 right-0 overflow-y-auto px-6 md:px-container-padding-desktop pb-[88px] lg:pb-16 transition-opacity duration-300">
             <section class="w-full flex flex-col items-center text-center space-y-12 mt-12 md:mt-24">
-                <h1 class="antigravity-title font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary dark:text-primary-fixed-dim tracking-tighter hanken max-w-2xl leading-none">
+                <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary dark:text-primary-fixed-dim tracking-tighter hanken max-w-2xl leading-none">
                     Uncover the infinite lattice of human knowledge.
                 </h1>
-                <p class="antigravity-subtext font-academic-quote text-academic-quote text-secondary dark:text-zinc-400 max-w-xl newsreader">
+                <p class="font-academic-quote text-academic-quote text-secondary dark:text-zinc-400 max-w-xl newsreader">
                     Ask a question, explore a concept, or delve into the semantic web.
                 </p>
                 <!-- Search Interface -->
-                <div class="antigravity-search w-full max-w-3xl relative group">
+                <div class="w-full max-w-3xl relative group">
                     <div class="absolute inset-0 bg-surface-container-low dark:bg-zinc-900 rounded-full ambient-shadow-light dark:shadow-none group-focus-within:bg-surface-container-lowest dark:group-focus-within:bg-zinc-950 group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out border border-transparent dark:border-zinc-800"></div>
                     <div class="relative flex items-center px-6 py-4 md:py-6">
                         <input id="heroInput" class="w-full bg-transparent border-none focus:ring-0 font-body-lg text-body-lg text-on-surface dark:text-zinc-100 placeholder-tertiary focus:outline-none h-full bg-none" placeholder="What are you curious about today?" type="text"/>

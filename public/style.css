@@ -798,34 +798,76 @@ html.dark .designer-logo:hover {
 
 .news-card:hover .news-read-more { opacity: 1; }
 
-/* ─── ANTIGRAVITY DUAL-PHASE ANIMATIONS ─── */
-.antigravity-title, .antigravity-search, .antigravity-subtext {
+/* ─── CINEMATIC INTRO PORTAL ─── */
+#intro-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9f9f9; /* Matches surface-container-lowest */
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Dark Mode Support */
+.dark #intro-portal {
+  background-color: #09090b; /* zinc-950 */
+}
+
+#intro-portal.intro-fade-out {
   opacity: 0;
-  will-change: transform, opacity;
+  visibility: hidden;
+  pointer-events: none;
 }
 
-.antigravity-title {
-  animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, 
-             zeroGravity 7s ease-in-out infinite 1.8s;
+.intro-logo {
+  font-family: 'Hanken Grotesk', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  will-change: filter, transform, opacity;
+  animation: ethereal-resolve 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  
+  /* Primary Theme Gradient Clip */
+  background: linear-gradient(120deg, #006875 30%, #00e5ff 50%, #006875 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #006875;
 }
 
-.antigravity-subtext {
-  animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s, 
-             zeroGravity 7s ease-in-out infinite 2.0s;
+/* Dark Mode Logo Clip */
+.dark .intro-logo {
+  background: linear-gradient(120deg, #00daf3 30%, #ffffff 50%, #00daf3 70%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: #00daf3;
 }
 
-.antigravity-search {
-  animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s, 
-             zeroGravity 7s ease-in-out infinite 2.2s;
-}
-
-@keyframes driftUp {
-  0% { opacity: 0; transform: translateY(60px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes zeroGravity {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
+@keyframes ethereal-resolve {
+  0% {
+    filter: blur(15px);
+    transform: scale(0.92);
+    opacity: 0;
+    background-position: 0% center;
+  }
+  30% {
+    opacity: 1;
+  }
+  65% {
+    filter: blur(0px);
+    transform: scale(1.0);
+  }
+  100% {
+    filter: blur(0px);
+    transform: scale(1.0);
+    opacity: 1;
+    background-position: -200% center; /* Premium shimmer sweep! */
+  }
 }
 

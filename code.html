@@ -104,39 +104,86 @@
         .ambient-shadow-light { box-shadow: 0 4px 24px -4px rgba(0, 104, 117, 0.05); }
         .ambient-shadow-focus { box-shadow: 0 8px 32px -8px rgba(0, 229, 255, 0.15); }
 
-        /* ─── ANTIGRAVITY DUAL-PHASE ANIMATIONS ─── */
-        .antigravity-title, .antigravity-search, .antigravity-subtext {
+        /* ─── CINEMATIC INTRO PORTAL ─── */
+        #intro-portal {
+          position: fixed;
+          inset: 0;
+          z-index: 99999;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background-color: #f9f9f9; /* Matches surface-container-lowest */
+          transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.8s;
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+        }
+
+        /* Dark Mode Support */
+        .dark #intro-portal {
+          background-color: #09090b; /* zinc-950 */
+        }
+
+        #intro-portal.intro-fade-out {
           opacity: 0;
-          will-change: transform, opacity;
+          visibility: hidden;
+          pointer-events: none;
         }
 
-        .antigravity-title {
-          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards, 
-                     zeroGravity 7s ease-in-out infinite 1.8s;
+        .intro-logo {
+          font-family: 'Hanken Grotesk', sans-serif;
+          font-size: 3.5rem;
+          font-weight: 700;
+          letter-spacing: -0.04em;
+          will-change: filter, transform, opacity;
+          animation: ethereal-resolve 2.0s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          
+          /* Primary Theme Gradient Clip */
+          background: linear-gradient(120deg, #006875 30%, #00e5ff 50%, #006875 70%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: #006875;
         }
 
-        .antigravity-subtext {
-          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.2s, 
-                     zeroGravity 7s ease-in-out infinite 2.0s;
+        /* Dark Mode Logo Clip */
+        .dark .intro-logo {
+          background: linear-gradient(120deg, #00daf3 30%, #ffffff 50%, #00daf3 70%);
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          color: #00daf3;
         }
 
-        .antigravity-search {
-          animation: driftUp 1.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s, 
-                     zeroGravity 7s ease-in-out infinite 2.2s;
-        }
-
-        @keyframes driftUp {
-          0% { opacity: 0; transform: translateY(60px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes zeroGravity {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-12px); }
+        @keyframes ethereal-resolve {
+          0% {
+            filter: blur(15px);
+            transform: scale(0.92);
+            opacity: 0;
+            background-position: 0% center;
+          }
+          30% {
+            opacity: 1;
+          }
+          65% {
+            filter: blur(0px);
+            transform: scale(1.0);
+          }
+          100% {
+            filter: blur(0px);
+            transform: scale(1.0);
+            opacity: 1;
+            background-position: -200% center; /* Premium shimmer sweep! */
+          }
         }
     </style>
 </head>
 <body class="bg-surface-container-lowest text-on-surface min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+    <!-- Cinematic Intro Portal -->
+    <div id="intro-portal">
+        <div class="intro-logo">WikiSearch</div>
+    </div>
+
 <!-- TopNavBar -->
 <nav aria-label="Main Navigation" class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface-container-lowest/80 backdrop-blur-xl bg-surface-container-lowest/30 shadow-sm dark:shadow-none flex justify-between items-center px-container-padding-desktop max-w-screen-2xl mx-auto h-20">
 <div class="flex items-center gap-gutter">
@@ -161,14 +208,14 @@
 <main class="flex-grow flex flex-col items-center justify-center w-full max-w-screen-xl mx-auto px-container-padding-mobile md:px-container-padding-desktop relative z-10">
 <!-- Hero / Search Section -->
 <section class="w-full max-w-3xl flex flex-col items-center text-center space-y-12">
-<h1 class="antigravity-title font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter hanken max-w-2xl">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary tracking-tighter hanken max-w-2xl">
                 Uncover the infinite lattice of human knowledge.
             </h1>
-<p class="antigravity-subtext font-academic-quote text-academic-quote text-secondary max-w-xl newsreader">
+<p class="font-academic-quote text-academic-quote text-secondary max-w-xl newsreader">
                 Ask a question, explore a concept, or delve into the semantic web.
             </p>
 <!-- Search Interface -->
-<div class="antigravity-search w-full relative group">
+<div class="w-full relative group">
 <div class="absolute inset-0 bg-surface-container-low rounded-full ambient-shadow-light group-focus-within:bg-surface-container-lowest group-focus-within:ambient-shadow-focus group-focus-within:ring-1 group-focus-within:ring-primary-container transition-all duration-500 ease-out"></div>
 <div class="relative flex items-center px-6 py-4 md:py-6">
 <span class="material-symbols-outlined text-primary text-opacity-50 group-focus-within:text-primary-container group-focus-within:text-opacity-100 transition-colors duration-300 mr-4 text-2xl" data-icon="search">search</span>

@@ -640,3 +640,16 @@ function toggleRecording() {
 
 if (heroMicBtn) heroMicBtn.addEventListener('click', toggleRecording);
 if (chatMicBtn) chatMicBtn.addEventListener('click', toggleRecording);
+
+// Cinematic Intro Portal Lifecycle Management
+(function() {
+    const introPortal = document.getElementById('intro-portal');
+    if (introPortal) {
+        setTimeout(() => {
+            introPortal.classList.add('intro-fade-out');
+            setTimeout(() => {
+                introPortal.remove();
+            }, 800);
+        }, 2000);
+    }
+})();
