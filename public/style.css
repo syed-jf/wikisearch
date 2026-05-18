@@ -878,23 +878,23 @@ html.dark .designer-logo:hover {
 }
 
 .reveal-nav.animate-entrance {
-  animation: bloomIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.0s;
+  animation: bloomIn 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.0s;
 }
 
 .reveal-title.animate-entrance {
-  animation: bloomIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s;
+  animation: bloomIn 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.4s;
 }
 
 .reveal-subtext.animate-entrance {
-  animation: bloomIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+  animation: bloomIn 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 0.8s;
 }
 
 .reveal-search.animate-entrance {
-  animation: bloomIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+  animation: bloomIn 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 1.2s;
 }
 
 .reveal-suggestions.animate-entrance {
-  animation: bloomIn 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.45s;
+  animation: bloomIn 2.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards 1.6s;
 }
 
 @keyframes bloomIn {
