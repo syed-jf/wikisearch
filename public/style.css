@@ -871,3 +871,41 @@ html.dark .designer-logo:hover {
   }
 }
 
+/* ─── OPTION 1: CASCADING GLIDE ENTRANCE ANIMATIONS ─── */
+.reveal-nav, .reveal-title, .reveal-subtext, .reveal-search, .reveal-suggestions {
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.reveal-nav.animate-entrance {
+  animation: glideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.0s;
+}
+
+.reveal-title.animate-entrance {
+  animation: glideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.15s;
+}
+
+.reveal-subtext.animate-entrance {
+  animation: glideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.25s;
+}
+
+.reveal-search.animate-entrance {
+  animation: glideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.35s;
+}
+
+.reveal-suggestions.animate-entrance {
+  animation: glideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards 0.45s;
+}
+
+@keyframes glideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+

@@ -647,9 +647,20 @@ if (chatMicBtn) chatMicBtn.addEventListener('click', toggleRecording);
     if (introPortal) {
         setTimeout(() => {
             introPortal.classList.add('intro-fade-out');
+            
+            // Trigger cascading glide entrance animations!
+            document.querySelectorAll('.reveal-nav, .reveal-title, .reveal-subtext, .reveal-search, .reveal-suggestions').forEach(el => {
+                el.classList.add('animate-entrance');
+            });
+
             setTimeout(() => {
                 introPortal.remove();
             }, 800);
         }, 2000);
+    } else {
+        // Fallback: If no intro portal (e.g. settings refresh), ensure all elements are immediately visible
+        document.querySelectorAll('.reveal-nav, .reveal-title, .reveal-subtext, .reveal-search, .reveal-suggestions').forEach(el => {
+            el.classList.add('animate-entrance');
+        });
     }
 })();
