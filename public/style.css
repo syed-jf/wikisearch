@@ -1072,21 +1072,73 @@ html.dark .designer-logo:hover {
   font-weight: 700;
 }
 
-/* Active glowing border pulse for unlocked badges */
-.badge-unlocked {
-  filter: none !important;
-  grayscale: 0% !important;
+/* Achievement Badges Legibility Styles */
+.achievement-badge {
   opacity: 1 !important;
+  transition: all 0.3s ease;
+}
+
+/* Locked state styles: Icon is greyed and semi-transparent, but text is perfectly visible! */
+.achievement-badge .material-symbols-outlined {
+  filter: grayscale(100%) opacity(0.35) !important;
+  transition: all 0.4s ease;
+}
+
+.achievement-badge .badge-title {
+  color: rgba(0, 0, 0, 0.75) !important;
+  font-weight: 600 !important;
+  transition: all 0.4s ease;
+}
+
+.achievement-badge .badge-desc {
+  color: rgba(0, 0, 0, 0.5) !important;
+  transition: all 0.4s ease;
+}
+
+/* Dark Mode Locked Styles: Make texts extremely visible on dark background! */
+.dark .achievement-badge .badge-title {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.dark .achievement-badge .badge-desc {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+/* Unlocked State Style overrides */
+.achievement-badge.badge-unlocked {
   border-color: rgba(0, 104, 117, 0.35) !important;
   background-color: rgba(0, 104, 117, 0.04) !important;
   box-shadow: 0 4px 12px rgba(0, 104, 117, 0.04), inset 0 0 8px rgba(0, 104, 117, 0.02) !important;
   animation: badgeReveal 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
-.dark .badge-unlocked {
+.dark .achievement-badge.badge-unlocked {
   border-color: rgba(0, 218, 243, 0.35) !important;
   background-color: rgba(0, 218, 243, 0.04) !important;
   box-shadow: 0 6px 20px rgba(0, 218, 243, 0.12), inset 0 0 12px rgba(0, 218, 243, 0.04) !important;
+}
+
+.achievement-badge.badge-unlocked .material-symbols-outlined {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.achievement-badge.badge-unlocked .badge-title {
+  color: #000000 !important;
+  font-weight: 700 !important;
+}
+
+.dark .achievement-badge.badge-unlocked .badge-title {
+  color: #ffffff !important;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.15) !important;
+}
+
+.achievement-badge.badge-unlocked .badge-desc {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.dark .achievement-badge.badge-unlocked .badge-desc {
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 @keyframes badgeReveal {
